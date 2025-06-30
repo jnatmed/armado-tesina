@@ -1,0 +1,1855 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/apasortcite//global/global/global}
+    \entry{carvalho2025resampling}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=212594b29e907927e22b3219429f6f90}{%
+           family={Carvalho},
+           familyi={C\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd34ff378d5651a182572159468821fd}{%
+           family={Pinho},
+           familyi={P\bibinitperiod},
+           given={A.\bibnamedelimi J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e37a2b9e32dc72203de0d358535c6fb4}{%
+           family={Brás},
+           familyi={B\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{23bffcb80b7251d2bc5273eebf9e1795}
+      \strng{fullhash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{fullhashraw}{569b685b453cd674c25febe2c248c5b5}
+      \strng{bibnamehash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{authorbibnamehash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{authornamehash}{23bffcb80b7251d2bc5273eebf9e1795}
+      \strng{authorfullhash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{authorfullhashraw}{569b685b453cd674c25febe2c248c5b5}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Big Data}
+      \field{number}{71}
+      \field{title}{Resampling approaches to handle class imbalance: A review from a data perspective}
+      \field{volume}{12}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1186/s40537-025-01119-4
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1186/s40537-025-01119-4
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1186/s40537-025-01119-4
+      \endverb
+    \endentry
+    \entry{chawla2002smote}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=517c300d6831b45e817a12c128e0d3c0}{%
+           family={Chawla},
+           familyi={C\bibinitperiod},
+           given={N.\bibnamedelimi V.},
+           giveni={N\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8aa8d84745e95ea59fccbcc6d34e77b7}{%
+           family={Bowyer},
+           familyi={B\bibinitperiod},
+           given={K.\bibnamedelimi W.},
+           giveni={K\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d767a8acee927fe772fe5ec34f93073f}{%
+           family={Hall},
+           familyi={H\bibinitperiod},
+           given={L.\bibnamedelimi O.},
+           giveni={L\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d66be0948a5085778a35663d6fd6c8cc}{%
+           family={Kegelmeyer},
+           familyi={K\bibinitperiod},
+           given={W.\bibnamedelimi P.},
+           giveni={W\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{25994a8b1023c628464384a919fac03e}
+      \strng{fullhash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{fullhashraw}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{bibnamehash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{authorbibnamehash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{authornamehash}{25994a8b1023c628464384a919fac03e}
+      \strng{authorfullhash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{authorfullhashraw}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Artificial Intelligence Research}
+      \field{title}{SMOTE: Synthetic Minority Over-sampling Technique}
+      \field{volume}{16}
+      \field{year}{2002}
+      \field{pages}{321\bibrangedash 357}
+      \range{pages}{37}
+      \verb{doi}
+      \verb 10.1613/jair.953
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1613/jair.953
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1613/jair.953
+      \endverb
+    \endentry
+    \entry{feng2021novel}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=eb52fb24de1abb778b0f5fbea2648b99}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=ef065b28c31984323fd6d3483d29aafd}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{fullhash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{fullhashraw}{58fe9850961e6b386dc5f513c2449892}
+      \strng{bibnamehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authorbibnamehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authornamehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authorfullhash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authorfullhashraw}{58fe9850961e6b386dc5f513c2449892}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Physics: Conference Series}
+      \field{number}{1}
+      \field{title}{A novel αDistance Borderline-ADASYN-SMOTE algorithm for imbalanced data and its application in Alzheimer’s disease classification based on Dense Convolutional Network}
+      \field{volume}{2031}
+      \field{year}{2021}
+      \field{pages}{012046}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1742-6596/2031/1/012046
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/1742-6596/2031/1/012046
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/1742-6596/2031/1/012046
+      \endverb
+    \endentry
+    \entry{fernandez2018learning}{book}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=d1a4192eda093643b6a646cfd16214ca}{%
+           family={Fernández},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e94eff68296471956f1de521a184a63e}{%
+           family={García},
+           familyi={G\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6aba8260b5fba6d47faa0e37e1d0a3d4}{%
+           family={Galar},
+           familyi={G\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=41d8b1854d60e4cbacfd46fcdb8fb589}{%
+           family={Prati},
+           familyi={P\bibinitperiod},
+           given={R.\bibnamedelimi C.},
+           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a77ae2ff72016b2271084ffd95151f9d}{%
+           family={Krawczyk},
+           familyi={K\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f5caf9ebcafeba6a768fdc516bb5c5e8}{%
+           family={Herrera},
+           familyi={H\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{e6d587d9f6c65185733cc58eb0045547}
+      \strng{fullhash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{fullhashraw}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{bibnamehash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{authorbibnamehash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{authornamehash}{e6d587d9f6c65185733cc58eb0045547}
+      \strng{authorfullhash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{authorfullhashraw}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Learning from Imbalanced Data Sets}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.1007/978-3-319-98074-4
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/978-3-319-98074-4
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/978-3-319-98074-4
+      \endverb
+    \endentry
+    \entry{galar2012review}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=6aba8260b5fba6d47faa0e37e1d0a3d4}{%
+           family={Galar},
+           familyi={G\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d1a4192eda093643b6a646cfd16214ca}{%
+           family={Fernández},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ea42ba75609c12d075aac587e58c3f76}{%
+           family={Barrenechea},
+           familyi={B\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=85e44605db4bf3afeec10474213fc74f}{%
+           family={Bustince},
+           familyi={B\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f5caf9ebcafeba6a768fdc516bb5c5e8}{%
+           family={Herrera},
+           familyi={H\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{33f9d3daa41f9ad2dd98ae8481104645}
+      \strng{fullhash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{fullhashraw}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{bibnamehash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{authorbibnamehash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{authornamehash}{33f9d3daa41f9ad2dd98ae8481104645}
+      \strng{authorfullhash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{authorfullhashraw}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Systems, Man, and Cybernetics, Part C (Applications and Reviews)}
+      \field{number}{4}
+      \field{title}{A review on ensembles for the class imbalance problem: Bagging-, boosting-, and hybrid-based approaches}
+      \field{volume}{42}
+      \field{year}{2012}
+      \field{pages}{463\bibrangedash 484}
+      \range{pages}{22}
+      \verb{doi}
+      \verb 10.1109/TSMCC.2011.2161285
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/TSMCC.2011.2161285
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/TSMCC.2011.2161285
+      \endverb
+    \endentry
+    \entry{han2005borderline}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=77173499436752629509723f2fefef21}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=31be10f23b166b18570016afc8964430}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={W.\bibnamedelimi Y.},
+           giveni={W\bibinitperiod\bibinitdelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5f0a66f72ab06aa515cf54f2fd672d5c}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={B.\bibnamedelimi H.},
+           giveni={B\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5cf3e91ff10c8ba22e3fed2cf6fee243}
+      \strng{fullhash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{fullhashraw}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{bibnamehash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{authorbibnamehash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{authornamehash}{5cf3e91ff10c8ba22e3fed2cf6fee243}
+      \strng{authorfullhash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{authorfullhashraw}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in Intelligent Computing. ICIC 2005. Lecture Notes in Computer Science}
+      \field{title}{Borderline-SMOTE: A new over-sampling method in imbalanced data sets learning}
+      \field{volume}{3644}
+      \field{year}{2005}
+      \verb{doi}
+      \verb 10.1007/11538059_91
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/11538059_91
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/11538059_91
+      \endverb
+    \endentry
+    \entry{he2008adasyn}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=d48651e85ff8cb16f279fb6e67611552}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=08bb98eb39a06d370925f97c54be6938}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d1593d29767e487db540223a637b6f2f}{%
+           family={Garcia},
+           familyi={G\bibinitperiod},
+           given={E.\bibnamedelimi A.},
+           giveni={E\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0ee6724aae227dcac2949962d898b300}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d3056e409a45aab568ebade70316666a}
+      \strng{fullhash}{292e4473ba855e2b5358499687f73da0}
+      \strng{fullhashraw}{292e4473ba855e2b5358499687f73da0}
+      \strng{bibnamehash}{292e4473ba855e2b5358499687f73da0}
+      \strng{authorbibnamehash}{292e4473ba855e2b5358499687f73da0}
+      \strng{authornamehash}{d3056e409a45aab568ebade70316666a}
+      \strng{authorfullhash}{292e4473ba855e2b5358499687f73da0}
+      \strng{authorfullhashraw}{292e4473ba855e2b5358499687f73da0}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{2008 IEEE International Joint Conference on Neural Networks (IEEE World Congress on Computational Intelligence)}
+      \field{title}{ADASYN: Adaptive synthetic sampling approach for imbalanced learning}
+      \field{year}{2008}
+      \field{pages}{1322\bibrangedash 1328}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/IJCNN.2008.4633969
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/IJCNN.2008.4633969
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/IJCNN.2008.4633969
+      \endverb
+    \endentry
+    \entry{khorshidi2025synthetic}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f2100c571ebb843a92435ae5dbd2f3df}{%
+           family={Khorshidi},
+           familyi={K\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0315901dcb8acb1ecda8de64317237b5}{%
+           family={Aickelin},
+           familyi={A\bibinitperiod},
+           given={U.\bibnamedelimi A.},
+           giveni={U\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{fullhash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{fullhashraw}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{bibnamehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authorbibnamehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authornamehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authorfullhash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authorfullhashraw}{05c6f54daaa94e753637c5c208c5cb0a}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Knowledge and Information Systems}
+      \field{title}{A synthetic over‑sampling method with minority and majority classes for imbalance problems}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1007/s10115-025-02394-6
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/s10115-025-02394-6
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s10115-025-02394-6
+      \endverb
+    \endentry
+    \entry{li2024kwsmote}{misc}{}{}
+      \name{author}{4}{}{%
+        {{un=1,uniquepart=given,hash=6e5b0e6cca2615e3baa1c9fd08a1f208}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=4b44bba1743c2ad874f7d960887af663}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=89b6a98b2f62d3ddfdac44ef9126d99c}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92faacc6874983183ce7fb86e39f31ec}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3108a65fd9ec6c0b84b02f9e23355849}
+      \strng{fullhash}{870bca756257cce86b2dd5e13b165208}
+      \strng{fullhashraw}{870bca756257cce86b2dd5e13b165208}
+      \strng{bibnamehash}{870bca756257cce86b2dd5e13b165208}
+      \strng{authorbibnamehash}{870bca756257cce86b2dd5e13b165208}
+      \strng{authornamehash}{3108a65fd9ec6c0b84b02f9e23355849}
+      \strng{authorfullhash}{870bca756257cce86b2dd5e13b165208}
+      \strng{authorfullhashraw}{870bca756257cce86b2dd5e13b165208}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{KWSMOTE: Kernel-based weighted synthetic minority oversampling technique}
+      \field{year}{2024}
+      \verb{eprint}
+      \verb 2504.09147
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2504.09147
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2504.09147
+      \endverb
+    \endentry
+    \entry{lyu2025ld}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=2ce4ad2986701603ee1a1ed156988545}{%
+           family={Lyu},
+           familyi={L\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d5ff4bd5ca210dc62374b1352daac212}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0e666ca1ec9bdcee719414b2940abf9a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{79c1063c1d8a1a7686e60b98d65d1979}
+      \strng{fullhash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{fullhashraw}{7750557c92879ecd20b6aaff2073f261}
+      \strng{bibnamehash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{authorbibnamehash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{authornamehash}{79c1063c1d8a1a7686e60b98d65d1979}
+      \strng{authorfullhash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{authorfullhashraw}{7750557c92879ecd20b6aaff2073f261}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Symmetry}
+      \field{number}{2}
+      \field{title}{LD-SMOTE: Local Density Estimation‑Based Oversampling for Imbalanced Datasets}
+      \field{volume}{17}
+      \field{year}{2025}
+      \field{pages}{160}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/sym17020160
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/sym17020160
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/sym17020160
+      \endverb
+    \endentry
+    \entry{nasaruddin2025smote}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=928c16d76a35796c5f1d654fc7696ed5}{%
+           family={Nasaruddin},
+           familyi={N\bibinitperiod},
+           given={F.\bibnamedelimi H.},
+           giveni={F\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=06bc38ee955338c72dffdea495549601}{%
+           family={Bashir},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f992cda174633a94abd6edd7598dc0eb}{%
+           family={Rashid},
+           familyi={R\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2f980de23dbe6bff1ad5988b2c5f1f2d}{%
+           family={Hassan},
+           familyi={H\bibinitperiod},
+           given={M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0c39d2a975bc9b573a0d94d4f9cfaa28}
+      \strng{fullhash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{fullhashraw}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{bibnamehash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{authorbibnamehash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{authornamehash}{0c39d2a975bc9b573a0d94d4f9cfaa28}
+      \strng{authorfullhash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{authorfullhashraw}{6c0fce23951bfbfd94ad26555e8e572c}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Scientific Reports}
+      \field{title}{SMOTE-PCA-HDBSCAN: A new hybrid oversampling method for data imbalance}
+      \field{volume}{15}
+      \field{year}{2025}
+      \field{pages}{97248}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41598-025-97248-0
+      \endverb
+    \endentry
+    \entry{park2024radius}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=5de1ee8be02450d136e79b70ae9c7303}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a48868d4b7e2996a44219cbaef3fb20}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{fullhash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{fullhashraw}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{bibnamehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authorbibnamehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authornamehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authorfullhash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authorfullhashraw}{7a94455036f716fe72ede8d4d7c1683f}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Statistics and Computing}
+      \field{title}{AR-ADASYN: Angle radius-adaptive synthetic data generation approach for imbalanced learning}
+      \field{volume}{34}
+      \field{year}{2024}
+      \field{pages}{166}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1007/s11222-024-10479-5
+      \endverb
+    \endentry
+    \entry{poddar2024approaches}{misc}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=c5e2375446c366508d2bbbe4893fa907}{%
+           family={Poddar},
+           familyi={P\bibinitperiod},
+           given={G.\bibnamedelimi M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd3e2b25cf188b185a9a559c740651d9}{%
+           family={Patil},
+           familyi={P\bibinitperiod},
+           given={R.\bibnamedelimi V.},
+           giveni={R\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1a579f5e5bf7f31819292311af0068c}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={S.\bibnamedelimi N.},
+           giveni={S\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{cbcc8e88f8be5bff0564bb2fe08ed392}
+      \strng{fullhash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{fullhashraw}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{bibnamehash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{authorbibnamehash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{authornamehash}{cbcc8e88f8be5bff0564bb2fe08ed392}
+      \strng{authorfullhash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{authorfullhashraw}{b7b7ea2bae5fbecd68212b505e553395}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Academia.edu}
+      \field{title}{Approaches to handle data imbalance problems in predictive machine learning models: A comprehensive review}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://www.academia.edu/117048787
+      \endverb
+      \verb{url}
+      \verb https://www.academia.edu/117048787
+      \endverb
+    \endentry
+    \entry{qiu2025vs}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=64bb805a9d8915ba5ef1da6c79a88fe1}{%
+           family={Qiu},
+           familyi={Q\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2ce4ad2986701603ee1a1ed156988545}{%
+           family={Lyu},
+           familyi={L\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0e666ca1ec9bdcee719414b2940abf9a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{f73a8369aee7ba2ffffa09dcc7c23200}
+      \strng{fullhash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{fullhashraw}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{bibnamehash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{authorbibnamehash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{authornamehash}{f73a8369aee7ba2ffffa09dcc7c23200}
+      \strng{authorfullhash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{authorfullhashraw}{97668a6bac69d3c16aafbf9350d3e29b}
+      \field{sortinit}{Q}
+      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Expert Systems with Applications}
+      \field{title}{VS-SMOTE: A value space guided SMOTE variant for imbalanced data classification}
+      \field{volume}{233}
+      \field{year}{2025}
+      \field{pages}{121708}
+      \range{pages}{1}
+      \verb{urlraw}
+      \verb https://papers.ssrn.com/sol3/Delivery.cfm?abstractid=5234376
+      \endverb
+      \verb{url}
+      \verb https://papers.ssrn.com/sol3/Delivery.cfm?abstractid=5234376
+      \endverb
+    \endentry
+    \entry{saputra2024smotemrs}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=347efb8347ad3ad66d9625d45dfbc008}{%
+           family={Saputra},
+           familyi={S\bibinitperiod},
+           given={R.\bibnamedelimi H.},
+           giveni={R\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6eb119660e11debe214ff9a06b22dbbb}{%
+           family={Pratama},
+           familyi={P\bibinitperiod},
+           given={B.\bibnamedelimi W.},
+           giveni={B\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f81a9d49428e50a93690a30a575b694}{%
+           family={Suryanegara},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2d2825859372eb8ed96e671166138b2e}
+      \strng{fullhash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{fullhashraw}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{bibnamehash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{authorbibnamehash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{authornamehash}{2d2825859372eb8ed96e671166138b2e}
+      \strng{authorfullhash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{authorfullhashraw}{61f1b6c9a9a25f1448f506dd2b572151}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Procedia Computer Science}
+      \field{title}{SMOTE-MRS: A novel SMOTE–multiresolution sampling technique for predictive modeling}
+      \field{volume}{231}
+      \field{year}{2024}
+      \field{pages}{1502\bibrangedash 1509}
+      \range{pages}{8}
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10721227
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10721227
+      \endverb
+    \endentry
+    \entry{wang2024aCH}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3702f1c146e64a6c91fc47b81ea59fc7}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d7b8a47ebde5e8240b9998fe05674b36}{%
+           family={Awang},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{bibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorbibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authornamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \field{extraname}{1}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computational Analysis and Applications}
+      \field{note}{Recuperado de https://eudoxuspress.com/index.php/pub/article/view/1234}
+      \field{number}{7}
+      \field{title}{CH‑SMOTE: Cluster‑preserving hybrid SMOTE for data imbalance}
+      \field{volume}{33}
+      \field{year}{2024}
+      \field{pages}{1331\bibrangedash 1349}
+      \range{pages}{19}
+    \endentry
+    \entry{wang2024bmkc}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3702f1c146e64a6c91fc47b81ea59fc7}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d7b8a47ebde5e8240b9998fe05674b36}{%
+           family={Awang},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{bibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorbibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authornamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \field{extraname}{2}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{MKC-SMOTE: Multikernel cluster SMOTE for imbalanced multiclass classification}
+      \field{volume}{12}
+      \field{year}{2024}
+      \field{pages}{61594\bibrangedash 61605}
+      \range{pages}{12}
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/abstract/document/10811922
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/abstract/document/10811922
+      \endverb
+    \endentry
+    \entry{wang2025aoch}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3702f1c146e64a6c91fc47b81ea59fc7}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d7b8a47ebde5e8240b9998fe05674b36}{%
+           family={Awang},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{bibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorbibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authornamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \field{extraname}{3}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Versión PDF disponible en ResearchGate}
+      \field{title}{OCH‑SMOTE: One‑vs‑One Cluster Hybrid SMOTE for Multiclass Data}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.researchgate.net/publication/387809455_A_Novel_Synthetic_minority_oversampling_technique_for_multiclass_imbalance_problems
+      \endverb
+      \verb{url}
+      \verb https://www.researchgate.net/publication/387809455_A_Novel_Synthetic_minority_oversampling_technique_for_multiclass_imbalance_problems
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{carvalho2025resampling}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=212594b29e907927e22b3219429f6f90}{%
+           family={Carvalho},
+           familyi={C\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd34ff378d5651a182572159468821fd}{%
+           family={Pinho},
+           familyi={P\bibinitperiod},
+           given={A.\bibnamedelimi J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e37a2b9e32dc72203de0d358535c6fb4}{%
+           family={Brás},
+           familyi={B\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{23bffcb80b7251d2bc5273eebf9e1795}
+      \strng{fullhash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{fullhashraw}{569b685b453cd674c25febe2c248c5b5}
+      \strng{bibnamehash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{authorbibnamehash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{authornamehash}{23bffcb80b7251d2bc5273eebf9e1795}
+      \strng{authorfullhash}{569b685b453cd674c25febe2c248c5b5}
+      \strng{authorfullhashraw}{569b685b453cd674c25febe2c248c5b5}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Big Data}
+      \field{number}{71}
+      \field{title}{Resampling approaches to handle class imbalance: A review from a data perspective}
+      \field{volume}{12}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1186/s40537-025-01119-4
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1186/s40537-025-01119-4
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1186/s40537-025-01119-4
+      \endverb
+    \endentry
+    \entry{chawla2002smote}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=517c300d6831b45e817a12c128e0d3c0}{%
+           family={Chawla},
+           familyi={C\bibinitperiod},
+           given={N.\bibnamedelimi V.},
+           giveni={N\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8aa8d84745e95ea59fccbcc6d34e77b7}{%
+           family={Bowyer},
+           familyi={B\bibinitperiod},
+           given={K.\bibnamedelimi W.},
+           giveni={K\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d767a8acee927fe772fe5ec34f93073f}{%
+           family={Hall},
+           familyi={H\bibinitperiod},
+           given={L.\bibnamedelimi O.},
+           giveni={L\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d66be0948a5085778a35663d6fd6c8cc}{%
+           family={Kegelmeyer},
+           familyi={K\bibinitperiod},
+           given={W.\bibnamedelimi P.},
+           giveni={W\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{25994a8b1023c628464384a919fac03e}
+      \strng{fullhash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{fullhashraw}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{bibnamehash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{authorbibnamehash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{authornamehash}{25994a8b1023c628464384a919fac03e}
+      \strng{authorfullhash}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \strng{authorfullhashraw}{8c67ad2e38d858dfc32312d1f697f6e2}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Artificial Intelligence Research}
+      \field{title}{SMOTE: Synthetic Minority Over-sampling Technique}
+      \field{volume}{16}
+      \field{year}{2002}
+      \field{pages}{321\bibrangedash 357}
+      \range{pages}{37}
+      \verb{doi}
+      \verb 10.1613/jair.953
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1613/jair.953
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1613/jair.953
+      \endverb
+    \endentry
+    \entry{feng2021novel}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=eb52fb24de1abb778b0f5fbea2648b99}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=ef065b28c31984323fd6d3483d29aafd}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{fullhash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{fullhashraw}{58fe9850961e6b386dc5f513c2449892}
+      \strng{bibnamehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authorbibnamehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authornamehash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authorfullhash}{58fe9850961e6b386dc5f513c2449892}
+      \strng{authorfullhashraw}{58fe9850961e6b386dc5f513c2449892}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Physics: Conference Series}
+      \field{number}{1}
+      \field{title}{A novel αDistance Borderline-ADASYN-SMOTE algorithm for imbalanced data and its application in Alzheimer’s disease classification based on Dense Convolutional Network}
+      \field{volume}{2031}
+      \field{year}{2021}
+      \field{pages}{012046}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1742-6596/2031/1/012046
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/1742-6596/2031/1/012046
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/1742-6596/2031/1/012046
+      \endverb
+    \endentry
+    \entry{fernandez2018learning}{book}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=d1a4192eda093643b6a646cfd16214ca}{%
+           family={Fernández},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e94eff68296471956f1de521a184a63e}{%
+           family={García},
+           familyi={G\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6aba8260b5fba6d47faa0e37e1d0a3d4}{%
+           family={Galar},
+           familyi={G\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=41d8b1854d60e4cbacfd46fcdb8fb589}{%
+           family={Prati},
+           familyi={P\bibinitperiod},
+           given={R.\bibnamedelimi C.},
+           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a77ae2ff72016b2271084ffd95151f9d}{%
+           family={Krawczyk},
+           familyi={K\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f5caf9ebcafeba6a768fdc516bb5c5e8}{%
+           family={Herrera},
+           familyi={H\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{e6d587d9f6c65185733cc58eb0045547}
+      \strng{fullhash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{fullhashraw}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{bibnamehash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{authorbibnamehash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{authornamehash}{e6d587d9f6c65185733cc58eb0045547}
+      \strng{authorfullhash}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \strng{authorfullhashraw}{7ef93ccfa655e0a86da0c94490cd1ac4}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Learning from Imbalanced Data Sets}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.1007/978-3-319-98074-4
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/978-3-319-98074-4
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/978-3-319-98074-4
+      \endverb
+    \endentry
+    \entry{galar2012review}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=6aba8260b5fba6d47faa0e37e1d0a3d4}{%
+           family={Galar},
+           familyi={G\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d1a4192eda093643b6a646cfd16214ca}{%
+           family={Fernández},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ea42ba75609c12d075aac587e58c3f76}{%
+           family={Barrenechea},
+           familyi={B\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=85e44605db4bf3afeec10474213fc74f}{%
+           family={Bustince},
+           familyi={B\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f5caf9ebcafeba6a768fdc516bb5c5e8}{%
+           family={Herrera},
+           familyi={H\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{33f9d3daa41f9ad2dd98ae8481104645}
+      \strng{fullhash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{fullhashraw}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{bibnamehash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{authorbibnamehash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{authornamehash}{33f9d3daa41f9ad2dd98ae8481104645}
+      \strng{authorfullhash}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \strng{authorfullhashraw}{ecbdf969a1f7dfaa0a5eb9193e6c39f2}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Systems, Man, and Cybernetics, Part C (Applications and Reviews)}
+      \field{number}{4}
+      \field{title}{A review on ensembles for the class imbalance problem: Bagging-, boosting-, and hybrid-based approaches}
+      \field{volume}{42}
+      \field{year}{2012}
+      \field{pages}{463\bibrangedash 484}
+      \range{pages}{22}
+      \verb{doi}
+      \verb 10.1109/TSMCC.2011.2161285
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/TSMCC.2011.2161285
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/TSMCC.2011.2161285
+      \endverb
+    \endentry
+    \entry{han2005borderline}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=77173499436752629509723f2fefef21}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=31be10f23b166b18570016afc8964430}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={W.\bibnamedelimi Y.},
+           giveni={W\bibinitperiod\bibinitdelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5f0a66f72ab06aa515cf54f2fd672d5c}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={B.\bibnamedelimi H.},
+           giveni={B\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5cf3e91ff10c8ba22e3fed2cf6fee243}
+      \strng{fullhash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{fullhashraw}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{bibnamehash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{authorbibnamehash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{authornamehash}{5cf3e91ff10c8ba22e3fed2cf6fee243}
+      \strng{authorfullhash}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \strng{authorfullhashraw}{86cc1ce55f23cc88c89b3213b591f5d7}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in Intelligent Computing. ICIC 2005. Lecture Notes in Computer Science}
+      \field{title}{Borderline-SMOTE: A new over-sampling method in imbalanced data sets learning}
+      \field{volume}{3644}
+      \field{year}{2005}
+      \verb{doi}
+      \verb 10.1007/11538059_91
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/11538059_91
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/11538059_91
+      \endverb
+    \endentry
+    \entry{he2008adasyn}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=d48651e85ff8cb16f279fb6e67611552}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=08bb98eb39a06d370925f97c54be6938}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d1593d29767e487db540223a637b6f2f}{%
+           family={Garcia},
+           familyi={G\bibinitperiod},
+           given={E.\bibnamedelimi A.},
+           giveni={E\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0ee6724aae227dcac2949962d898b300}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d3056e409a45aab568ebade70316666a}
+      \strng{fullhash}{292e4473ba855e2b5358499687f73da0}
+      \strng{fullhashraw}{292e4473ba855e2b5358499687f73da0}
+      \strng{bibnamehash}{292e4473ba855e2b5358499687f73da0}
+      \strng{authorbibnamehash}{292e4473ba855e2b5358499687f73da0}
+      \strng{authornamehash}{d3056e409a45aab568ebade70316666a}
+      \strng{authorfullhash}{292e4473ba855e2b5358499687f73da0}
+      \strng{authorfullhashraw}{292e4473ba855e2b5358499687f73da0}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{2008 IEEE International Joint Conference on Neural Networks (IEEE World Congress on Computational Intelligence)}
+      \field{title}{ADASYN: Adaptive synthetic sampling approach for imbalanced learning}
+      \field{year}{2008}
+      \field{pages}{1322\bibrangedash 1328}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/IJCNN.2008.4633969
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/IJCNN.2008.4633969
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/IJCNN.2008.4633969
+      \endverb
+    \endentry
+    \entry{khorshidi2025synthetic}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f2100c571ebb843a92435ae5dbd2f3df}{%
+           family={Khorshidi},
+           familyi={K\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0315901dcb8acb1ecda8de64317237b5}{%
+           family={Aickelin},
+           familyi={A\bibinitperiod},
+           given={U.\bibnamedelimi A.},
+           giveni={U\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{fullhash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{fullhashraw}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{bibnamehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authorbibnamehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authornamehash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authorfullhash}{05c6f54daaa94e753637c5c208c5cb0a}
+      \strng{authorfullhashraw}{05c6f54daaa94e753637c5c208c5cb0a}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Knowledge and Information Systems}
+      \field{title}{A synthetic over‑sampling method with minority and majority classes for imbalance problems}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1007/s10115-025-02394-6
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/s10115-025-02394-6
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s10115-025-02394-6
+      \endverb
+    \endentry
+    \entry{li2024kwsmote}{misc}{}{}
+      \name{author}{4}{}{%
+        {{un=1,uniquepart=given,hash=6e5b0e6cca2615e3baa1c9fd08a1f208}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=4b44bba1743c2ad874f7d960887af663}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=89b6a98b2f62d3ddfdac44ef9126d99c}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92faacc6874983183ce7fb86e39f31ec}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3108a65fd9ec6c0b84b02f9e23355849}
+      \strng{fullhash}{870bca756257cce86b2dd5e13b165208}
+      \strng{fullhashraw}{870bca756257cce86b2dd5e13b165208}
+      \strng{bibnamehash}{870bca756257cce86b2dd5e13b165208}
+      \strng{authorbibnamehash}{870bca756257cce86b2dd5e13b165208}
+      \strng{authornamehash}{3108a65fd9ec6c0b84b02f9e23355849}
+      \strng{authorfullhash}{870bca756257cce86b2dd5e13b165208}
+      \strng{authorfullhashraw}{870bca756257cce86b2dd5e13b165208}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{KWSMOTE: Kernel-based weighted synthetic minority oversampling technique}
+      \field{year}{2024}
+      \verb{eprint}
+      \verb 2504.09147
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2504.09147
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2504.09147
+      \endverb
+    \endentry
+    \entry{lyu2025ld}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=2ce4ad2986701603ee1a1ed156988545}{%
+           family={Lyu},
+           familyi={L\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d5ff4bd5ca210dc62374b1352daac212}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0e666ca1ec9bdcee719414b2940abf9a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{79c1063c1d8a1a7686e60b98d65d1979}
+      \strng{fullhash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{fullhashraw}{7750557c92879ecd20b6aaff2073f261}
+      \strng{bibnamehash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{authorbibnamehash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{authornamehash}{79c1063c1d8a1a7686e60b98d65d1979}
+      \strng{authorfullhash}{7750557c92879ecd20b6aaff2073f261}
+      \strng{authorfullhashraw}{7750557c92879ecd20b6aaff2073f261}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Symmetry}
+      \field{number}{2}
+      \field{title}{LD-SMOTE: Local Density Estimation‑Based Oversampling for Imbalanced Datasets}
+      \field{volume}{17}
+      \field{year}{2025}
+      \field{pages}{160}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/sym17020160
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/sym17020160
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/sym17020160
+      \endverb
+    \endentry
+    \entry{nasaruddin2025smote}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=928c16d76a35796c5f1d654fc7696ed5}{%
+           family={Nasaruddin},
+           familyi={N\bibinitperiod},
+           given={F.\bibnamedelimi H.},
+           giveni={F\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=06bc38ee955338c72dffdea495549601}{%
+           family={Bashir},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f992cda174633a94abd6edd7598dc0eb}{%
+           family={Rashid},
+           familyi={R\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2f980de23dbe6bff1ad5988b2c5f1f2d}{%
+           family={Hassan},
+           familyi={H\bibinitperiod},
+           given={M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0c39d2a975bc9b573a0d94d4f9cfaa28}
+      \strng{fullhash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{fullhashraw}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{bibnamehash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{authorbibnamehash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{authornamehash}{0c39d2a975bc9b573a0d94d4f9cfaa28}
+      \strng{authorfullhash}{6c0fce23951bfbfd94ad26555e8e572c}
+      \strng{authorfullhashraw}{6c0fce23951bfbfd94ad26555e8e572c}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Scientific Reports}
+      \field{title}{SMOTE-PCA-HDBSCAN: A new hybrid oversampling method for data imbalance}
+      \field{volume}{15}
+      \field{year}{2025}
+      \field{pages}{97248}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41598-025-97248-0
+      \endverb
+    \endentry
+    \entry{park2024radius}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=5de1ee8be02450d136e79b70ae9c7303}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a48868d4b7e2996a44219cbaef3fb20}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{fullhash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{fullhashraw}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{bibnamehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authorbibnamehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authornamehash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authorfullhash}{7a94455036f716fe72ede8d4d7c1683f}
+      \strng{authorfullhashraw}{7a94455036f716fe72ede8d4d7c1683f}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Statistics and Computing}
+      \field{title}{AR-ADASYN: Angle radius-adaptive synthetic data generation approach for imbalanced learning}
+      \field{volume}{34}
+      \field{year}{2024}
+      \field{pages}{166}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1007/s11222-024-10479-5
+      \endverb
+    \endentry
+    \entry{poddar2024approaches}{misc}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=c5e2375446c366508d2bbbe4893fa907}{%
+           family={Poddar},
+           familyi={P\bibinitperiod},
+           given={G.\bibnamedelimi M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd3e2b25cf188b185a9a559c740651d9}{%
+           family={Patil},
+           familyi={P\bibinitperiod},
+           given={R.\bibnamedelimi V.},
+           giveni={R\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1a579f5e5bf7f31819292311af0068c}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={S.\bibnamedelimi N.},
+           giveni={S\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{cbcc8e88f8be5bff0564bb2fe08ed392}
+      \strng{fullhash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{fullhashraw}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{bibnamehash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{authorbibnamehash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{authornamehash}{cbcc8e88f8be5bff0564bb2fe08ed392}
+      \strng{authorfullhash}{b7b7ea2bae5fbecd68212b505e553395}
+      \strng{authorfullhashraw}{b7b7ea2bae5fbecd68212b505e553395}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Academia.edu}
+      \field{title}{Approaches to handle data imbalance problems in predictive machine learning models: A comprehensive review}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://www.academia.edu/117048787
+      \endverb
+      \verb{url}
+      \verb https://www.academia.edu/117048787
+      \endverb
+    \endentry
+    \entry{qiu2025vs}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=64bb805a9d8915ba5ef1da6c79a88fe1}{%
+           family={Qiu},
+           familyi={Q\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2ce4ad2986701603ee1a1ed156988545}{%
+           family={Lyu},
+           familyi={L\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0e666ca1ec9bdcee719414b2940abf9a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{f73a8369aee7ba2ffffa09dcc7c23200}
+      \strng{fullhash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{fullhashraw}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{bibnamehash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{authorbibnamehash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{authornamehash}{f73a8369aee7ba2ffffa09dcc7c23200}
+      \strng{authorfullhash}{97668a6bac69d3c16aafbf9350d3e29b}
+      \strng{authorfullhashraw}{97668a6bac69d3c16aafbf9350d3e29b}
+      \field{sortinit}{Q}
+      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Expert Systems with Applications}
+      \field{title}{VS-SMOTE: A value space guided SMOTE variant for imbalanced data classification}
+      \field{volume}{233}
+      \field{year}{2025}
+      \field{pages}{121708}
+      \range{pages}{1}
+      \verb{urlraw}
+      \verb https://papers.ssrn.com/sol3/Delivery.cfm?abstractid=5234376
+      \endverb
+      \verb{url}
+      \verb https://papers.ssrn.com/sol3/Delivery.cfm?abstractid=5234376
+      \endverb
+    \endentry
+    \entry{saputra2024smotemrs}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=347efb8347ad3ad66d9625d45dfbc008}{%
+           family={Saputra},
+           familyi={S\bibinitperiod},
+           given={R.\bibnamedelimi H.},
+           giveni={R\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6eb119660e11debe214ff9a06b22dbbb}{%
+           family={Pratama},
+           familyi={P\bibinitperiod},
+           given={B.\bibnamedelimi W.},
+           giveni={B\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f81a9d49428e50a93690a30a575b694}{%
+           family={Suryanegara},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2d2825859372eb8ed96e671166138b2e}
+      \strng{fullhash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{fullhashraw}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{bibnamehash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{authorbibnamehash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{authornamehash}{2d2825859372eb8ed96e671166138b2e}
+      \strng{authorfullhash}{61f1b6c9a9a25f1448f506dd2b572151}
+      \strng{authorfullhashraw}{61f1b6c9a9a25f1448f506dd2b572151}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Procedia Computer Science}
+      \field{title}{SMOTE-MRS: A novel SMOTE–multiresolution sampling technique for predictive modeling}
+      \field{volume}{231}
+      \field{year}{2024}
+      \field{pages}{1502\bibrangedash 1509}
+      \range{pages}{8}
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10721227
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10721227
+      \endverb
+    \endentry
+    \entry{wang2024aCH}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3702f1c146e64a6c91fc47b81ea59fc7}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d7b8a47ebde5e8240b9998fe05674b36}{%
+           family={Awang},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{bibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorbibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authornamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \field{extraname}{1}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computational Analysis and Applications}
+      \field{note}{Recuperado de https://eudoxuspress.com/index.php/pub/article/view/1234}
+      \field{number}{7}
+      \field{title}{CH‑SMOTE: Cluster‑preserving hybrid SMOTE for data imbalance}
+      \field{volume}{33}
+      \field{year}{2024}
+      \field{pages}{1331\bibrangedash 1349}
+      \range{pages}{19}
+    \endentry
+    \entry{wang2024bmkc}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3702f1c146e64a6c91fc47b81ea59fc7}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d7b8a47ebde5e8240b9998fe05674b36}{%
+           family={Awang},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{bibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorbibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authornamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \field{extraname}{2}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{MKC-SMOTE: Multikernel cluster SMOTE for imbalanced multiclass classification}
+      \field{volume}{12}
+      \field{year}{2024}
+      \field{pages}{61594\bibrangedash 61605}
+      \range{pages}{12}
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/abstract/document/10811922
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/abstract/document/10811922
+      \endverb
+    \endentry
+    \entry{wang2025aoch}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3702f1c146e64a6c91fc47b81ea59fc7}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d7b8a47ebde5e8240b9998fe05674b36}{%
+           family={Awang},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{fullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{bibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorbibnamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authornamehash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhash}{d19435941692d9db2f5839f7d5a7f720}
+      \strng{authorfullhashraw}{d19435941692d9db2f5839f7d5a7f720}
+      \field{extraname}{3}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Versión PDF disponible en ResearchGate}
+      \field{title}{OCH‑SMOTE: One‑vs‑One Cluster Hybrid SMOTE for Multiclass Data}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.researchgate.net/publication/387809455_A_Novel_Synthetic_minority_oversampling_technique_for_multiclass_imbalance_problems
+      \endverb
+      \verb{url}
+      \verb https://www.researchgate.net/publication/387809455_A_Novel_Synthetic_minority_oversampling_technique_for_multiclass_imbalance_problems
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

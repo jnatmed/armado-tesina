@@ -1,0 +1,55 @@
+\subsection{Pseudocódigo del algoritmo αDistance Borderline-ADASYN-SMOTE}
+\noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+
+\textbf{Referencia:} Feng \& Li (2021)
+
+\begin{algorithm}[H]
+\caption{αDistance Borderline-ADASYN-SMOTE}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Conjunto de datos $\mathcal{D}$, número de vecinos $m$, proporción deseada de balance $\beta \in [0, 1]$
+\Statex
+
+\For{cada muestra minoritaria $p_i \in \mathcal{D}_{min}$}
+    \State Obtener sus $m$ vecinos más cercanos.
+    \State Separar los vecinos en:
+    \begin{itemize}
+        \item Minoritarios: cantidad $pnum$
+        \item Mayoritarios: cantidad $nnum$
+    \end{itemize}
+    \For{cada vecino $p_j$}
+        \State Calcular peso: $\alpha_j = \frac{1}{\text{dist}(p_i, p_j)}$
+    \EndFor
+    \State Calcular sumatoria de pesos:
+    \begin{itemize}
+        \item $\alpha'_p = \sum \alpha_j$ de vecinos minoritarios
+        \item $\alpha'_n = \sum \alpha_j$ de vecinos mayoritarios
+    \end{itemize}
+    \If{$\alpha'_n > \alpha'_p$}
+        \State Marcar $p_i$ como muestra peligrosa
+    \EndIf
+\EndFor
+
+\vspace{1em}
+\State Calcular el total de ejemplos sintéticos a generar: $G = (N - n) \cdot \beta$
+\Statex Donde $N$ es la cantidad de muestras mayoritarias y $n$ la cantidad de minoritarias
+
+\vspace{1em}
+\For{cada muestra peligrosa $p_i$}
+    \State Calcular: $r_i = \frac{\Delta_i}{m}$
+    \State Normalizar: $\hat{r}_i = \frac{r_i}{\sum r_i}$
+    \State Asignar: $g_i = \hat{r}_i \cdot G$
+\EndFor
+
+\vspace{1em}
+\For{cada muestra peligrosa $p_i$}
+    \For{$g_i$ veces}
+        \State Seleccionar un vecino minoritario $p_z$ aleatorio
+        \State Generar muestra sintética:
+        \[
+        s = p_i + \lambda \cdot (p_z - p_i), \quad \lambda \sim \mathcal{U}[0, 1]
+        \]
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+

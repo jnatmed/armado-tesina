@@ -1,0 +1,125 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(estructura_tesis.tex
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-06-09>
+(C:\Program Files\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Program Files\MiKTeX\tex/latex/base\size12.clo))
+(C:\Program Files\MiKTeX\tex/latex/base\inputenc.sty)
+(C:\Program Files\MiKTeX\tex/generic/babel\babel.sty
+(C:\Program Files\MiKTeX\tex/generic/babel\txtbabel.def)
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Program Files\MiKTeX\tex/latex/arabi\bblopts.cfg)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/babel-spanish\spanish.ldf
+(C:\Program Files\MiKTeX\tex/generic/babel/locale/es\babel-spanish.tex)))
+(C:\Program Files\MiKTeX\tex/latex/biblatex\biblatex.sty
+(C:\Program Files\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/infwarerr\infwarerr.sty)
+(C:\Program Files\MiKTeX\tex/generic/iftex\iftex.sty)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty))
+(C:\Program Files\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+(C:\Program Files\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty))
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/logreq\logreq.sty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/logreq\logreq.def))
+(C:\Program Files\MiKTeX\tex/latex/base\ifthen.sty)
+(C:\Program Files\MiKTeX\tex/latex/url\url.sty)
+(C:\Program Files\MiKTeX\tex/latex/biblatex\blx-dm.def)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\apa.dbx)
+(C:\Program Files\MiKTeX\tex/latex/biblatex\blx-compat.def)
+(C:\Program Files\MiKTeX\tex/latex/biblatex\biblatex.def)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\apa.bbx
+(C:\Program Files\MiKTeX\tex/latex/biblatex/bbx\standard.bbx))
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\apa.cbx)
+(C:\Program Files\MiKTeX\tex/latex/biblatex\biblatex.cfg)
+(C:\Program Files\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Program Files\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def))
+(C:\Program Files\MiKTeX\tex/latex/biblatex\blx-case-expl3.sty
+(C:\Program Files\MiKTeX\tex/latex/l3packages/xparse\xparse.sty)))
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/csquotes\csquotes.sty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/csquotes\csquotes.def)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/csquotes\csquotes.cfg))
+(C:\Program Files\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
+) (C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/pdfescape\pdfescape.sty)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Program Files\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/gettitlestring\gettitlestring
+.sty))
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/stringenc\stringenc.sty)
+(C:\Program Files\MiKTeX\tex/latex/hyperref\pd1enc.def)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/intcalc\intcalc.sty)
+(C:\Program Files\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/bigintcalc\bigintcalc.sty)))
+(C:\Program Files\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.s
+ty
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/generic/uniquecounter\uniquecounter.s
+ty))) (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Program Files\MiKTeX\tex/generic/iftex\ifvtex.sty)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/setspace\setspace.sty)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/psnfss\times.sty)
+(C:\Program Files\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Program Files\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Program Files\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Program Files\MiKTeX\tex/latex/graphics-cfg\graphics.cfg)
+(C:\Program Files\MiKTeX\tex/latex/graphics-def\pdftex.def)))
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/tocloft\tocloft.sty)
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/psnfss\ot1ptm.fd)
+No file estructura_tesis.aux.
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\spanish-apa.lbx
+(C:\Program Files\MiKTeX\tex/latex/biblatex/lbx\spanish.lbx)
+(C:\Program Files\MiKTeX\tex/latex/biblatex/lbx\spanish.lbx))
+No file estructura_tesis.bbl.
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+(C:\Program Files\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg))
+[1{C:/Users/User/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Program F
+iles/MiKTeX/fonts/enc/dvips/base/8r.enc} <./imgs/logo_unlu.png>]
+No file estructura_tesis.toc.
+
+[1]
+
+LaTeX Warning: Citation 'poddar2024approaches' on page 1 undefined on input lin
+e 78.
+
+
+Overfull \hbox (0.70001pt too wide) in paragraph at lines 99--99
+[]\OT1/ptm/b/n/14.4 Implementar y eva-luar ex-pe-ri-men-tal-men-te el ren-di-mi
+en-to de am-bas t[]ecni-
+
+LaTeX Warning: Empty bibliography on input line 106.
+
+
+[1]
+[2] (estructura_tesis.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+Package rerunfilecheck Warning: File `estructura_tesis.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                estructura_tesis
+(biblatex)                and rerun LaTeX afterwards.
+
+ )
+(see the transcript file for additional information)<C:/Program Files/MiKTeX/fo
+nts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/u
+tmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on estructura_tesis.pdf (4 pages, 220894 bytes).
+Transcript written on estructura_tesis.log.

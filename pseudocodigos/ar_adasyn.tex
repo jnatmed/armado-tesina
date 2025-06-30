@@ -1,0 +1,18 @@
+\section*{Pseudocódigo: \textit{AR\_ADASYN}}
+\noindent\hypertarget{pseudocodigo_ar_adasyn}{}\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+
+\begin{pseudo}[Pseudocódigo AR\_ADASYN]
+Entrada: conjunto de datos desbalanceado, vecinos k, proporción deseada β  
+Salida: nuevas muestras sintéticas
+
+Para cada instancia minoritaria xᵢ etiquetada como peligrosa hacer:  
+    Calcular número de muestras sintéticas gᵢ a generar  
+    Identificar vecinos minoritarios x\_nn1 y x\_nn2  
+    Calcular ángulo θ y radio r a partir de distancia media  
+    Para j = 1 hasta gᵢ hacer:  
+        Generar ángulo α ∈ [0, θ] y radio β ∈ [0, r]  
+        Calcular punto sintético:  
+            x\_syn = xᵢ + β · R(α) · r(α)  
+    Fin Para  
+Fin Para
+\end{pseudo}

@@ -1,0 +1,95 @@
+@article{carvalho2025resampling,
+  author = {Carvalho, M. and Pinho, A. J. and Brás, S.},
+  title = {Resampling approaches to handle class imbalance: A review from a data perspective},
+  journal = {Journal of Big Data},
+  volume = {12},
+  pages = {71},
+  year = {2025},
+  doi = {10.1186/s40537-025-01119-4}
+}
+
+@article{chawla2002smote,
+  author = {Chawla, N. V. and Bowyer, K. W. and Hall, L. O. and Kegelmeyer, W. P.},
+  title = {SMOTE: Synthetic Minority Over-sampling Technique},
+  journal = {Journal of Artificial Intelligence Research},
+  volume = {16},
+  pages = {321--357},
+  year = {2002},
+  doi = {10.1613/jair.953}
+}
+
+@inproceedings{feng2021alphadistance,
+  author = {Feng, Y. and Li, J.},
+  title = {A novel αDistance Borderline-ADASYN-SMOTE algorithm for imbalanced data and its application in Alzheimer’s disease classification based on Dense Convolutional Network},
+  booktitle = {Journal of Physics: Conference Series},
+  volume = {2031},
+  number = {1},
+  pages = {012046},
+  year = {2021},
+  doi = {10.1088/1742-6596/2031/1/012046}
+}
+
+@book{fernandez2018learning,
+  author = {Fernández, A. and García, S. and Galar, M. and Prati, R. C. and Krawczyk, B. and Herrera, F.},
+  title = {Learning from Imbalanced Data Sets},
+  publisher = {Springer},
+  year = {2018},
+  doi = {10.1007/978-3-319-98074-4}
+}
+
+@article{galar2012ensembles,
+  author = {Galar, M. and Fernández, A. and Barrenechea, E. and Bustince, H. and Herrera, F.},
+  title = {A review on ensembles for the class imbalance problem: Bagging-, boosting-, and hybrid-based approaches},
+  journal = {IEEE Transactions on Systems, Man, and Cybernetics, Part C (Applications and Reviews)},
+  volume = {42},
+  number = {4},
+  pages = {463--484},
+  year = {2012},
+  doi = {10.1109/TSMCC.2011.2161285}
+}
+
+@inproceedings{han2005borderline,
+  author = {Han, H. and Wang, W. Y. and Mao, B. H.},
+  title = {Borderline-SMOTE: A new over-sampling method in imbalanced data sets learning},
+  booktitle = {Lecture Notes in Computer Science},
+  volume = {3644},
+  pages = {878--887},
+  year = {2005},
+  publisher = {Springer},
+  doi = {10.1007/11538059_91}
+}
+
+@inproceedings{he2008adasyn,
+  author = {He, H. and Bai, Y. and Garcia, E. A. and Li, S.},
+  title = {ADASYN: Adaptive synthetic sampling approach for imbalanced learning},
+  booktitle = {2008 IEEE International Joint Conference on Neural Networks (IEEE World Congress on Computational Intelligence)},
+  pages = {1322--1328},
+  year = {2008},
+  doi = {10.1109/IJCNN.2008.4633969}
+}
+
+@article{khorshidi2025somas,
+  author = {Khorshidi, H. and Aickelin, U. A.},
+  title = {A synthetic over-sampling method with minority and majority classes for imbalance problems},
+  journal = {Knowledge and Information Systems},
+  year = {2025},
+  doi = {10.1007/s10115-025-02394-6}
+}
+
+@misc{li2024kwsmote,
+  author = {Li, W. and Liu, X. and Yu, X. and Liu, S.},
+  title = {KWSMOTE: Kernel-based weighted synthetic minority oversampling technique},
+  year = {2024},
+  howpublished = {\url{https://arxiv.org/abs/2504.09147}}
+}
+
+@article{lyu2025ldsmote,
+  author = {Lyu, Y. and Zhao, Y. and Zhou, X.},
+  title = {LD-SMOTE: Local Density Estimation-Based Oversampling for Imbalanced Datasets},
+  journal = {Symmetry},
+  volume = {17},
+  number = {2},
+  pages = {160},
+  year = {2025},
+  doi = {10.3390/sym17020160}
+}

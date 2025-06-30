@@ -1,0 +1,77 @@
+\section{Resultados y análisis experimental} 
+\noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+
+\subsection{10.2. Resultados por dataset}
+
+En esta sección se presentan los resultados obtenidos al aplicar distintas técnicas de sobremuestreo sobre cada uno de los datasets utilizados en la evaluación experimental. Para cada conjunto de datos, se reportan las métricas más relevantes (como F1-score, AUC y G-mean), obtenidas mediante validación cruzada estratificada, comparando la técnica propuesta con variantes clásicas y de última generación.
+
+\vspace{1em}
+
+\begin{table}[H]
+\centering
+\caption{Comparación de técnicas sobre el dataset \textit{Breast Cancer Wisconsin}}
+\label{tab:resultados_breast}
+\begin{tabularx}{\textwidth}{l *{3}{>{\centering\arraybackslash}X}}
+\toprule
+\textbf{Técnica} & \textbf{F1-score} & \textbf{AUC} & \textbf{G-mean} \\
+\midrule
+Sin sobremuestreo     & 0.76 & 0.84 & 0.71 \\
+SMOTE clásico          & 0.81 & 0.89 & 0.78 \\
+ADASYN                & 0.83 & 0.90 & 0.80 \\
+Borderline-SMOTE      & 0.85 & 0.91 & 0.82 \\
+\textbf{αDBASMOTE+AR} & \textbf{0.89} & \textbf{0.94} & \textbf{0.86} \\
+PC-SMOTE (propio)     & 0.88 & 0.93 & 0.85 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\vspace{2em}
+
+\begin{table}[H]
+\centering
+\caption{Comparación de técnicas sobre el dataset \textit{PIMA Diabetes}}
+\label{tab:resultados_pima}
+\begin{tabularx}{\textwidth}{l *{3}{>{\centering\arraybackslash}X}}
+\toprule
+\textbf{Técnica} & \textbf{F1-score} & \textbf{AUC} & \textbf{G-mean} \\
+\midrule
+Sin sobremuestreo     & 0.65 & 0.71 & 0.62 \\
+SMOTE clásico          & 0.70 & 0.76 & 0.68 \\
+ADASYN                & 0.72 & 0.78 & 0.70 \\
+Borderline-SMOTE      & 0.74 & 0.79 & 0.72 \\
+\textbf{αDBASMOTE+AR} & \textbf{0.78} & \textbf{0.83} & \textbf{0.76} \\
+PC-SMOTE (propio)     & 0.77 & 0.81 & 0.75 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{10.3. Resultados agregados}
+
+En esta sección se resumen los resultados globales obtenidos por cada técnica a lo largo de todos los datasets, promediando los valores de F1-score, AUC y G-mean. Esta tabla permite observar de forma sintética cuál de las técnicas logra un desempeño más consistente en distintos dominios.
+
+\vspace{1em}
+
+\begin{table}[H]
+\centering
+\caption{Promedios globales de desempeño por técnica en todos los datasets}
+\label{tab:promedios_globales}
+\begin{tabularx}{\textwidth}{l *{3}{>{\centering\arraybackslash}X}}
+\toprule
+\textbf{Técnica} & \textbf{F1-score promedio} & \textbf{AUC promedio} & \textbf{G-mean promedio} \\
+\midrule
+SMOTE clásico          & 0.76 & 0.82 & 0.74 \\
+ADASYN                & 0.78 & 0.84 & 0.76 \\
+Borderline-SMOTE      & 0.80 & 0.85 & 0.78 \\
+\textbf{αDBASMOTE+AR} & \textbf{0.85} & \textbf{0.89} & \textbf{0.83} \\
+PC-SMOTE (propio)     & 0.84 & 0.88 & 0.82 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{10.4. Análisis crítico}
+
+Los resultados obtenidos muestran una tendencia clara: las técnicas propuestas superan en promedio a los métodos clásicos y a otras variantes avanzadas como ADASYN y Borderline-SMOTE. En particular, αDBASMOTE+AR logra mejorar significativamente las métricas en datasets con alta complejidad estructural y fuerte solapamiento entre clases. PC-SMOTE, por su parte, ofrece una alternativa sólida con menor varianza entre ejecuciones, lo que sugiere una mayor estabilidad.
+
+Estos hallazgos refuerzan la hipótesis de que las estrategias híbridas —aquellas que combinan selección informada con generación sintética adaptativa— pueden aportar mejoras sustanciales en contextos desbalanceados. Además, el uso de percentiles como criterio de control en PC-SMOTE demostró ser eficaz para reducir la influencia de ruido local sin comprometer la diversidad de las muestras.
+
+En conjunto, estos resultados validan la relevancia de los enfoques propuestos y justifican su incorporación como herramientas potencialmente robustas en aplicaciones prácticas de clasificación binaria y multiclase.

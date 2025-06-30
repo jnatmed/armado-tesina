@@ -1,0 +1,24 @@
+\section*{Pseudocódigo: \textit{PC\_SMOTE}}
+\noindent\hypertarget{pseudocodigo_pc_smote}{}\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+
+\begin{pseudo}[Pseudocódigo PC\_SMOTE]
+Entrada: conjunto de datos desbalanceado, vecinos k, umbral de percentil \( p \)  
+Salida: nuevas muestras sintéticas
+
+Para cada instancia minoritaria \( x_i \):  
+    Calcular k vecinos más cercanos  
+    Calcular distancias inversas \( \alpha_j = 1 / \text{dist}(x_i, x_j) \)  
+    Sumar pesos para vecinos mayoritarios \( \alpha'_n \)  
+Fin Para
+
+Calcular percentil \( p \) de los valores \( \alpha'_n \)  
+Filtrar las muestras cuya \( \alpha'_n \) esté por debajo del percentil  
+
+Para cada muestra filtrada:  
+    Generar \( g_i \) puntos sintéticos entre \( x_i \) y vecinos minoritarios  
+    Para \( j = 1 \) hasta \( g_i \):  
+        Seleccionar aleatoriamente vecino minoritario \( x_{nn} \)  
+        Calcular: \( x^{(j)}_{\text{syn}} = x_i + \lambda \cdot (x_{nn} - x_i) \), con \( \lambda \in [0, 1] \)  
+    Fin Para  
+Fin Para
+\end{pseudo}
