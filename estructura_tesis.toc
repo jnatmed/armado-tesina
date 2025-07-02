@@ -19,8 +19,10 @@
 \contentsline {subsection}{\numberline {9.3}Pseudocódigo del algoritmo αDistance Borderline-ADASYN-SMOTE}{11}{subsection.9.3}%
 \contentsline {subsubsection}{\numberline {9.3.1}Pseudocódigo: \textit {ar\_adasyn}}{11}{subsubsection.9.3.1}%
 \contentsline {subsubsection}{\numberline {9.3.2}Pseudocódigo: \textit {pc\_smote}}{12}{subsubsection.9.3.2}%
-\contentsline {subsection}{\numberline {9.4}iseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}{12}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.4}Diseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}{12}{subsection.9.4}%
 \contentsline {subsection}{\numberline {9.5}Implementar y evaluar experimentalmente el rendimiento de ambas técnicas propias}{12}{subsection.9.5}%
-\contentsline {section}{\numberline {10}Recursos involucrados y cronograma de trabajo}{12}{section.10}%
-\contentsline {section}{\numberline {11}Aportes esperados}{12}{section.11}%
-\contentsline {section}{\numberline {12}Referencias bibliográficas de la propuesta}{13}{section.12}%
+\contentsline {subsection}{\numberline {9.6}9.4 Diseño del pipeline experimental}{12}{subsection.9.6}%
+\contentsline {section}{\numberline {10}Recursos involucrados y cronograma de trabajo}{13}{section.10}%
+\contentsline {section}{\numberline {11}Aportes esperados}{13}{section.11}%
+\contentsline {section}{\numberline {12}Referencias bibliográficas de la propuesta}{14}{section.12}%
+\contentsline {section}{\numberline {A}Código fuente del pipeline experimental}{15}{appendix.Alph1}%

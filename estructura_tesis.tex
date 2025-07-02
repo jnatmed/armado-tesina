@@ -28,7 +28,6 @@
 \usepackage{tabularx}
 \usepackage{float}  % Para usar [H]
 
-
 \usepackage{tcolorbox}
 \tcbuselibrary{listings, breakable}
 
@@ -50,6 +49,24 @@
     escapeinside=||,
   }
 }
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{inconsolata}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{green!60!black},
+  breaklines=true,
+  frame=single,
+  columns=fullflexible,
+  keepspaces=true,
+  numbers=left,
+  numberstyle=\tiny,
+  language=Python
+}
+
 
 % Márgenes
 \geometry{
@@ -213,6 +230,29 @@ En síntesis, la evolución del algoritmo SMOTE ha dado lugar a una diversidad d
 
 \subsection{Implementar y evaluar experimentalmente el rendimiento de ambas técnicas propias}
 
+
+\subsection{9.4 Diseño del pipeline experimental}
+\label{sec:pipeline_experimental}
+
+Para evaluar el desempeño de distintos clasificadores en contextos de datos desbalanceados, se diseñó un pipeline automatizado en Python que ejecuta las siguientes etapas de forma secuencial sobre múltiples datasets:
+
+\begin{enumerate}
+    \item \textbf{Carga y preprocesamiento del dataset:} el sistema detecta automáticamente los archivos \texttt{.data} en carpetas estructuradas, eliminando valores faltantes, filas no numéricas o encabezados mal formateados. Además, convierte rangos tipo ``1-9'' en su promedio numérico.
+    
+    \item \textbf{Normalización:} todos los atributos son estandarizados utilizando \texttt{StandardScaler} de \texttt{scikit-learn}, centrando en cero y ajustando a varianza unitaria.
+    
+    \item \textbf{Sobremuestreo:} se aplican tres técnicas de sobremuestreo independientes —\texttt{SMOTE}, \texttt{ADASYN} y \texttt{BorderlineSMOTE}— con \texttt{random\_state=42} para reproducibilidad.
+    
+    \item \textbf{Entrenamiento:} para cada combinación de dataset, técnica de sobremuestreo y modelo (Random Forest, Regresión Logística o KNN), se realiza una partición \texttt{train-test} con 70\% para entrenamiento y 30\% para validación.
+    
+    \item \textbf{Evaluación:} se calculan métricas de clasificación para cada clase (precisión, recall y F1-score), así como la \texttt{accuracy} global. Además, se guarda la matriz de confusión como figura para facilitar el análisis cualitativo.
+    
+    \item \textbf{Exportación de resultados:} todos los resultados son volcados a un archivo \texttt{CSV} por dataset, y las matrices de confusión se guardan como imágenes PNG en la carpeta correspondiente.
+\end{enumerate}
+
+El código fuente completo de este pipeline se encuentra documentado en el archivo \texttt{script\_experimentos.tex}, el cual se incluye en la tesis mediante el entorno \texttt{listings}.
+
+
 \section{Recursos involucrados y cronograma de trabajo} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 
 \section{Aportes esperados} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
@@ -224,5 +264,16 @@ Ambas líneas de desarrollo buscan aportar soluciones que mejoren la capacidad d
 
 \section{Referencias bibliográficas de la propuesta} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 \printbibliography
+
+\appendix
+
+\section{Código fuente del pipeline experimental}
+\label{apendice:codigo_pipeline}
+
+A continuación se presenta el código fuente del script en Python utilizado para la ejecución masiva de experimentos con técnicas de sobremuestreo:
+
+\input{script_experimentos}
+
+
 
 \end{document}

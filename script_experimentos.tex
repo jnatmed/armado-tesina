@@ -1,0 +1,157 @@
+
+\begin{lstlisting}[language=Python, caption={Script de experimentación automática}, label={lst:script_experimento}]
+# 1. Importación de librerías necesarias
+# Se importan todas las librerías necesarias para:
+# - Manipular archivos (os)
+# - Cargar y procesar datos (pandas, numpy)
+# - Modelado y métricas (sklearn)
+# - Técnicas de sobremuestreo (imblearn)
+# - Visualización (seaborn, matplotlib)
+
+import os
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+from imblearn.over_sampling import SMOTE, ADASYN, BorderlineSMOTE
+import seaborn as sns
+import matplotlib.pyplot as plt
+from collections import Counter
+
+# 2. Preparación de carpetas de salida
+# Crear carpetas para guardar resultados gráficos (figures) y tabulares (resultados)
+os.makedirs("../figures", exist_ok=True)
+os.makedirs("../resultados", exist_ok=True)
+
+# 3. Definición de modelos y técnicas de sobremuestreo
+# Se combinan tres clasificadores con tres técnicas de balanceo
+modelos = {
+    "RandomForest": RandomForestClassifier(random_state=42),
+    "LogisticRegression": LogisticRegression(max_iter=1000),
+    "KNN": KNeighborsClassifier()
+}
+
+tecnicas = {
+    "SMOTE": SMOTE(random_state=42),
+    "ADASYN": ADASYN(random_state=42),
+    "BorderlineSMOTE": BorderlineSMOTE(random_state=42)
+}
+
+# 4. Conversión de rangos tipo '1-9' al promedio (ej: '1-9' => 5.0)
+def convertir_rango(valor):
+    if isinstance(valor, str) and '-' in valor:
+        try:
+            inicio, fin = map(float, valor.split('-'))
+            return (inicio + fin) / 2
+        except:
+            return np.nan
+    return valor
+
+# 5. Procesamiento principal por dataset
+ruta_datasets = "../datasets"
+datasets = [d for d in os.listdir(ruta_datasets) if os.path.isdir(os.path.join(ruta_datasets, d))]
+
+for nombre_dataset in datasets:
+    print(f"Procesando dataset: {nombre_dataset}")
+    carpeta = os.path.join(ruta_datasets, nombre_dataset)
+    archivos_data = [f for f in os.listdir(carpeta) if f.endswith(".data")]
+    if not archivos_data:
+        print(f"No se encontró archivo .data en {nombre_dataset}, se omite.")
+        continue
+    path_data = os.path.join(carpeta, archivos_data[0])
+
+    # Carga robusta de archivos (con fallback a latin1 y separadores especiales)
+    try:
+        df = pd.read_csv(path_data, header=None, na_values='?')
+        if df.shape[1] <= 1:
+            df = pd.read_csv(path_data, header=None, na_values='?', sep='\s+')
+        if df.iloc[0].apply(lambda x: isinstance(x, str) and not x.replace('.', '', 1).isdigit()).any():
+            df = df.iloc[1:].reset_index(drop=True)
+    except UnicodeDecodeError:
+        try:
+            df = pd.read_csv(path_data, header=None, na_values='?', encoding='latin1', sep='\s+', on_bad_lines='skip')
+        except Exception as e2:
+            print(f"Error cargando {nombre_dataset} con latin1: {e2}")
+            continue
+    except Exception as e:
+        print(f"Error cargando {nombre_dataset}: {e}")
+        continue
+
+    try:
+        # Limpieza de datos
+        if df.dtypes[0] == 'object':
+            df = df.drop(columns=df.columns[0])
+        df = df.astype(str).apply(lambda col: col.map(convertir_rango))
+        df.replace('?', np.nan, inplace=True)
+        df = df.apply(pd.to_numeric, errors='coerce')
+        df.dropna(inplace=True)
+
+        X = df.iloc[:, :-1]
+        y = df.iloc[:, -1]
+        if len(np.unique(y)) < 2:
+            print(f"Saltando {nombre_dataset} por tener una sola clase")
+            continue
+
+        # Escalado
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        resultados = []
+
+        # Combinaciones modelo + técnica
+        for nombre_modelo, modelo in modelos.items():
+            for nombre_tecnica, sampler in tecnicas.items():
+                X_res, y_res = sampler.fit_resample(X_scaled, y)
+
+                min_clase = min(Counter(y_res).values())
+                if "Borderline" in nombre_tecnica and min_clase < 6:
+                    continue
+                if "KNN" in nombre_modelo and min_clase < 6:
+                    continue
+
+                X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.3, random_state=42)
+                modelo.fit(X_train, y_train)
+                y_pred = modelo.predict(X_test)
+
+                # Reporte y visualización
+                report = classification_report(y_test, y_pred, output_dict=True)
+                cm = confusion_matrix(y_test, y_pred)
+                plt.figure(figsize=(5, 4))
+                sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+                plt.title(f"{nombre_dataset} - {nombre_modelo} + {nombre_tecnica}")
+                plt.xlabel("Predicción")
+                plt.ylabel("Real")
+                plt.tight_layout()
+                plt.savefig(f"../figures/{nombre_dataset}_{nombre_modelo}_{nombre_tecnica}_heatmap.png")
+                plt.close()
+
+                # Registro de resultados
+                labels = list(map(str, sorted(np.unique(y))))
+                entry = {
+                    "Dataset": nombre_dataset,
+                    "Modelo": nombre_modelo,
+                    "Técnica": nombre_tecnica,
+                    "Accuracy": report.get("accuracy", 0)
+                }
+                for label in labels:
+                    if label in report:
+                        entry[f"Precision ({label})"] = report[label]["precision"]
+                        entry[f"Recall ({label})"] = report[label]["recall"]
+                        entry[f"F1-score ({label})"] = report[label]["f1-score"]
+                    else:
+                        entry[f"Precision ({label})"] = None
+                        entry[f"Recall ({label})"] = None
+                        entry[f"F1-score ({label})"] = None
+                resultados.append(entry)
+
+        df_resultados = pd.DataFrame(resultados)
+        df_resultados.to_csv(f"../resultados/resultados_{nombre_dataset}.csv", index=False)
+        print(f"✓ Resultados guardados para {nombre_dataset}\n")
+
+    except Exception as e:
+        print(f"Error procesando {nombre_dataset}: {e}\n")
+\end{lstlisting}

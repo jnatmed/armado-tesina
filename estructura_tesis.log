@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.6.29)  29 JUN 2025 22:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.6.29)  2 JUL 2025 00:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -995,12 +995,35 @@ Package pdfcol Info: New color stack `tcb@breakable' = 1 on input line 23.
 \tcb@totalupperbox=\box80
 \tcb@totallowerbox=\box81
 )
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/inconsolata\inconsolata.sty
+Package: inconsolata 2019/05/17 v1.12
+
+`inconsolata-zi4' v1.12, 2019/05/17 Text macros for Inconsolata (msharpe)
+(C:\Program Files\MiKTeX\tex/latex/base\textcomp.sty
+Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
+)
+(C:\Program Files\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+
+(C:\Program Files\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Program Files\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+\XKV@toks=\toks43
+\XKV@tempa@toks=\toks44
+)
+\XKV@depth=\count487
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+\zifour@ocount=\count488
+)
+(C:\Program Files\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2024/09/23 1.10c listings language file
+)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'spanish'.
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 6
-8.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 8
+5.
 
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
@@ -1013,26 +1036,26 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `estructura_tesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 68.
-LaTeX Font Info:    ... okay on input line 68.
-LaTeX Info: Redefining \. on input line 68.
-LaTeX Info: Redefining \% on input line 68.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Info: Redefining \. on input line 85.
+LaTeX Info: Redefining \% on input line 85.
 Package biblatex Info: Trying to load language 'spanish' -> 'spanish-apa'...
 Package biblatex Info: ... file 'spanish-apa.lbx' found.
 
@@ -1059,9 +1082,9 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'estructura_tesis.bbl' found.
 
 (estructura_tesis.bbl)
-Package biblatex Info: Reference section=0 on input line 68.
-Package biblatex Info: Reference segment=0 on input line 68.
-Package hyperref Info: Link coloring ON on input line 68.
+Package biblatex Info: Reference section=0 on input line 85.
+Package biblatex Info: Reference segment=0 on input line 85.
+Package hyperref Info: Link coloring ON on input line 85.
  (estructura_tesis.out) (estructura_tesis.out)
 \@outlinefile=\write5
 \openout5 = `estructura_tesis.out'.
@@ -1103,17 +1126,17 @@ Package hyperref Info: Link coloring ON on input line 68.
 
 (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count487
+\scratchcounter=\count489
 \scratchdimen=\dimen303
 \scratchbox=\box82
-\nofMPsegments=\count488
-\nofMParguments=\count489
-\everyMPshowfont=\toks43
-\MPscratchCnt=\count490
+\nofMPsegments=\count490
+\nofMParguments=\count491
+\everyMPshowfont=\toks45
+\MPscratchCnt=\count492
 \MPscratchDim=\dimen304
-\MPnumerator=\count491
-\makeMPintoPDFobject=\count492
-\everyMPtoPDFconversion=\toks44
+\MPnumerator=\count493
+\makeMPintoPDFobject=\count494
+\everyMPtoPDFconversion=\toks46
 ) (C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1126,18 +1149,27 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count493
-<imgs/logo_unlu.png, id=106, 903.375pt x 903.375pt>
+\c@lstlisting=\count495
+LaTeX Encoding Info:    Text command \textquotesingle (encoding OT1) is not dec
+lared on input line 85.
+LaTeX Encoding Info:    Redeclaring text symbol \textquotesingle (encoding TS1)
+ on input line 85.
+
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/upquote\upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+)
+<imgs/logo_unlu.png, id=114, 903.375pt x 903.375pt>
 File: imgs/logo_unlu.png Graphic file (type png)
 <use imgs/logo_unlu.png>
-Package pdftex.def Info: imgs/logo_unlu.png  used on input line 79.
+Package pdftex.def Info: imgs/logo_unlu.png  used on input line 96.
 (pdftex.def)             Requested size: 135.43452pt x 135.43147pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 85.
+(Font)              <12> on input line 102.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 85.
+(Font)              <8> on input line 102.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 85.
+(Font)              <6> on input line 102.
 
 
 [1
@@ -1175,12 +1207,12 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.110 ...ra mecanismos de selecci√≥n basados en Œ±
+l.127 ...ra mecanismos de selecci√≥n basados en Œ±
                                                   -distancia y de generaci√≥...
 
 ? 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 123.
+(Font)              <10.95> on input line 140.
 
 
 [1]
@@ -1196,7 +1228,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.154 ...da que combina la selecci√≥n basada en Œ±
+l.171 ...da que combina la selecci√≥n basada en Œ±
                                                   -distancia (Œ±DBASMOTE) co...
 
 ? 
@@ -1208,7 +1240,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.154 ... la selecci√≥n basada en Œ±-distancia (Œ±
+l.171 ... la selecci√≥n basada en Œ±-distancia (Œ±
                                                   DBASMOTE) con esquemas geo...
 
 ? 
@@ -1225,7 +1257,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.180 ...riesgo. Para superar esta limitaci√≥n, Œ±
+l.197 ...riesgo. Para superar esta limitaci√≥n, Œ±
                                                   DBASMOTE \parencite{feng20...
 
 ? 
@@ -1237,7 +1269,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.180 ...no, basado en un esquema de distancias Œ±
+l.197 ...no, basado en un esquema de distancias Œ±
                                                    inversas, que permite cua...
 
 ? 
@@ -1254,7 +1286,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.192 ...omando como base la integraci√≥n entre Œ±
+l.209 ...omando como base la integraci√≥n entre Œ±
                                                   DBASMOTE y AR-ADASYN. Adic...
 
 ? 
@@ -1898,14 +1930,45 @@ l.21         Calcular: \( x^{(j)}_{\text
 
 ? 
 )
-Overfull \hbox (0.70001pt too wide) in paragraph at lines 214--214
+Overfull \hbox (0.70001pt too wide) in paragraph at lines 231--231
 []\OT1/ptm/b/n/14.4 Implementar y eva-luar ex-pe-ri-men-tal-men-te el ren-di-mi
 en-to de am-bas t[]ecni-
  []
 
+LaTeX Font Info:    Trying to load font information for OT1+zi4 on input line 2
+40.
+(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/inconsolata\ot1zi4.fd
+File: ot1zi4.fd 2018/01/14 OT1/zi4 (Inconsolata)
+)
+LaTeX Font Info:    Font shape `OT1/zi4/m/n' will be
+(Font)              scaled to size 12.0pt on input line 240.
+
+Overfull \hbox (0.91719pt too wide) in paragraph at lines 240--241
+[]\OT1/ptm/b/n/12 Carga y pre-pro-ce-sa-mien-to del da-ta-set: \OT1/ptm/m/n/12 
+el sis-te-ma de-tec-ta au-tom[]ati-ca-men-te los ar-chi-vos \OT1/zi4/m/n/12 .da
+ta
+ []
 
 
-[12]
+Overfull \hbox (32.9225pt too wide) in paragraph at lines 242--243
+[]\OT1/ptm/b/n/12 Normalizaci[]on: \OT1/ptm/m/n/12 to-dos los atri-bu-tos son e
+s-tan-da-ri-za-dos uti-li-zan-do \OT1/zi4/m/n/12 StandardScaler \OT1/ptm/m/n/12
+ de \OT1/zi4/m/n/12 scikit-learn\OT1/ptm/m/n/12 ,
+ []
+
+
+
+[12{C:/Users/User/AppData/Roaming/MiKTeX/fonts/enc/dvips/inconsolata/i4-ot1-0.e
+nc}]
+Overfull \hbox (66.25653pt too wide) in paragraph at lines 253--254
+[]\OT1/ptm/m/n/12 El c[]odi-go fuen-te com-ple-to de es-te pi-pe-li-ne se en-cu
+en-tra do-cu-men-ta-do en el ar-chi-vo \OT1/zi4/m/n/12 script[]experimentos.tex
+\OT1/ptm/m/n/12 ,
+ []
+
+
+
+[13]
 
 ! LaTeX Error: Unicode character Œ± (U+03B1)
                not set up for use with LaTeX.
@@ -1914,20 +1977,219 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.227 
+l.267 
       
 ? 
 
 
-[13]
-Overfull \hbox (28.94173pt too wide) in paragraph at lines 227--227
+[14]
+Overfull \hbox (28.94173pt too wide) in paragraph at lines 267--267
 [][]\OT1/ptm/m/n/12 Saputra, R. H., Pra-ta-ma, B. W., & Sur-ya-ne-ga-ra, M. (20
 24). SMOTE-MRS: A no-vel SMO-TE{multiresolution
  []
 
+(script_experimentos.tex
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 2.
+LaTeX Font Info:    Font shape `OT1/zi4/m/n' will be
+(Font)              scaled to size 10.0pt on input line 2.
 
 
-[14] (estructura_tesis.aux
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 # 1. Importaci√≥n 
+                      de librer√≠as necesarias
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≠).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 # 1. Importaci√≥n de librer√≠as 
+                                    necesarias
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≠).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4 # Se importan todas las librer√≠as 
+                                       necesarias para:
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC©).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.7 # - Modelado y m√©tricas 
+                             (sklearn)
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC©).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 # - T√©cnicas 
+                  de sobremuestreo (imblearn)
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 # - Visualizaci√≥n 
+                       (seaborn, matplotlib)
+? 
+
+
+[15]
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.25 # 2. Preparaci√≥n 
+                       de carpetas de salida
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC°).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 ...arpetas para guardar resultados gr√°ficos 
+                                                  (figures) y tabulares (res...
+
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.30 # 3. Definici√≥n 
+                      de modelos y t√©cnicas de sobremuestreo
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC©).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.30 # 3. Definici√≥n de modelos y t√©cnicas 
+                                             de sobremuestreo
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC©).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.31 ...an tres clasificadores con tres t√©cnicas 
+                                                  de balanceo
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.44 # 4. Conversi√≥n 
+                      de rangos tipo '1-9' al promedio (ej: '1-9' => 5.0)
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.63         print(f"No se encontr√≥ 
+                                     archivo .data en {nombre_dataset}, se o...
+
+? 
+
+
+[16]
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC©).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.105         # Combinaciones modelo + t√©cnica
+                                               
+? 
+
+
+[17]
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.120                 # Reporte y visualizaci√≥n
+                                                
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC≥).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.126                 plt.xlabel("Predicci√≥n"
+                                              )
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (√\lst@EC©).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.137                     "T√©cnica"
+                                    : nombre_tecnica,
+? 
+
+! LaTeX Error: Invalid UTF-8 byte sequence (‚\lst@ECú\lst@ECì).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.153         print(f"‚úì 
+                          Resultados guardados para {nombre_dataset}\n")
+? 
+
+
+[18])
+
+[19] (estructura_tesis.aux
 LaTeX Info: Redefining \sptext on input line 12.
 LaTeX Info: Redefining \. on input line 12.
 LaTeX Info: Redefining \% on input line 12.
@@ -1937,37 +2199,38 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-06-09>
  ***********
 Package rerunfilecheck Info: File `estructura_tesis.out' has not changed.
-(rerunfilecheck)             Checksum: 7C9DBA933C49352B368278CF193C16C9;6232.
+(rerunfilecheck)             Checksum: 1282F82F9DC9C26EB237A6766A4EF6B1;6749.
 Package logreq Info: Writing requests to 'estructura_tesis.run.xml'.
 \openout1 = `estructura_tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 35527 strings out of 468221
- 691191 string characters out of 5442961
- 1598187 words of memory out of 5000000
- 63487 multiletter control sequences out of 15000+600000
- 657222 words of font info for 94 fonts, out of 8000000 for 9000
+ 36645 strings out of 468221
+ 706432 string characters out of 5442961
+ 2342021 words of memory out of 5000000
+ 64404 multiletter control sequences out of 15000+600000
+ 659722 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,10n,105p,1967b,2811s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,10n,105p,1967b,2903s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{toc} has been referenced but does not exist, replac
 ed by a fixed one
 
-<C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program 
-Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX/fonts/type1/
-public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmmib10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12
-.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Progr
-am Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX/fonts/typ
-e1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.
-pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files
-/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on estructura_tesis.pdf (16 pages, 421307 bytes).
+<C:/Users/User/AppData/Roaming/MiKTeX/fonts/type1/public/inconsolata/Inconsolat
+a-zi4r.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program F
+iles/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pf
+b><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Progra
+m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTe
+X/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/tim
+es/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Pr
+ogram Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on estructura_tesis.pdf (21 pages, 479195 bytes).
 PDF statistics:
- 408 PDF objects out of 1000 (max. 8388607)
- 75 named destinations out of 1000 (max. 500000)
- 218 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 640 PDF objects out of 1000 (max. 8388607)
+ 243 named destinations out of 1000 (max. 500000)
+ 234 words of extra memory for PDF output out of 10000 (max. 10000000)
 
