@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.6.29)  2 JUL 2025 00:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.6.29)  5 JUL 2025 09:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1022,8 +1022,8 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'spanish'.
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 8
-5.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 9
+7.
 
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
@@ -1036,26 +1036,26 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `estructura_tesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 85.
-LaTeX Font Info:    ... okay on input line 85.
-LaTeX Info: Redefining \. on input line 85.
-LaTeX Info: Redefining \% on input line 85.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Info: Redefining \. on input line 97.
+LaTeX Info: Redefining \% on input line 97.
 Package biblatex Info: Trying to load language 'spanish' -> 'spanish-apa'...
 Package biblatex Info: ... file 'spanish-apa.lbx' found.
 
@@ -1082,9 +1082,9 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'estructura_tesis.bbl' found.
 
 (estructura_tesis.bbl)
-Package biblatex Info: Reference section=0 on input line 85.
-Package biblatex Info: Reference segment=0 on input line 85.
-Package hyperref Info: Link coloring ON on input line 85.
+Package biblatex Info: Reference section=0 on input line 97.
+Package biblatex Info: Reference segment=0 on input line 97.
+Package hyperref Info: Link coloring ON on input line 97.
  (estructura_tesis.out) (estructura_tesis.out)
 \@outlinefile=\write5
 \openout5 = `estructura_tesis.out'.
@@ -1151,25 +1151,25 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count495
 LaTeX Encoding Info:    Text command \textquotesingle (encoding OT1) is not dec
-lared on input line 85.
+lared on input line 97.
 LaTeX Encoding Info:    Redeclaring text symbol \textquotesingle (encoding TS1)
- on input line 85.
+ on input line 97.
 
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/upquote\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
-<imgs/logo_unlu.png, id=114, 903.375pt x 903.375pt>
+<imgs/logo_unlu.png, id=110, 903.375pt x 903.375pt>
 File: imgs/logo_unlu.png Graphic file (type png)
 <use imgs/logo_unlu.png>
-Package pdftex.def Info: imgs/logo_unlu.png  used on input line 96.
+Package pdftex.def Info: imgs/logo_unlu.png  used on input line 108.
 (pdftex.def)             Requested size: 135.43452pt x 135.43147pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 102.
+(Font)              <12> on input line 114.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 102.
+(Font)              <8> on input line 114.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 102.
+(Font)              <6> on input line 114.
 
 
 [1
@@ -1180,18 +1180,6 @@ es/MiKTeX/fonts/enc/dvips/base/8r.enc} <./imgs/logo_unlu.png>]
 LaTeX Info: Redefining \sptext on input line 1.
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
-
-
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.19 ...rderline-ADASYN-SMOTE}{11}{subsection.9.3}
-                                                  %
-? 
 )
 \tf@toc=\write6
 \openout6 = `estructura_tesis.toc'.
@@ -1199,20 +1187,8 @@ l.19 ...rderline-ADASYN-SMOTE}{11}{subsection.9.3}
 
 
 [1]
-
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.127 ...ra mecanismos de selección basados en α
-                                                  -distancia y de generació...
-
-? 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 140.
+(Font)              <10.95> on input line 152.
 
 
 [1]
@@ -1221,76 +1197,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [3]
 
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.171 ...da que combina la selección basada en α
-                                                  -distancia (αDBASMOTE) co...
-
-? 
-
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.171 ... la selección basada en α-distancia (α
-                                                  DBASMOTE) con esquemas geo...
-
-? 
-
-
 [4]
 
 [5]
 
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.197 ...riesgo. Para superar esta limitación, α
-                                                  DBASMOTE \parencite{feng20...
-
-? 
-
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.197 ...no, basado en un esquema de distancias α
-                                                   inversas, que permite cua...
-
-? 
-
-
 [6]
 
-[7]
-
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.209 ...omando como base la integración entre α
-                                                  DBASMOTE y AR-ADASYN. Adic...
-
-? 
-(resultados-experimentales.tex
+[7] (resultados-experimentales.tex
 
 [8]
 ! LaTeX Error: Unicode character α (U+03B1)
@@ -1302,17 +1215,8 @@ Type  H <return>  for immediate help.
                                                   
 l.25 \end{tabularx}
                    
-? 
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.25 \end{tabularx}
-                   
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
 
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
@@ -1323,7 +1227,22 @@ Type  H <return>  for immediate help.
                                                   
 l.25 \end{tabularx}
                    
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character α (U+03B1)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.25 \end{tabularx}
+                   
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
 
@@ -1333,17 +1252,8 @@ Type  H <return>  for immediate help.
                                                   
 l.45 \end{tabularx}
                    
-? 
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.45 \end{tabularx}
-                   
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
 
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
@@ -1354,7 +1264,22 @@ Type  H <return>  for immediate help.
                                                   
 l.45 \end{tabularx}
                    
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character α (U+03B1)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.45 \end{tabularx}
+                   
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
 
@@ -1364,17 +1289,8 @@ Type  H <return>  for immediate help.
                                                   
 l.68 \end{tabularx}
                    
-? 
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.68 \end{tabularx}
-                   
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
 
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
@@ -1385,7 +1301,22 @@ Type  H <return>  for immediate help.
                                                   
 l.68 \end{tabularx}
                    
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character α (U+03B1)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.68 \end{tabularx}
+                   
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 
 [9]
@@ -1400,166 +1331,10 @@ Type  H <return>  for immediate help.
 l.73 ...ASYN y Borderline-SMOTE. En particular, α
                                                   DBASMOTE+AR logra mejorar ...
 
-? 
-) (pseudocodigos/alpha_dbasmote_ar_adasyn.tex
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 1.
+You may provide a definition with
+\DeclareUnicodeCharacter 
 
-
-! LaTeX Error: Environment algorithm undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4 \begin{algorithm}
-                     [H]
-? 
-
-! Package caption Error: \caption outside float.
-
-See the caption package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.5 \caption
-            {Sobremuestreo h\u00edbrido \boldmath$\alpha$DBASMOTE\_AR\_ADASYN}
-? 
-
-! LaTeX Error: Environment algorithmic undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.6 \begin{algorithmic}
-                       [1]
-? 
-! Undefined control sequence.
-l.7 \State
-           \textbf{Entrada:} conjunto de datos desbalanceado, vecinos $k$, p...
-
-? 
-! Undefined control sequence.
-l.8 \State
-           \textbf{Salida:} nuevas muestras sint\u00e9ticas
-? 
-! Undefined control sequence.
-l.9 \ForAll
-           {instancias minoritarias $p_i$}
-? 
-! Undefined control sequence.
-l.10   \State
-              Obtener sus $k$ vecinos m\u00e1s cercanos
-? 
-! Undefined control sequence.
-l.11   \State
-              Calcular pesos inversos $\alpha_j = 1/\text{dist}(p_i, p_j)$
-? 
-! Undefined control sequence.
-l.11 ...alcular pesos inversos $\alpha_j = 1/\text
-                                                  {dist}(p_i, p_j)$
-? 
-! Undefined control sequence.
-l.12   \State
-              Sumar pesos para vecinos mayoritarios $\alpha'_n$ y minoritari...
-
-? 
-! Undefined control sequence.
-l.13   \If
-          {$\alpha'_n > \alpha'_p$}
-? 
-! Undefined control sequence.
-l.14     \State
-                Etiquetar $p_i$ como muestra peligrosa
-? 
-! Undefined control sequence.
-l.15   \EndIf
-             
-? 
-! Undefined control sequence.
-l.16 \EndFor
-            
-? 
-! Undefined control sequence.
-l.17 \State
-            Filtrar muestras peligrosas seg\u00fan percentil 25 de $\alpha'_n$
-? 
-! Undefined control sequence.
-l.18 \State
-            Calcular total de sint\u00e9ticos $G = (N - n) \cdot \beta$
-? 
-! Undefined control sequence.
-l.19 \ForAll
-            {muestras peligrosas $p_i$}
-? 
-! Undefined control sequence.
-l.20   \State
-              Calcular proporci\u00f3n de vecinos mayoritarios $r_i$
-? 
-! Undefined control sequence.
-l.21   \State
-              Calcular $g_i$ cantidad de muestras sint\u00e9ticas para $p_i$
-? 
-! Undefined control sequence.
-l.22   \State
-              Identificar vecinos minoritarios m\u00e1s cercanos $x_{nn1}$ y...
-
-? 
-! Undefined control sequence.
-l.23   \State
-              Calcular \u00e1ngulo $\theta$ y radio $r$ (AR-ADASYN)
-? 
-! Undefined control sequence.
-l.24   \For
-           {$j = 1$ to $g_i$}
-? 
-! Undefined control sequence.
-l.25     \State
-                Generar \u00e1ngulo $\alpha \in [0, \theta]$, radio $\beta \...
-
-? 
-! Undefined control sequence.
-l.26     \State
-                Calcular punto sint\u00e9tico $x^{(j)}_{\text{syn}} = p_i + ...
-
-? 
-! Undefined control sequence.
-l.26 ...cular punto sint\u00e9tico $x^{(j)}_{\text
-                                                  {syn}} = p_i + \beta \cdot...
-
-? 
-! Undefined control sequence.
-l.27   \EndFor
-              
-? 
-! Undefined control sequence.
-l.28 \EndFor
-            
-? 
-
-! LaTeX Error: \begin{document} ended by \end{algorithmic}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.29 \end{algorithmic}
-                      
-? 
-
-! LaTeX Error: \begin{document} ended by \end{algorithm}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.30 \end{algorithm}
-                    
-? 
-)
-
-[10] (pseudocodigos/alpha_dbasmote.tex
+) (pseudocodigos/alpha_dbasmote.tex
 
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
@@ -1570,7 +1345,15 @@ Type  H <return>  for immediate help.
                                                   
 l.1 ...goritmo αDistance Borderline-ADASYN-SMOTE}
                                                   
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+Overfull \hbox (11.95786pt too wide) in paragraph at lines 1--1
+[][]\OT1/ptm/b/n/17.28 Pseudoc[]odi-go del al-go-rit-mo Dis-tan-ce Borderline-A
+DASYN-SMOTE 
+ []
+
 
 ! LaTeX Error: Environment algorithm undefined.
 
@@ -1580,7 +1363,10 @@ Type  H <return>  for immediate help.
                                                   
 l.6 \begin{algorithm}
                      [H]
-? 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
 
 ! Package caption Error: \caption outside float.
 
@@ -1590,7 +1376,12 @@ Type  H <return>  for immediate help.
                                                   
 l.7 \caption
             {αDistance Borderline-ADASYN-SMOTE}
-? 
+If you do not understand this error, please take a closer look
+at the documentation of the `caption' package, especially the
+section about errors.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 
 ! LaTeX Error: Environment algorithmic undefined.
 
@@ -1600,121 +1391,258 @@ Type  H <return>  for immediate help.
                                                   
 l.8 \begin{algorithmic}
                        [1]
-? 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
 ! Undefined control sequence.
 l.9 \State
            \textbf{Input:} Conjunto de datos $\mathcal{D}$, número de vecin...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-? 
 ! Undefined control sequence.
 l.10 \Statex
             
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[10]
 ! Undefined control sequence.
 l.12 \For
          {cada muestra minoritaria $p_i \in \mathcal{D}_{min}$}
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.13     \State
                 Obtener sus $m$ vecinos más cercanos.
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.14     \State
                 Separar los vecinos en:
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.19     \For
              {cada vecino $p_j$}
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.20         \State
                     Calcular peso: $\alpha_j = \frac{1}{\text{dist}(p_i, p_j)}$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-? 
 ! Undefined control sequence.
 <argument> \text 
                  {dist}(p_i, p_j)
 l.20 ...\alpha_j = \frac{1}{\text{dist}(p_i, p_j)}
                                                   $
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.21     \EndFor
                 
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.22     \State
                 Calcular sumatoria de pesos:
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.27     \If
             {$\alpha'_n > \alpha'_p$}
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.28         \State
                     Marcar $p_i$ como muestra peligrosa
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.29     \EndIf
                
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.30 \EndFor
             
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.33 \State
             Calcular el total de ejemplos sintéticos a generar: $G = (N - n...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-? 
 ! Undefined control sequence.
 l.34 \Statex
              Donde $N$ es la cantidad de muestras mayoritarias y $n$ la cant...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-? 
 ! Undefined control sequence.
 l.37 \For
          {cada muestra peligrosa $p_i$}
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.38     \State
                 Calcular: $r_i = \frac{\Delta_i}{m}$
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.39     \State
                 Normalizar: $\hat{r}_i = \frac{r_i}{\sum r_i}$
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.40     \State
                 Asignar: $g_i = \hat{r}_i \cdot G$
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.41 \EndFor
             
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.44 \For
          {cada muestra peligrosa $p_i$}
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.45     \For
              {$g_i$ veces}
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.46         \State
                     Seleccionar un vecino minoritario $p_z$ aleatorio
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.47         \State
                     Generar muestra sintética:
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.51     \EndFor
                 
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.52 \EndFor
             
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 
 ! LaTeX Error: \begin{document} ended by \end{algorithmic}.
 
@@ -1724,7 +1652,10 @@ Type  H <return>  for immediate help.
                                                   
 l.53 \end{algorithmic}
                       
-? 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
 
 ! LaTeX Error: \begin{document} ended by \end{algorithm}.
 
@@ -1734,7 +1665,10 @@ Type  H <return>  for immediate help.
                                                   
 l.54 \end{algorithm}
                     
-? 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
 ) (pseudocodigos/ar_adasyn.tex
 
 ! Package pgfkeys Error: I do not know the key '/tcb/enhanced' and I am going t
@@ -1746,7 +1680,11 @@ Type  H <return>  for immediate help.
                                                   
 l.4 \begin{pseudo}[Pseudocódigo AR\_ADASYN]
                                             
-? 
+This error message was generated by an \errmessage
+command, so I can't give any explicit help.
+Pretend that you're Hercule Poirot: Examine all clues,
+and deduce the truth by order and method.
+
 
 ! LaTeX Error: Unicode character β (U+03B2)
                not set up for use with LaTeX.
@@ -1757,7 +1695,9 @@ Type  H <return>  for immediate help.
                                                   
 l.5 ...lanceado, vecinos k, proporción deseada β
                                                   
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character ᵢ (U+1D62)
                not set up for use with LaTeX.
@@ -1768,7 +1708,9 @@ Type  H <return>  for immediate help.
                                                   
 l.8 Para cada instancia minoritaria xᵢ
                                          etiquetada como peligrosa hacer:
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character ᵢ (U+1D62)
                not set up for use with LaTeX.
@@ -1779,7 +1721,9 @@ Type  H <return>  for immediate help.
                                                   
 l.9 ...lcular número de muestras sintéticas gᵢ
                                                    a generar
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character θ (U+03B8)
                not set up for use with LaTeX.
@@ -1790,7 +1734,9 @@ Type  H <return>  for immediate help.
                                                   
 l.11     Calcular ángulo θ
                              y radio r a partir de distancia media
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character ᵢ (U+1D62)
                not set up for use with LaTeX.
@@ -1801,7 +1747,9 @@ Type  H <return>  for immediate help.
                                                   
 l.12     Para j = 1 hasta gᵢ
                                hacer:
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
@@ -1812,7 +1760,9 @@ Type  H <return>  for immediate help.
                                                   
 l.13         Generar ángulo α
                                 ∈ [0, θ] y radio β ∈ [0, r]
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character ∈ (U+2208)
                not set up for use with LaTeX.
@@ -1823,7 +1773,9 @@ Type  H <return>  for immediate help.
                                                   
 l.13         Generar ángulo α ∈
                                     [0, θ] y radio β ∈ [0, r]
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character θ (U+03B8)
                not set up for use with LaTeX.
@@ -1834,7 +1786,9 @@ Type  H <return>  for immediate help.
                                                   
 l.13         Generar ángulo α ∈ [0, θ
                                           ] y radio β ∈ [0, r]
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character β (U+03B2)
                not set up for use with LaTeX.
@@ -1845,7 +1799,9 @@ Type  H <return>  for immediate help.
                                                   
 l.13 ... Generar ángulo α ∈ [0, θ] y radio β
                                                    ∈ [0, r]
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character ∈ (U+2208)
                not set up for use with LaTeX.
@@ -1856,7 +1812,9 @@ Type  H <return>  for immediate help.
                                                   
 l.13 ...erar ángulo α ∈ [0, θ] y radio β ∈
                                                    [0, r]
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character ᵢ (U+1D62)
                not set up for use with LaTeX.
@@ -1867,7 +1825,9 @@ Type  H <return>  for immediate help.
                                                   
 l.15             x\_syn = xᵢ
                                + β · R(α) · r(α)
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character β (U+03B2)
                not set up for use with LaTeX.
@@ -1878,7 +1838,9 @@ Type  H <return>  for immediate help.
                                                   
 l.15             x\_syn = xᵢ + β
                                     · R(α) · r(α)
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
 5.
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/psnfss\ts1ptm.fd
@@ -1894,7 +1856,9 @@ Type  H <return>  for immediate help.
                                                   
 l.15             x\_syn = xᵢ + β · R(α
                                            ) · r(α)
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
@@ -1905,10 +1869,299 @@ Type  H <return>  for immediate help.
                                                   
 l.15 ...       x\_syn = xᵢ + β · R(α) · r(α
                                                   )
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+) (pseudocodigos/alpha_dbasmote_ar_adasyn.tex
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <17.28> on input line 1.
 
 
-[11]) (pseudocodigos/pc_smote.tex
+! LaTeX Error: Environment algorithm undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4 \begin{algorithm}
+                     [H]
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! Package caption Error: \caption outside float.
+
+See the caption package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5 \caption
+            {Sobremuestreo h\u00edbrido \boldmath$\alpha$DBASMOTE\_AR\_ADASYN}
+If you do not understand this error, please take a closer look
+at the documentation of the `caption' package, especially the
+section about errors.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Environment algorithmic undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6 \begin{algorithmic}
+                       [1]
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Undefined control sequence.
+l.7 \State
+           \textbf{Entrada:} conjunto de datos desbalanceado, vecinos $k$, p...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.8 \State
+           \textbf{Salida:} nuevas muestras sint\u00e9ticas
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.9 \ForAll
+           {instancias minoritarias $p_i$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.10   \State
+              Obtener sus $k$ vecinos m\u00e1s cercanos
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.11   \State
+              Calcular pesos inversos $\alpha_j = 1/\text{dist}(p_i, p_j)$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.11 ...alcular pesos inversos $\alpha_j = 1/\text
+                                                  {dist}(p_i, p_j)$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.12   \State
+              Sumar pesos para vecinos mayoritarios $\alpha'_n$ y minoritari...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.13   \If
+          {$\alpha'_n > \alpha'_p$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.14     \State
+                Etiquetar $p_i$ como muestra peligrosa
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.15   \EndIf
+             
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.16 \EndFor
+            
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.17 \State
+            Filtrar muestras peligrosas seg\u00fan percentil 25 de $\alpha'_n$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.18 \State
+            Calcular total de sint\u00e9ticos $G = (N - n) \cdot \beta$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.19 \ForAll
+            {muestras peligrosas $p_i$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.20   \State
+              Calcular proporci\u00f3n de vecinos mayoritarios $r_i$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.21   \State
+              Calcular $g_i$ cantidad de muestras sint\u00e9ticas para $p_i$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.22   \State
+              Identificar vecinos minoritarios m\u00e1s cercanos $x_{nn1}$ y...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.23   \State
+              Calcular \u00e1ngulo $\theta$ y radio $r$ (AR-ADASYN)
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.24   \For
+           {$j = 1$ to $g_i$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.25     \State
+                Generar \u00e1ngulo $\alpha \in [0, \theta]$, radio $\beta \...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.26     \State
+                Calcular punto sint\u00e9tico $x^{(j)}_{\text{syn}} = p_i + ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.26 ...cular punto sint\u00e9tico $x^{(j)}_{\text
+                                                  {syn}} = p_i + \beta \cdot...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.27   \EndFor
+              
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.28 \EndFor
+            
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: \begin{document} ended by \end{algorithmic}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.29 \end{algorithmic}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: \begin{document} ended by \end{algorithm}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.30 \end{algorithm}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+)
+
+[11] (pseudocodigos/pc_smote.tex
 
 ! Package pgfkeys Error: I do not know the key '/tcb/enhanced' and I am going t
 o ignore it. Perhaps you misspelled it.
@@ -1919,38 +2172,48 @@ Type  H <return>  for immediate help.
                                                   
 l.4 \begin{pseudo}[Pseudocódigo PC\_SMOTE]
                                            
-? 
+(That was another \errmessage.)
+
 ! Undefined control sequence.
 l.10 ...istancias inversas \( \alpha_j = 1 / \text
                                                   {dist}(x_i, x_j) \)
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 ! Undefined control sequence.
 l.21         Calcular: \( x^{(j)}_{\text
                                         {syn}} = x_i + \lambda \cdot (x_{nn}...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-? 
 )
-Overfull \hbox (0.70001pt too wide) in paragraph at lines 231--231
+Overfull \hbox (0.70001pt too wide) in paragraph at lines 243--243
 []\OT1/ptm/b/n/14.4 Implementar y eva-luar ex-pe-ri-men-tal-men-te el ren-di-mi
 en-to de am-bas t[]ecni-
  []
 
 LaTeX Font Info:    Trying to load font information for OT1+zi4 on input line 2
-40.
+52.
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/inconsolata\ot1zi4.fd
 File: ot1zi4.fd 2018/01/14 OT1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `OT1/zi4/m/n' will be
-(Font)              scaled to size 12.0pt on input line 240.
+(Font)              scaled to size 12.0pt on input line 252.
 
-Overfull \hbox (0.91719pt too wide) in paragraph at lines 240--241
+Overfull \hbox (0.91719pt too wide) in paragraph at lines 252--253
 []\OT1/ptm/b/n/12 Carga y pre-pro-ce-sa-mien-to del da-ta-set: \OT1/ptm/m/n/12 
 el sis-te-ma de-tec-ta au-tom[]ati-ca-men-te los ar-chi-vos \OT1/zi4/m/n/12 .da
 ta
  []
 
 
-Overfull \hbox (32.9225pt too wide) in paragraph at lines 242--243
+Overfull \hbox (32.9225pt too wide) in paragraph at lines 254--255
 []\OT1/ptm/b/n/12 Normalizaci[]on: \OT1/ptm/m/n/12 to-dos los atri-bu-tos son e
 s-tan-da-ri-za-dos uti-li-zan-do \OT1/zi4/m/n/12 StandardScaler \OT1/ptm/m/n/12
  de \OT1/zi4/m/n/12 scikit-learn\OT1/ptm/m/n/12 ,
@@ -1960,7 +2223,7 @@ s-tan-da-ri-za-dos uti-li-zan-do \OT1/zi4/m/n/12 StandardScaler \OT1/ptm/m/n/12
 
 [12{C:/Users/User/AppData/Roaming/MiKTeX/fonts/enc/dvips/inconsolata/i4-ot1-0.e
 nc}]
-Overfull \hbox (66.25653pt too wide) in paragraph at lines 253--254
+Overfull \hbox (66.25653pt too wide) in paragraph at lines 265--266
 []\OT1/ptm/m/n/12 El c[]odi-go fuen-te com-ple-to de es-te pi-pe-li-ne se en-cu
 en-tra do-cu-men-ta-do en el ar-chi-vo \OT1/zi4/m/n/12 script[]experimentos.tex
 \OT1/ptm/m/n/12 ,
@@ -1977,13 +2240,15 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.267 
+l.279 
       
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 
 [14]
-Overfull \hbox (28.94173pt too wide) in paragraph at lines 267--267
+Overfull \hbox (28.94173pt too wide) in paragraph at lines 279--279
 [][]\OT1/ptm/m/n/12 Saputra, R. H., Pra-ta-ma, B. W., & Sur-ya-ne-ga-ra, M. (20
 24). SMOTE-MRS: A no-vel SMO-TE{multiresolution
  []
@@ -1995,196 +2260,27 @@ LaTeX Font Info:    Font shape `OT1/zi4/m/n' will be
 (Font)              scaled to size 10.0pt on input line 2.
 
 
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3 # 1. Importación 
-                      de librerías necesarias
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3 # 1. Importación de librerías 
-                                    necesarias
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4 # Se importan todas las librerías 
-                                       necesarias para:
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.7 # - Modelado y métricas 
-                             (sklearn)
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8 # - Técnicas 
-                  de sobremuestreo (imblearn)
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.9 # - Visualización 
-                       (seaborn, matplotlib)
-? 
-
-
 [15]
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.25 # 2. Preparación 
-                       de carpetas de salida
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.26 ...arpetas para guardar resultados gráficos 
-                                                  (figures) y tabulares (res...
-
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.30 # 3. Definición 
-                      de modelos y técnicas de sobremuestreo
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.30 # 3. Definición de modelos y técnicas 
-                                             de sobremuestreo
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.31 ...an tres clasificadores con tres técnicas 
-                                                  de balanceo
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.44 # 4. Conversión 
-                      de rangos tipo '1-9' al promedio (ej: '1-9' => 5.0)
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.63         print(f"No se encontró 
-                                     archivo .data en {nombre_dataset}, se o...
-
-? 
-
 
 [16]
 
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.105         # Combinaciones modelo + técnica
-                                               
-? 
-
-
 [17]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 153.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 153.
 
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.120                 # Reporte y visualización
-                                                
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.126                 plt.xlabel("Predicción"
-                                              )
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.137                     "Técnica"
-                                    : nombre_tecnica,
-? 
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�\lst@EC�\lst@EC�).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.153         print(f"✓ 
+! Undefined control sequence.
+<recently read> \checkmark 
+                           
+l.153         print(f"✓
                           Resultados guardados para {nombre_dataset}\n")
-? 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 
 
 [18])
@@ -2199,16 +2295,16 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-06-09>
  ***********
 Package rerunfilecheck Info: File `estructura_tesis.out' has not changed.
-(rerunfilecheck)             Checksum: 1282F82F9DC9C26EB237A6766A4EF6B1;6749.
+(rerunfilecheck)             Checksum: FA7928F228199DE5D0598B4B503E0527;6971.
 Package logreq Info: Writing requests to 'estructura_tesis.run.xml'.
 \openout1 = `estructura_tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 36645 strings out of 468221
- 706432 string characters out of 5442961
- 2342021 words of memory out of 5000000
- 64404 multiletter control sequences out of 15000+600000
+ 36650 strings out of 468221
+ 706437 string characters out of 5442961
+ 2358143 words of memory out of 5000000
+ 64409 multiletter control sequences out of 15000+600000
  659722 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,10n,105p,1967b,2903s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2228,9 +2324,9 @@ m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTe
 X/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/tim
 es/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Pr
 ogram Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on estructura_tesis.pdf (21 pages, 479195 bytes).
+Output written on estructura_tesis.pdf (21 pages, 480842 bytes).
 PDF statistics:
- 640 PDF objects out of 1000 (max. 8388607)
+ 638 PDF objects out of 1000 (max. 8388607)
  243 named destinations out of 1000 (max. 500000)
- 234 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 226 words of extra memory for PDF output out of 10000 (max. 10000000)
 

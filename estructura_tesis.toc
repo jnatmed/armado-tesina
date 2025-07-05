@@ -13,15 +13,14 @@
 \contentsline {subsection}{\numberline {8.3}10.4. Análisis crítico}{10}{subsection.8.3}%
 \contentsline {section}{\numberline {9}Propuesta metodológica}{10}{section.9}%
 \contentsline {subsection}{\numberline {9.1}Explorar desafíos recurrentes en el sobremuestreo actual}{10}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}Describir y formalizar matemáticamente dos versiones binarias y una propia}{10}{subsection.9.2}%
-\contentsline {subsubsection}{\numberline {9.2.1}Pseudocódigo: \textit {alpha\_dbasmote\_ar\_adasyn}}{10}{subsubsection.9.2.1}%
-\contentsline {subsubsection}{\numberline {9.2.2}Pseudocódigo: \textit {alpha\_dbasmote}}{11}{subsubsection.9.2.2}%
-\contentsline {subsection}{\numberline {9.3}Pseudocódigo del algoritmo αDistance Borderline-ADASYN-SMOTE}{11}{subsection.9.3}%
-\contentsline {subsubsection}{\numberline {9.3.1}Pseudocódigo: \textit {ar\_adasyn}}{11}{subsubsection.9.3.1}%
-\contentsline {subsubsection}{\numberline {9.3.2}Pseudocódigo: \textit {pc\_smote}}{12}{subsubsection.9.3.2}%
-\contentsline {subsection}{\numberline {9.4}Diseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}{12}{subsection.9.4}%
-\contentsline {subsection}{\numberline {9.5}Implementar y evaluar experimentalmente el rendimiento de ambas técnicas propias}{12}{subsection.9.5}%
-\contentsline {subsection}{\numberline {9.6}9.4 Diseño del pipeline experimental}{12}{subsection.9.6}%
+\contentsline {subsection}{\numberline {9.2}Describir y formalizar matemáticamente dos versiones binarias (híbrida y con modificaciones estructurales respectivamente) y una versión multiclase del algoritmo de sobremuestreo SMOTE}{10}{subsection.9.2}%
+\contentsline {subsubsection}{\numberline {9.2.1}Pseudocódigo: \textit {alpha\_dbasmote}}{10}{subsubsection.9.2.1}%
+\contentsline {subsubsection}{\numberline {9.2.2}Pseudocódigo: \textit {ar\_adasyn}}{11}{subsubsection.9.2.2}%
+\contentsline {subsubsection}{\numberline {9.2.3}Pseudocódigo: \textit {alpha\_dbasmote\_ar\_adasyn}}{11}{subsubsection.9.2.3}%
+\contentsline {subsubsection}{\numberline {9.2.4}Pseudocódigo: \textit {pc\_smote}}{12}{subsubsection.9.2.4}%
+\contentsline {subsection}{\numberline {9.3}Diseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}{12}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Implementar y evaluar experimentalmente el rendimiento de ambas técnicas propias}{12}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}9.4 Diseño del pipeline experimental}{12}{subsection.9.5}%
 \contentsline {section}{\numberline {10}Recursos involucrados y cronograma de trabajo}{13}{section.10}%
 \contentsline {section}{\numberline {11}Aportes esperados}{13}{section.11}%
 \contentsline {section}{\numberline {12}Referencias bibliográficas de la propuesta}{14}{section.12}%

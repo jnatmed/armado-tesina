@@ -20,7 +20,7 @@
 
 @inproceedings{feng2021alphadistance,
   author = {Feng, Y. and Li, J.},
-  title = {A novel αDistance Borderline-ADASYN-SMOTE algorithm for imbalanced data and its application in Alzheimer’s disease classification based on Dense Convolutional Network},
+  title = {A novel $ \alpha $Distance Borderline-ADASYN-SMOTE algorithm for imbalanced data and its application in Alzheimer’s disease classification based on Dense Convolutional Network},
   booktitle = {Journal of Physics: Conference Series},
   volume = {2031},
   number = {1},
