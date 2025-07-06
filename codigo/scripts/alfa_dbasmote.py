@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
 
-def alpha_distance_borderline_adasyn_smote(X_min, X_maj, beta=1.0, m=5, random_state=None):
+def AlphaDistanceDBASMOTE(X_min, X_maj, beta=1.0, m=5, random_state=None):
     """
     αDistance Borderline-ADASYN-SMOTE según Feng & Li (2021).
     
