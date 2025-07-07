@@ -1,8 +1,8 @@
 \begin{algorithm}[H]
 \caption{$\alpha$Distance Borderline-ADASYN-SMOTE}
 \begin{algorithmic}[1]
-\Require Conjunto de datos $\mathcal{D}$, número de vecinos $m$, proporción deseada de balance $\beta \in [0, 1]$
-\Ensure Nuevas muestras sintéticas $X_{syn}$
+\State \textbf{Entrada:} Conjunto de datos $\mathcal{D}$, número de vecinos $m$, proporción deseada de balance $\beta \in [0, 1]$
+\State \textbf{Salida:} Nuevas muestras sintéticas $X_{syn}$
 
 \For{cada muestra minoritaria $p_i \in \mathcal{D}_{min}$}
     \State Obtener sus $m$ vecinos más cercanos

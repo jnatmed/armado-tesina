@@ -1,1 +1,18 @@
-Sistemas de informacion-ToninMonzonFrancisco_TESIS.pdf
+# Archivos temporales de LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.blg
+*.bbl
+*.bcf
+*.run.xml
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# PDFs generados
+*.pdf
+
+# Archivos de VSCode
+.vscode/

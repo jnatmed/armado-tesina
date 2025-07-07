@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[spanish]{babel}
 \usepackage[backend=biber, style=apa, sorting=nyt]{biblatex}
 \addbibresource{referencias.bib}
@@ -31,6 +32,8 @@
 
 \usepackage{algorithm}
 \usepackage{algpseudocodex}
+
+
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listings, breakable}
@@ -226,7 +229,7 @@ En síntesis, la evolución del algoritmo SMOTE ha dado lugar a una diversidad d
 
 \input{resultados-experimentales}
 
-\section{Propuesta metodológica} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+\section{Metodología} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 \subsection{Explorar desafíos recurrentes en el sobremuestreo actual}
 \subsection{Describir y formalizar matemáticamente dos versiones binarias (híbrida y con modificaciones estructurales respectivamente) y una versión multiclase del algoritmo de sobremuestreo SMOTE}
 
@@ -239,9 +242,9 @@ En síntesis, la evolución del algoritmo SMOTE ha dado lugar a una diversidad d
 \subsubsection{Pseudocódigo: \textit{alpha\_dbasmote\_ar\_adasyn}}
 \input{pseudocodigos/alpha_dbasmote_ar_adasyn}
 
-% \input{pseudocodigos/pc_smote.tex}
-
 \input{pseudocodigos/pc_smote_modificado.tex}
+
+\input{pseudocodigos/pc_smote.tex}
 
 \input{pseudocodigos/resultados_comparativos.tex}
 

@@ -1,29 +1,29 @@
 \section*{Pseudocódigo: \textit{\boldmath$\alpha$DBASMOTE\_AR\_ADASYN}}
-\noindent\hypertarget{pseudocodigo_alfa_dbasmote_ar_adasyn}{}\hyperlink{toc}{\small$\uparrow$ Volver al \u00edndice}
+\noindent\hypertarget{pseudocodigo_alfa_dbasmote_ar_adasyn}{}\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 
 \begin{algorithm}[H]
-\caption{Sobremuestreo h\u00edbrido \boldmath$\alpha$DBASMOTE\_AR\_ADASYN}
+\caption{Sobremuestreo híbrido \boldmath$\alpha$DBASMOTE\_AR\_ADASYN}
 \begin{algorithmic}[1]
-\State \textbf{Entrada:} conjunto de datos desbalanceado, vecinos $k$, proporci\u00f3n deseada $\beta$
-\State \textbf{Salida:} nuevas muestras sint\u00e9ticas
+\State \textbf{Entrada:} conjunto de datos desbalanceado, vecinos $k$, proporción deseada $\beta$
+\State \textbf{Salida:} nuevas muestras sintéticas
 \ForAll{instancias minoritarias $p_i$}
-  \State Obtener sus $k$ vecinos m\u00e1s cercanos
+  \State Obtener sus $k$ vecinos más cercanos
   \State Calcular pesos inversos $\alpha_j = 1/\text{dist}(p_i, p_j)$
   \State Sumar pesos para vecinos mayoritarios $\alpha'_n$ y minoritarios $\alpha'_p$
   \If{$\alpha'_n > \alpha'_p$}
     \State Etiquetar $p_i$ como muestra peligrosa
   \EndIf
 \EndFor
-\State Filtrar muestras peligrosas seg\u00fan percentil 25 de $\alpha'_n$
-\State Calcular total de sint\u00e9ticos $G = (N - n) \cdot \beta$
+\State Filtrar muestras peligrosas según percentil 25 de $\alpha'_n$
+\State Calcular total de sintéticos $G = (N - n) \cdot \beta$
 \ForAll{muestras peligrosas $p_i$}
-  \State Calcular proporci\u00f3n de vecinos mayoritarios $r_i$
-  \State Calcular $g_i$ cantidad de muestras sint\u00e9ticas para $p_i$
-  \State Identificar vecinos minoritarios m\u00e1s cercanos $x_{nn1}$ y $x_{nn2}$
-  \State Calcular \u00e1ngulo $\theta$ y radio $r$ (AR-ADASYN)
+  \State Calcular proporción de vecinos mayoritarios $r_i$
+  \State Calcular $g_i$ cantidad de muestras sintéticas para $p_i$
+  \State Identificar vecinos minoritarios más cercanos $x_{nn1}$ y $x_{nn2}$
+  \State Calcular ángulo $\theta$ y radio $r$ (AR-ADASYN)
   \For{$j = 1$ to $g_i$}
-    \State Generar \u00e1ngulo $\alpha \in [0, \theta]$, radio $\beta \in [0, r]$
-    \State Calcular punto sint\u00e9tico $x^{(j)}_{\text{syn}} = p_i + \beta \cdot R(\alpha) \cdot r(\alpha)$
+    \State Generar ángulo $\alpha \in [0, \theta]$, radio $\beta \in [0, r]$
+    \State Calcular punto sintético $x^{(j)}_{\text{syn}} = p_i + \beta \cdot R(\alpha) \cdot r(\alpha)$
   \EndFor
 \EndFor
 \end{algorithmic}

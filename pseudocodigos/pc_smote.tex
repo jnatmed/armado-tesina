@@ -1,43 +1,38 @@
 \begin{algorithm}[H]
 \caption{Pseudocódigo de PC-SMOTE}
 \begin{algorithmic}[1]
-\REQUIRE Conjunto de datos $(X, y)$ con clases balanceadas, número de vecinos $k \in \{5, 7, 9\}$, radio de densidad $r$, número de muestras sintéticas $G$
-\ENSURE Conjunto aumentado $(X', y')$
+\State \textbf{Entrada:} Conjunto de datos $(X, y)$ con clases desbalanceadas; número de vecinos $k \in \{5, 7, 9\}$; radio $r$; cantidad de muestras sintéticas $G$
+\State \textbf{Salida:} Conjunto aumentado $(X', y')$
 
-\STATE Separar clases: $X_{\text{min}} \gets$ instancias minoritarias, $X_{\text{maj}} \gets$ instancias mayoritarias
+\State Separar clases: $X_{min} \gets$ instancias minoritarias, $X_{maj} \gets$ instancias mayoritarias
 
-\STATE Calcular vecinos $k$ más cercanos a cada $x_i \in X_{\text{min}}$ en el conjunto completo $X$
+\For{cada $x_i \in X_{min}$}
+    \State Calcular vecinos $k$ más cercanos en $X$
+    \State Calcular riesgo $r_i \gets$ proporción de vecinos mayoritarios
+\EndFor
 
-\FOR{cada $x_i \in X_{\text{min}}$}
-    \STATE Calcular riesgo $r_i$ = proporción de vecinos mayoritarios entre los $k$
-\ENDFOR
+\For{cada $x_i \in X_{min}$}
+    \State Calcular vecinos $k$ más cercanos en $X_{min}$
+    \State Calcular densidad $d_i \gets$ proporción de vecinos con distancia $\leq 2r$
+\EndFor
 
-\STATE Calcular vecinos $k$ más cercanos entre $X_{\text{min}}$ únicamente
+\State Filtrar instancias peligrosas: $r_i$ dentro del rango y $d_i > 0$
 
-\FOR{cada $x_i \in X_{\text{min}}$}
-    \STATE Calcular densidad local $d_i$ = proporción de vecinos cuya distancia $\leq 2r$
-\ENDFOR
+\State Inicializar conjunto de sintéticos $S \gets \emptyset$
 
-\STATE Definir umbral de riesgo y percentil de corte según el valor de $k$
-\STATE Filtrar instancias peligrosas: $x_i$ con $r_i$ dentro del rango y $d_i > 0$
+\For{$j = 1$ hasta $G$}
+    \State Elegir $x_i$ aleatorio del subconjunto filtrado
+    \State Obtener vecinos $N_i$ y calcular distancias
+    \State Filtrar vecinos dentro del percentil adecuado
+    \If{no hay vecinos válidos}
+        \State Continuar al siguiente $j$
+    \EndIf
+    \State Elegir vecino $x_z$ válido
+    \State Calcular $\delta$ según $r_i$
+    \State Generar $x_{syn} = x_i + \delta \cdot (x_z - x_i)$
+    \State Agregar $x_{syn}$ a $S$
+\EndFor
 
-\STATE Inicializar lista de muestras sintéticas $S \gets \emptyset$
-
-\FOR{$j = 1$ hasta $G$}
-    \STATE Elegir aleatoriamente una muestra $x_i$ del subconjunto filtrado
-    \STATE Obtener $r_i$ y sus vecinos $N_i$
-    \STATE Calcular distancias de $x_i$ a $N_i$ y seleccionar vecinos dentro del percentil correspondiente
-    \IF{no hay vecinos válidos}
-        \STATE continuar al siguiente $j$
-    \ENDIF
-    \STATE Seleccionar aleatoriamente un vecino $x_z$ entre los válidos
-    \STATE Definir $\delta$ adaptativamente en función de $r_i$
-    \STATE Generar muestra sintética: $x_{\text{syn}} = x_i + \delta \cdot (x_z - x_i)$
-    \STATE Agregar $x_{\text{syn}}$ a $S$
-\ENDFOR
-
-\STATE $X' \gets X \cup S$, $y' \gets y \cup \text{unos}$
-
-\RETURN $(X', y')$
+\State \Return $X' = X \cup S$, $y' = y \cup$ unos
 \end{algorithmic}
 \end{algorithm}

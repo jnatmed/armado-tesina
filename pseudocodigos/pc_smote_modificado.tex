@@ -9,41 +9,4 @@ Adicionalmente, PC-SMOTE emplea una \textbf{selección adaptativa de vecinos} re
 
 Este enfoque reduce la probabilidad de generar instancias en regiones ruidosas o escasamente representadas, maximizando la utilidad de los sintéticos creados.
 
-\begin{algorithm}[H]
-\caption{Pseudocódigo de PC-SMOTE}
-\begin{algorithmic}[1]
-\Require Conjunto de datos $(X, y)$ con clases desbalanceadas
-\Require Número de vecinos $k \in \{5, 7, 9\}$, radio $r$, cantidad de muestras sintéticas $G$
-\Ensure Conjunto aumentado $(X', y')$
-
-\State Separar clases: $X_{min} \gets$ instancias minoritarias, $X_{maj} \gets$ instancias mayoritarias
-\For{cada $x_i \in X_{min}$}
-    \State Calcular vecinos $k$ más cercanos en $X$
-    \State Calcular riesgo $r_i \gets$ proporción de vecinos mayoritarios
-\EndFor
-
-\For{cada $x_i \in X_{min}$}
-    \State Calcular vecinos $k$ más cercanos en $X_{min}$
-    \State Calcular densidad $d_i \gets$ proporción de vecinos con distancia $\leq 2r$
-\EndFor
-
-\State Filtrar instancias peligrosas: $r_i$ dentro del rango y $d_i > 0$
-
-\State Inicializar conjunto de sintéticos $S \gets \emptyset$
-\For{$j = 1$ hasta $G$}
-    \State Elegir $x_i$ aleatorio del subconjunto filtrado
-    \State Obtener vecinos $N_i$ y calcular distancias
-    \State Filtrar vecinos dentro del percentil adecuado
-    \If{no hay vecinos válidos}
-        \State continuar al siguiente $j$
-    \EndIf
-    \State Elegir vecino $x_z$ válido
-    \State Calcular $\delta$ según $r_i$
-    \State Generar $x_{syn} = x_i + \delta \cdot (x_z - x_i)$
-    \State Agregar $x_{syn}$ a $S$
-\EndFor
-
-\State \Return $X' = X \cup S$, $y' = y \cup$ unos
-\end{algorithmic}
-\end{algorithm}
 

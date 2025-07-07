@@ -1,8 +1,8 @@
 \begin{algorithm}[H]
 \caption{Pseudocódigo de AR\_ADASYN}
 \begin{algorithmic}[1]
-\Require Conjunto de datos $(X, y)$ desbalanceado, número de vecinos $k$, proporción deseada de balance $\beta$
-\Ensure Nuevas muestras sintéticas $X_{syn}$
+\State \textbf{Entrada:} Conjunto de datos $(X, y)$ desbalanceado, número de vecinos $k$, proporción deseada de balance $\beta$
+\State \textbf{Salida:} Nuevas muestras sintéticas $X_{syn}$
 
 \State Calcular número total de muestras sintéticas: $G \gets \#X_{maj} - \#X_{min}$
 
