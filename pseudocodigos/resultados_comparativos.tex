@@ -1,0 +1,28 @@
+
+\subsection{Comparación experimental entre técnicas de sobremuestreo}
+
+Se comparó el rendimiento de PC-SMOTE con tres técnicas ampliamente utilizadas: SMOTE, ADASYN y BorderlineSMOTE. La evaluación se realizó sobre el dataset \textit{ecoli}, considerando la clase \texttt{cp} como minoritaria. Se aplicó validación cruzada 5-fold con 10 repeticiones por técnica. En cada caso se calcularon las métricas: Precision, Recall, F1-score, AUC-ROC y Balanced Accuracy.
+
+\begin{table}[H]
+\centering
+\caption{Comparación de métricas promedio entre técnicas de sobremuestreo (validación cruzada 5-fold, 10 repeticiones)}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Técnica} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{STD F1} & \textbf{ROC AUC} & \textbf{Balanced Acc} \\
+\midrule
+SMOTE              & 0.9651 & 0.9668 & 0.9656 & 0.0240 & 0.9883 & 0.9655 \\
+ADASYN             & 0.9604 & 0.9765 & 0.9680 & 0.0155 & 0.9870 & 0.9683 \\
+BorderlineSMOTE    & 0.9691 & \textbf{0.9798} & \textbf{0.9741} & 0.0179 & 0.9871 & \textbf{0.9738} \\
+PC-SMOTE           & \textbf{0.9694} & 0.9772 & 0.9730 & 0.0188 & \textbf{0.9880} & 0.9728 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{comparacion_tecnicas_sobremuestreo.png}
+
+\caption{F1-score promedio alcanzado por cada técnica de sobremuestreo}
+\end{figure}
+
+En términos generales, PC-SMOTE alcanzó el mejor rendimiento combinado. Se destaca por tener la mayor \textbf{precisión} (0.9694), el mejor \textbf{AUC-ROC} (0.9880) y un F1-score prácticamente igual al máximo logrado por BorderlineSMOTE. Esto sugiere que la estrategia de filtrado conjunto por riesgo y densidad geométrica permite generar ejemplos más confiables, especialmente en regiones fronterizas. A diferencia de SMOTE o ADASYN, que tienden a generar ejemplos en vecindarios menos controlados, PC-SMOTE reduce la generación en zonas ruidosas y mejora la discriminación global del modelo.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.6.29)  5 JUL 2025 09:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.7.6)  6 JUL 2025 22:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -193,7 +193,7 @@ File: blx-dm.def 2024/03/21 v3.20 biblatex datamodel (PK/MW)
 Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'apa.dbx' found.
 
-(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\apa.dbx
+(C:\Program Files\MiKTeX\tex/latex/biblatex-apa\apa.dbx
 File: apa.dbx 2023/03/20 v9.17 APA biblatex style data model
 )
 Package biblatex Info: Trying to load biblatex custom data model...
@@ -318,7 +318,7 @@ File: biblatex.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
 Package biblatex Info: Trying to load bibliography style 'apa'...
 Package biblatex Info: ... file 'apa.bbx' found.
 
-(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\apa.bbx
+(C:\Program Files\MiKTeX\tex/latex/biblatex-apa\apa.bbx
 File: apa.bbx 2023/03/20 v9.17 APA biblatex references style
 Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
@@ -340,7 +340,7 @@ Package biblatex Info: Delimiter 'nonameyeardelim' in context 'biblist' already
 Package biblatex Info: Trying to load citation style 'apa'...
 Package biblatex Info: ... file 'apa.cbx' found.
 
-(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\apa.cbx
+(C:\Program Files\MiKTeX\tex/latex/biblatex-apa\apa.cbx
 File: apa.cbx 2023/03/20 v9.17 APA biblatex citation style
 Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined,
  overwriting.
@@ -657,19 +657,62 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks26
 \@floatcapt=\box56
 )
-(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcolorbox.sty
-Package: tcolorbox 2025/06/04 version 6.6.0 text color boxes
+(C:\Program Files\MiKTeX\tex/latex/algorithms\algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+\@float@every@algorithm=\toks27
+\c@algorithm=\count454
+)
+(C:\Program Files\MiKTeX\tex/latex/algpseudocodex\algpseudocodex.sty
+Package: algpseudocodex 2025-04-16 v1.2.0 pseudocode typesetting
 
+(C:\Program Files\MiKTeX\tex/latex/algorithmicx\algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count455
+\c@ALG@rem=\count456
+\c@ALG@nested=\count457
+\ALG@tlm=\skip107
+\ALG@thistlm=\skip108
+\c@ALG@Lnr=\count458
+\c@ALG@blocknr=\count459
+\c@ALG@storecount=\count460
+\c@ALG@tmpcounter=\count461
+\ALG@tmplength=\skip109
+) (C:\Program Files\MiKTeX\tex/latex/fifo-stack\fifo-stack.sty
+Package: fifo-stack 2014/03/24 v1.0 Multi-FIFO/stack system
+\tmp@fifo@stack@top=\count462
+\tmp@fifo@stack@bottom=\count463
+\tmp@fifo@stack@size=\count464
+)
+(C:\Program Files\MiKTeX\tex/latex/varwidth\varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box57
+\sift@deathcycles=\count465
+\@vwid@loff=\dimen192
+\@vwid@roff=\dimen193
+)
+==> First Aid for varwidth.sty applied!
+(C:\Program Files\MiKTeX\tex/latex/tabto-ltx\tabto.sty
+Package: tabto 2018/12/28  v 1.4  Another tabbing mechanism
+\CurrentLineWidth=\dimen194
+\TabPrevPos=\dimen195
+)
+(C:\Program Files\MiKTeX\tex/latex/totcount\totcount.sty
+Package: totcount 2011/01/25 v1.2 package for gettingthe total value of LaTeX c
+ounters
+)
 (C:\Program Files\MiKTeX\tex/latex/pgf/frontendlayer\tikz.sty
 (C:\Program Files\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
 (C:\Program Files\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty
 (C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfutil-common.tex
-\pgfutil@everybye=\toks27
-\pgfutil@tempdima=\dimen192
-\pgfutil@tempdimb=\dimen193
+\pgfutil@everybye=\toks28
+\pgfutil@tempdima=\dimen196
+\pgfutil@tempdimb=\dimen197
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfutil-latex.def
-\pgfutil@abb=\box57
+\pgfutil@abb=\box58
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfrcs.code.tex
 (C:\Program Files\MiKTeX\tex/generic/pgf\pgf.revision.tex)
@@ -683,33 +726,33 @@ Package: pgf 2023-01-15 v3.1.10 (3.1.10)
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 
 (C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks28
-\pgfkeys@temptoks=\toks29
+\pgfkeys@pathtoks=\toks29
+\pgfkeys@temptoks=\toks30
 
 (C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfkeyslibraryfiltered.code.
 tex
-\pgfkeys@tmptoks=\toks30
+\pgfkeys@tmptoks=\toks31
 ))
-\pgf@x=\dimen194
-\pgf@y=\dimen195
-\pgf@xa=\dimen196
-\pgf@ya=\dimen197
-\pgf@xb=\dimen198
-\pgf@yb=\dimen199
-\pgf@xc=\dimen256
-\pgf@yc=\dimen257
-\pgf@xd=\dimen258
-\pgf@yd=\dimen259
+\pgf@x=\dimen198
+\pgf@y=\dimen199
+\pgf@xa=\dimen256
+\pgf@ya=\dimen257
+\pgf@xb=\dimen258
+\pgf@yb=\dimen259
+\pgf@xc=\dimen260
+\pgf@yc=\dimen261
+\pgf@xd=\dimen262
+\pgf@yd=\dimen263
 \w@pgf@writea=\write4
 \r@pgf@reada=\read4
-\c@pgf@counta=\count454
-\c@pgf@countb=\count455
-\c@pgf@countc=\count456
-\c@pgf@countd=\count457
-\t@pgf@toka=\toks31
-\t@pgf@tokb=\toks32
-\t@pgf@tokc=\toks33
-\pgf@sys@id@count=\count458
+\c@pgf@counta=\count466
+\c@pgf@countb=\count467
+\c@pgf@countc=\count468
+\c@pgf@countd=\count469
+\t@pgf@toka=\toks32
+\t@pgf@tokb=\toks33
+\t@pgf@tokc=\toks34
+\pgf@sys@id@count=\count470
  (C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
@@ -723,8 +766,8 @@ File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 )))
 (C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count459
-\pgfsyssoftpath@bigbuffer@items=\count460
+\pgfsyssoftpath@smallbuffer@items=\count471
+\pgfsyssoftpath@bigbuffer@items=\count472
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -754,12 +797,12 @@ Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathutil.code.tex)
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathparser.code.tex
-\pgfmath@dimen=\dimen260
-\pgfmath@count=\count461
-\pgfmath@box=\box58
-\pgfmath@toks=\toks34
-\pgfmath@stack@operand=\toks35
-\pgfmath@stack@operation=\toks36
+\pgfmath@dimen=\dimen264
+\pgfmath@count=\count473
+\pgfmath@box=\box59
+\pgfmath@toks=\toks35
+\pgfmath@stack@operand=\toks36
+\pgfmath@stack@operation=\toks37
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.code.tex)
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.basic.code.tex)
@@ -775,55 +818,55 @@ tex)
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.integerarithmeti
 cs.code.tex) (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathcalc.code.tex
 ) (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count462
+\c@pgfmathroundto@lastzeros=\count474
 ))
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfint.code.tex)
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@picminx=\dimen261
-\pgf@picmaxx=\dimen262
-\pgf@picminy=\dimen263
-\pgf@picmaxy=\dimen264
-\pgf@pathminx=\dimen265
-\pgf@pathmaxx=\dimen266
-\pgf@pathminy=\dimen267
-\pgf@pathmaxy=\dimen268
-\pgf@xx=\dimen269
-\pgf@xy=\dimen270
-\pgf@yx=\dimen271
-\pgf@yy=\dimen272
-\pgf@zx=\dimen273
-\pgf@zy=\dimen274
+\pgf@picminx=\dimen265
+\pgf@picmaxx=\dimen266
+\pgf@picminy=\dimen267
+\pgf@picmaxy=\dimen268
+\pgf@pathminx=\dimen269
+\pgf@pathmaxx=\dimen270
+\pgf@pathminy=\dimen271
+\pgf@pathmaxy=\dimen272
+\pgf@xx=\dimen273
+\pgf@xy=\dimen274
+\pgf@yx=\dimen275
+\pgf@yy=\dimen276
+\pgf@zx=\dimen277
+\pgf@zy=\dimen278
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathconstruct.code.t
 ex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@path@lastx=\dimen275
-\pgf@path@lasty=\dimen276
+\pgf@path@lastx=\dimen279
+\pgf@path@lasty=\dimen280
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@shorten@end@additional=\dimen277
-\pgf@shorten@start@additional=\dimen278
+\pgf@shorten@end@additional=\dimen281
+\pgf@shorten@start@additional=\dimen282
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box59
-\pgf@hbox=\box60
-\pgf@layerbox@main=\box61
-\pgf@picture@serial@count=\count463
+\pgfpic=\box60
+\pgf@hbox=\box61
+\pgf@layerbox@main=\box62
+\pgf@picture@serial@count=\count475
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoregraphicstate.code.te
 x
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgflinewidth=\dimen279
+\pgflinewidth=\dimen283
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretransformations.code
 .tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@pt@x=\dimen280
-\pgf@pt@y=\dimen281
-\pgf@pt@temp=\dimen282
+\pgf@pt@x=\dimen284
+\pgf@pt@y=\dimen285
+\pgf@pt@temp=\dimen286
 ) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreobjects.code.tex
@@ -834,19 +877,19 @@ tex
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowsep=\dimen283
+\pgfarrowsep=\dimen287
 ) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@max=\dimen284
-\pgf@sys@shading@range@num=\count464
-\pgf@shadingcount=\count465
+\pgf@max=\dimen288
+\pgf@sys@shading@range@num=\count476
+\pgf@shadingcount=\count477
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box62
+\pgfexternal@startupbox=\box63
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -861,15 +904,15 @@ File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )))
 (C:\Program Files\MiKTeX\tex/generic/pgf/modules\pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodeparttextbox=\box63
+\pgfnodeparttextbox=\box64
 )
 (C:\Program Files\MiKTeX\tex/generic/pgf/modules\pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
 (C:\Program Files\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
-\pgf@nodesepstart=\dimen285
-\pgf@nodesepend=\dimen286
+\pgf@nodesepstart=\dimen289
+\pgf@nodesepend=\dimen290
 )
 (C:\Program Files\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
@@ -880,10 +923,10 @@ Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
 (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex))
 (C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgffor.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
-\pgffor@iter=\dimen287
-\pgffor@skip=\dimen288
-\pgffor@stack=\toks37
-\pgffor@toks=\toks38
+\pgffor@iter=\dimen291
+\pgffor@skip=\dimen292
+\pgffor@stack=\toks38
+\pgffor@toks=\toks39
 ))
 (C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz\tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
@@ -891,40 +934,98 @@ Package: tikz 2023-01-15 v3.1.10 (3.1.10)
 (C:\Program Files\MiKTeX\tex/generic/pgf/libraries\pgflibraryplothandlers.code.
 tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count466
-\pgfplotmarksize=\dimen289
+\pgf@plot@mark@count=\count478
+\pgfplotmarksize=\dimen293
 )
-\tikz@lastx=\dimen290
-\tikz@lasty=\dimen291
-\tikz@lastxsaved=\dimen292
-\tikz@lastysaved=\dimen293
-\tikz@lastmovetox=\dimen294
-\tikz@lastmovetoy=\dimen295
-\tikzleveldistance=\dimen296
-\tikzsiblingdistance=\dimen297
-\tikz@figbox=\box64
-\tikz@figbox@bg=\box65
-\tikz@tempbox=\box66
-\tikz@tempbox@bg=\box67
-\tikztreelevel=\count467
-\tikznumberofchildren=\count468
-\tikznumberofcurrentchild=\count469
-\tikz@fig@count=\count470
+\tikz@lastx=\dimen294
+\tikz@lasty=\dimen295
+\tikz@lastxsaved=\dimen296
+\tikz@lastysaved=\dimen297
+\tikz@lastmovetox=\dimen298
+\tikz@lastmovetoy=\dimen299
+\tikzleveldistance=\dimen300
+\tikzsiblingdistance=\dimen301
+\tikz@figbox=\box65
+\tikz@figbox@bg=\box66
+\tikz@tempbox=\box67
+\tikz@tempbox@bg=\box68
+\tikztreelevel=\count479
+\tikznumberofchildren=\count480
+\tikznumberofcurrentchild=\count481
+\tikz@fig@count=\count482
  (C:\Program Files\MiKTeX\tex/generic/pgf/modules\pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count471
-\pgfmatrixcurrentcolumn=\count472
-\pgf@matrix@numberofcolumns=\count473
+\pgfmatrixcurrentrow=\count483
+\pgfmatrixcurrentcolumn=\count484
+\pgf@matrix@numberofcolumns=\count485
 )
-\tikz@expandcount=\count474
+\tikz@expandcount=\count486
 
 (C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
 rytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (C:\Program Files\MiKTeX\tex/latex/tools\verbatim.sty
+)))
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
+rycalc.code.tex
+File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
+ryfit.code.tex
+File: tikzlibraryfit.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+
+! Package tikz Error: I did not find the tikz library 'tikzmark'. I looked for 
+files named tikzlibrarytikzmark.code.tex and pgflibrarytikzmark.code.tex, but n
+either could be found in the current texmf trees..
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 \usetikzlibrary{calc,fit,tikzmark}
+                                       
+This error message was generated by an \errmessage
+command, so I can't give any explicit help.
+Pretend that you're Hercule Poirot: Examine all clues,
+and deduce the truth by order and method.
+
+\algpx@codeBoxInnerSep=\skip110
+\algpx@codeBoxSep=\skip111
+\algpx@codeBoxOuterSep=\skip112
+\algpx@indShiftX=\skip113
+\algpx@indStartShiftY=\skip114
+\algpx@indEndShiftY=\skip115
+\algpx@indXLineLength=\skip116
+\algpx@minIndDist=\skip117
+\algpx@oldPos=\skip118
+\algpx@newPos=\skip119
+\algpx@tmpLen=\skip120
+\algpx@currentLineskiplimit=\skip121
+\algpx@currentLineskip=\skip122
+\algpx@indStartY=\skip123
+\algpx@indEndY=\skip124
+\algpx@indStartX=\skip125
+\algpx@extraShiftX=\skip126
+\algpx@minTopPageHeight=\skip127
+\algpx@minBotPageDepth=\skip128
+\c@algpx@codeBoxCount=\count487
+\c@algpx@nestedCBoxCount=\count488
+\c@algpx@startedBoxesCount=\count489
+\c@algpx@endedBoxesCount=\count490
+\c@algpx@nestedBoxedStringCount=\count491
+\c@algpx@nestedBoxedStringMaxCount=\count492
+\c@algpx@indentCount=\count493
+\c@algpx@lastIndentEnded=\count494
+\c@algpx@pageCount=\count495
+\c@algpx@tmpCount=\count496
+\algpx@boxedStringBox=\box69
+) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcolorbox.sty
+Package: tcolorbox 2025/06/04 version 6.6.0 text color boxes
+
+(C:\Program Files\MiKTeX\tex/latex/tools\verbatim.sty
 Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks39
-\verbatim@line=\toks40
+\every@verbatim=\toks40
+\verbatim@line=\toks41
 \verbatim@in@stream=\read5
 )
 (C:\Program Files\MiKTeX\tex/latex/environ\environ.sty
@@ -933,46 +1034,46 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 (C:\Program Files\MiKTeX\tex/latex/trimspaces\trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )
-\@envbody=\toks41
+\@envbody=\toks42
 )
-\tcb@titlebox=\box68
-\tcb@upperbox=\box69
-\tcb@lowerbox=\box70
-\tcb@phantombox=\box71
-\c@tcbbreakpart=\count475
-\c@tcblayer=\count476
-\c@tcolorbox@number=\count477
-\l__tcobox_tmpa_box=\box72
-\l__tcobox_tmpa_dim=\dimen298
-\tcb@temp=\box73
-\tcb@temp=\box74
+\tcb@titlebox=\box70
+\tcb@upperbox=\box71
+\tcb@lowerbox=\box72
+\tcb@phantombox=\box73
+\c@tcbbreakpart=\count497
+\c@tcblayer=\count498
+\c@tcolorbox@number=\count499
+\l__tcobox_tmpa_box=\box74
+\l__tcobox_tmpa_dim=\dimen302
 \tcb@temp=\box75
 \tcb@temp=\box76
+\tcb@temp=\box77
+\tcb@temp=\box78
 )
 (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcblistings.code.tex
 Library (tcolorbox): 'tcblistings.code.tex' version '6.6.0'
 (C:\Program Files\MiKTeX\tex/latex/listings\listings.sty
-\lst@mode=\count478
-\lst@gtempboxa=\box77
-\lst@token=\toks42
-\lst@length=\count479
-\lst@currlwidth=\dimen299
-\lst@column=\count480
-\lst@pos=\count481
-\lst@lostspace=\dimen300
-\lst@width=\dimen301
-\lst@newlines=\count482
-\lst@lineno=\count483
-\lst@maxwidth=\dimen302
+\lst@mode=\count500
+\lst@gtempboxa=\box79
+\lst@token=\toks43
+\lst@length=\count501
+\lst@currlwidth=\dimen303
+\lst@column=\count502
+\lst@pos=\count503
+\lst@lostspace=\dimen304
+\lst@width=\dimen305
+\lst@newlines=\count504
+\lst@lineno=\count505
+\lst@maxwidth=\dimen306
 
 (C:\Program Files\MiKTeX\tex/latex/listings\lstpatch.sty
 File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 )
 (C:\Program Files\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count484
-\lst@skipnumbers=\count485
-\lst@framebox=\box78
+\c@lstnumber=\count506
+\lst@skipnumbers=\count507
+\lst@framebox=\box80
 )
 (C:\Program Files\MiKTeX\tex/latex/listings\listings.cfg
 File: listings.cfg 2024/09/23 1.10c listings configuration
@@ -984,16 +1085,16 @@ Library (tcolorbox): 'tcblistingscore.code.tex' version '6.6.0'
 (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbprocessing.code.tex
 Library (tcolorbox): 'tcbprocessing.code.tex' version '6.6.0'
 )
-\c@tcblisting=\count486
+\c@tcblisting=\count508
 )) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbbreakable.code.tex
 Library (tcolorbox): 'tcbbreakable.code.tex' version '6.6.0'
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/pdfcol\pdfcol.sty
 Package: pdfcol 2022-09-21 v1.7 Handle new color stacks for pdfTeX (HO)
 )
 Package pdfcol Info: New color stack `tcb@breakable' = 1 on input line 23.
-\tcb@testbox=\box79
-\tcb@totalupperbox=\box80
-\tcb@totallowerbox=\box81
+\tcb@testbox=\box81
+\tcb@totalupperbox=\box82
+\tcb@totallowerbox=\box83
 )
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/inconsolata\inconsolata.sty
 Package: inconsolata 2019/05/17 v1.12
@@ -1007,13 +1108,13 @@ Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 
 (C:\Program Files\MiKTeX\tex/generic/xkeyval\xkeyval.tex
 (C:\Program Files\MiKTeX\tex/generic/xkeyval\xkvutils.tex
-\XKV@toks=\toks43
-\XKV@tempa@toks=\toks44
+\XKV@toks=\toks44
+\XKV@tempa@toks=\toks45
 )
-\XKV@depth=\count487
+\XKV@depth=\count509
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-\zifour@ocount=\count488
+\zifour@ocount=\count510
 )
 (C:\Program Files\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
@@ -1022,8 +1123,8 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'spanish'.
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 9
-7.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 1
+01.
 
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
@@ -1033,33 +1134,55 @@ LaTeX Info: Redefining \. on input line 12.
 LaTeX Info: Redefining \% on input line 12.
 Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported  on input line 12.
+\c@algpx@indentEndPage-0@totc=\count511
+\c@algpx@indentEndPage-1@totc=\count512
+\c@algpx@indentEndPage-2@totc=\count513
+\c@algpx@indentEndCoordIndex-0@totc=\count514
+\c@algpx@indentEndPage-3@totc=\count515
+\c@algpx@indentEndPage-4@totc=\count516
+\c@algpx@indentEndPage-5@totc=\count517
+\c@algpx@indentEndCoordIndex-4@totc=\count518
+\c@algpx@indentEndPage-6@totc=\count519
+\c@algpx@indentEndPage-7@totc=\count520
+\c@algpx@indentEndPage-8@totc=\count521
+\c@algpx@indentEndCoordIndex-7@totc=\count522
+\c@algpx@indentEndPage-9@totc=\count523
+\c@algpx@indentEndPage-10@totc=\count524
+\c@algpx@indentEndCoordIndex-9@totc=\count525
+\c@algpx@indentEndPage-11@totc=\count526
+\c@algpx@indentEndPage-12@totc=\count527
+\c@algpx@indentEndCoordIndex-11@totc=\count528
+\c@algpx@indentEndPage-13@totc=\count529
+\c@algpx@indentEndPage-14@totc=\count530
+\c@algpx@indentEndPage-15@totc=\count531
+\c@algpx@indentEndPage-16@totc=\count532
 )
 \openout1 = `estructura_tesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Info: Redefining \. on input line 97.
-LaTeX Info: Redefining \% on input line 97.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Info: Redefining \. on input line 101.
+LaTeX Info: Redefining \% on input line 101.
 Package biblatex Info: Trying to load language 'spanish' -> 'spanish-apa'...
 Package biblatex Info: ... file 'spanish-apa.lbx' found.
 
-(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/biblatex-apa\spanish-apa.lbx
+(C:\Program Files\MiKTeX\tex/latex/biblatex-apa\spanish-apa.lbx
 File: spanish-apa.lbx 2023/03/20 v9.17 APA biblatex localisation
 Package biblatex Info: Trying to load language 'spanish'...
 Package biblatex Info: ... file 'spanish.lbx' found.
@@ -1082,9 +1205,9 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'estructura_tesis.bbl' found.
 
 (estructura_tesis.bbl)
-Package biblatex Info: Reference section=0 on input line 97.
-Package biblatex Info: Reference segment=0 on input line 97.
-Package hyperref Info: Link coloring ON on input line 97.
+Package biblatex Info: Reference section=0 on input line 101.
+Package biblatex Info: Reference segment=0 on input line 101.
+Package hyperref Info: Link coloring ON on input line 101.
  (estructura_tesis.out) (estructura_tesis.out)
 \@outlinefile=\write5
 \openout5 = `estructura_tesis.out'.
@@ -1126,17 +1249,17 @@ Package hyperref Info: Link coloring ON on input line 97.
 
 (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count489
-\scratchdimen=\dimen303
-\scratchbox=\box82
-\nofMPsegments=\count490
-\nofMParguments=\count491
-\everyMPshowfont=\toks45
-\MPscratchCnt=\count492
-\MPscratchDim=\dimen304
-\MPnumerator=\count493
-\makeMPintoPDFobject=\count494
-\everyMPtoPDFconversion=\toks46
+\scratchcounter=\count533
+\scratchdimen=\dimen307
+\scratchbox=\box84
+\nofMPsegments=\count534
+\nofMParguments=\count535
+\everyMPshowfont=\toks46
+\MPscratchCnt=\count536
+\MPscratchDim=\dimen308
+\MPnumerator=\count537
+\makeMPintoPDFobject=\count538
+\everyMPtoPDFconversion=\toks47
 ) (C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1149,27 +1272,27 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count495
+\c@lstlisting=\count539
 LaTeX Encoding Info:    Text command \textquotesingle (encoding OT1) is not dec
-lared on input line 97.
+lared on input line 101.
 LaTeX Encoding Info:    Redeclaring text symbol \textquotesingle (encoding TS1)
- on input line 97.
+ on input line 101.
 
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/upquote\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
-<imgs/logo_unlu.png, id=110, 903.375pt x 903.375pt>
+<imgs/logo_unlu.png, id=114, 903.375pt x 903.375pt>
 File: imgs/logo_unlu.png Graphic file (type png)
 <use imgs/logo_unlu.png>
-Package pdftex.def Info: imgs/logo_unlu.png  used on input line 108.
+Package pdftex.def Info: imgs/logo_unlu.png  used on input line 112.
 (pdftex.def)             Requested size: 135.43452pt x 135.43147pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 114.
+(Font)              <12> on input line 118.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 114.
+(Font)              <8> on input line 118.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 114.
+(Font)              <6> on input line 118.
 
 
 [1
@@ -1188,7 +1311,7 @@ LaTeX Info: Redefining \% on input line 1.
 
 [1]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 152.
+(Font)              <10.95> on input line 156.
 
 
 [1]
@@ -1335,136 +1458,37 @@ You may provide a definition with
 \DeclareUnicodeCharacter 
 
 ) (pseudocodigos/alpha_dbasmote.tex
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 2.
+\c@algpx@indentEndPage-0=\count540
 
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1 ...goritmo αDistance Borderline-ADASYN-SMOTE}
+l.7 ...ra minoritaria $p_i \in \mathcal{D}_{min}$}
                                                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
+(That was another \errmessage.)
 
+\c@algpx@indentEndPage-1=\count541
 
-Overfull \hbox (11.95786pt too wide) in paragraph at lines 1--1
-[][]\OT1/ptm/b/n/17.28 Pseudoc[]odi-go del al-go-rit-mo Dis-tan-ce Borderline-A
-DASYN-SMOTE 
- []
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-
-! LaTeX Error: Environment algorithm undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
+See the tikz package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.6 \begin{algorithm}
-                     [H]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! Package caption Error: \caption outside float.
-
-See the caption package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.7 \caption
-            {αDistance Borderline-ADASYN-SMOTE}
-If you do not understand this error, please take a closer look
-at the documentation of the `caption' package, especially the
-section about errors.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Environment algorithmic undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8 \begin{algorithmic}
-                       [1]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Undefined control sequence.
-l.9 \State
-           \textbf{Input:} Conjunto de datos $\mathcal{D}$, número de vecin...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.10 \Statex
-            
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-
-[10]
-! Undefined control sequence.
-l.12 \For
-         {cada muestra minoritaria $p_i \in \mathcal{D}_{min}$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.13     \State
-                Obtener sus $m$ vecinos más cercanos.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.14     \State
-                Separar los vecinos en:
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.19     \For
-             {cada vecino $p_j$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.20         \State
-                    Calcular peso: $\alpha_j = \frac{1}{\text{dist}(p_i, p_j)}$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+l.10     \For{cada vecino $p_j$}
+                                
+(That was another \errmessage.)
 
 ! Undefined control sequence.
 <argument> \text 
                  {dist}(p_i, p_j)
-l.20 ...\alpha_j = \frac{1}{\text{dist}(p_i, p_j)}
+l.11 ...\alpha_j = \frac{1}{\text{dist}(p_i, p_j)}
                                                   $
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1473,7 +1497,9 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.21     \EndFor
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.12     \EndFor
                 
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1481,35 +1507,61 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.22     \State
-                Calcular sumatoria de pesos:
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndPage-2=\count542
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.16     \If{$\alpha'_n > \alpha'_p$}
+                                     
+(That was another \errmessage.)
 
 ! Undefined control sequence.
-l.27     \If
-            {$\alpha'_n > \alpha'_p$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.28         \State
-                    Marcar $p_i$ como muestra peligrosa
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.29     \EndIf
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.18     \EndIf
                
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1517,8 +1569,62 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndCoordIndex-0=\count543
+\c@algpx@indentEndPage-3=\count544
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.23 \For{cada muestra peligrosa $p_i$}
+                                       
+(That was another \errmessage.)
+
 ! Undefined control sequence.
-l.30 \EndFor
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.27 \EndFor
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1526,107 +1632,73 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.33 \State
-            Calcular el total de ejemplos sintéticos a generar: $G = (N - n...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 3 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndPage-4=\count545
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.29 \For{cada muestra peligrosa $p_i$}
+                                       
+(That was another \errmessage.)
+
+\c@algpx@indentEndPage-5=\count546
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.30     \For{$j = 1$ hasta $g_i$}
+                                  
+(That was another \errmessage.)
 
 ! Undefined control sequence.
-l.34 \Statex
-             Donde $N$ es la cantidad de muestras mayoritarias y $n$ la cant...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.37 \For
-         {cada muestra peligrosa $p_i$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.38     \State
-                Calcular: $r_i = \frac{\Delta_i}{m}$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.39     \State
-                Normalizar: $\hat{r}_i = \frac{r_i}{\sum r_i}$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.40     \State
-                Asignar: $g_i = \hat{r}_i \cdot G$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.41 \EndFor
-            
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.44 \For
-         {cada muestra peligrosa $p_i$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.45     \For
-             {$g_i$ veces}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.46         \State
-                    Seleccionar un vecino minoritario $p_z$ aleatorio
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.47         \State
-                    Generar muestra sintética:
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.51     \EndFor
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.34     \EndFor
                 
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1634,8 +1706,75 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndCoordIndex-4=\count547
+)
+
+[10] (pseudocodigos/ar_adasyn.tex
+\c@algpx@indentEndPage-6=\count548
+
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 \For{cada $x_i \in X_{min}$}
+                                
+(That was another \errmessage.)
+
 ! Undefined control sequence.
-l.52 \EndFor
+l.12 ...intéticas: $g_i \gets \left\lfloor \dfrac
+                                                  {w_i}{\sum w} \cdot G \rig...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.13 \EndFor
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1643,324 +1782,137 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 6 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndPage-7=\count549
 
-! LaTeX Error: \begin{document} ended by \end{algorithmic}.
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+See the tikz package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.53 \end{algorithmic}
-                      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+l.15 ...{cada $x_i \in X_{min}$ tal que $g_i > 0$}
+                                                  
+(That was another \errmessage.)
 
+\c@algpx@indentEndPage-8=\count550
 
-! LaTeX Error: \begin{document} ended by \end{algorithm}.
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+See the tikz package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.54 \end{algorithm}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+l.21     \For{$j = 1$ hasta $g_i$}
+                                  
+(That was another \errmessage.)
 
-) (pseudocodigos/ar_adasyn.tex
+! Undefined control sequence.
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.28     \EndFor
+                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-! Package pgfkeys Error: I do not know the key '/tcb/enhanced' and I am going t
-o ignore it. Perhaps you misspelled it.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4 \begin{pseudo}[Pseudocódigo AR\_ADASYN]
-                                            
-This error message was generated by an \errmessage
-command, so I can't give any explicit help.
-Pretend that you're Hercule Poirot: Examine all clues,
-and deduce the truth by order and method.
-
-
-! LaTeX Error: Unicode character β (U+03B2)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.5 ...lanceado, vecinos k, proporción deseada β
-                                                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ᵢ (U+1D62)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8 Para cada instancia minoritaria xᵢ
-                                         etiquetada como peligrosa hacer:
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ᵢ (U+1D62)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.9 ...lcular número de muestras sintéticas gᵢ
-                                                   a generar
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character θ (U+03B8)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.11     Calcular ángulo θ
-                             y radio r a partir de distancia media
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ᵢ (U+1D62)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.12     Para j = 1 hasta gᵢ
-                               hacer:
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.13         Generar ángulo α
-                                ∈ [0, θ] y radio β ∈ [0, r]
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ∈ (U+2208)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.13         Generar ángulo α ∈
-                                    [0, θ] y radio β ∈ [0, r]
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character θ (U+03B8)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.13         Generar ángulo α ∈ [0, θ
-                                          ] y radio β ∈ [0, r]
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character β (U+03B2)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.13 ... Generar ángulo α ∈ [0, θ] y radio β
-                                                   ∈ [0, r]
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ∈ (U+2208)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.13 ...erar ángulo α ∈ [0, θ] y radio β ∈
-                                                   [0, r]
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ᵢ (U+1D62)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.15             x\_syn = xᵢ
-                               + β · R(α) · r(α)
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character β (U+03B2)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.15             x\_syn = xᵢ + β
-                                    · R(α) · r(α)
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-5.
-(C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/psnfss\ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 8 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndCoordIndex-7=\count551
 )
 
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.15             x\_syn = xᵢ + β · R(α
-                                           ) · r(α)
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character α (U+03B1)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.15 ...       x\_syn = xᵢ + β · R(α) · r(α
-                                                  )
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-) (pseudocodigos/alpha_dbasmote_ar_adasyn.tex
+[11] (pseudocodigos/alpha_dbasmote_ar_adasyn.tex
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <17.28> on input line 1.
+\c@algpx@indentEndPage-9=\count552
 
 
-! LaTeX Error: Environment algorithm undefined.
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+See the tikz package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.4 \begin{algorithm}
-                     [H]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! Package caption Error: \caption outside float.
-
-See the caption package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.5 \caption
-            {Sobremuestreo h\u00edbrido \boldmath$\alpha$DBASMOTE\_AR\_ADASYN}
-If you do not understand this error, please take a closer look
-at the documentation of the `caption' package, especially the
-section about errors.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Environment algorithmic undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.6 \begin{algorithmic}
-                       [1]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Undefined control sequence.
-l.7 \State
-           \textbf{Entrada:} conjunto de datos desbalanceado, vecinos $k$, p...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.8 \State
-           \textbf{Salida:} nuevas muestras sint\u00e9ticas
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.9 \ForAll
-           {instancias minoritarias $p_i$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.10   \State
-              Obtener sus $k$ vecinos m\u00e1s cercanos
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.11   \State
-              Calcular pesos inversos $\alpha_j = 1/\text{dist}(p_i, p_j)$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+l.9 \ForAll{instancias minoritarias $p_i$}
+                                          
+(That was another \errmessage.)
 
 ! Undefined control sequence.
 l.11 ...alcular pesos inversos $\alpha_j = 1/\text
@@ -1971,34 +1923,21 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.12   \State
-              Sumar pesos para vecinos mayoritarios $\alpha'_n$ y minoritari...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+\c@algpx@indentEndPage-10=\count553
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.13   \If{$\alpha'_n > \alpha'_p$}
+                                   
+(That was another \errmessage.)
 
 ! Undefined control sequence.
-l.13   \If
-          {$\alpha'_n > \alpha'_p$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.14     \State
-                Etiquetar $p_i$ como muestra peligrosa
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
 l.15   \EndIf
              
 The control sequence at the end of the top line
@@ -2007,104 +1946,70 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.16 \EndFor
-            
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndCoordIndex-9=\count554
+\c@algpx@indentEndPage-11=\count555
 
-! Undefined control sequence.
-l.17 \State
-            Filtrar muestras peligrosas seg\u00fan percentil 25 de $\alpha'_n$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-! Undefined control sequence.
-l.18 \State
-            Calcular total de sint\u00e9ticos $G = (N - n) \cdot \beta$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.19 \ForAll{muestras peligrosas $p_i$}
+                                       
+(That was another \errmessage.)
 
-! Undefined control sequence.
-l.19 \ForAll
-            {muestras peligrosas $p_i$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+\c@algpx@indentEndPage-12=\count556
 
-! Undefined control sequence.
-l.20   \State
-              Calcular proporci\u00f3n de vecinos mayoritarios $r_i$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-! Undefined control sequence.
-l.21   \State
-              Calcular $g_i$ cantidad de muestras sint\u00e9ticas para $p_i$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.22   \State
-              Identificar vecinos minoritarios m\u00e1s cercanos $x_{nn1}$ y...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.23   \State
-              Calcular \u00e1ngulo $\theta$ y radio $r$ (AR-ADASYN)
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.24   \For
-           {$j = 1$ to $g_i$}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.25     \State
-                Generar \u00e1ngulo $\alpha \in [0, \theta]$, radio $\beta \...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.26     \State
-                Calcular punto sint\u00e9tico $x^{(j)}_{\text{syn}} = p_i + ...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.24   \For{$j = 1$ to $g_i$}
+                             
+(That was another \errmessage.)
 
 ! Undefined control sequence.
 l.26 ...cular punto sint\u00e9tico $x^{(j)}_{\text
@@ -2116,6 +2021,8 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
 l.27   \EndFor
               
 The control sequence at the end of the top line
@@ -2124,7 +2031,129 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndCoordIndex-11=\count557
+)
+
+[12] (pseudocodigos/pc_smote_modificado.tex
+\c@algpx@indentEndPage-13=\count558
+
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.20 \For{cada $x_i \in X_{min}$}
+                                 
+(That was another \errmessage.)
+
 ! Undefined control sequence.
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.23 \EndFor
+            
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 3 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndPage-14=\count559
+
+! Package tikz Error: Unknown coordinate system 'pic'.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.25 \For{cada $x_i \in X_{min}$}
+                                 
+(That was another \errmessage.)
+
+! Undefined control sequence.
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
 l.28 \EndFor
             
 The control sequence at the end of the top line
@@ -2133,87 +2162,208 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 4 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
+\c@algpx@indentEndPage-15=\count560
 
-! LaTeX Error: \begin{document} ended by \end{algorithmic}.
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+See the tikz package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.29 \end{algorithmic}
-                      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+l.33 \For{$j = 1$ hasta $G$}
+                            
+(That was another \errmessage.)
 
+\c@algpx@indentEndPage-16=\count561
 
-! LaTeX Error: \begin{document} ended by \end{algorithm}.
+! Package tikz Error: Unknown coordinate system 'pic'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+See the tikz package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.30 \end{algorithm}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-)
-
-[11] (pseudocodigos/pc_smote.tex
-
-! Package pgfkeys Error: I do not know the key '/tcb/enhanced' and I am going t
-o ignore it. Perhaps you misspelled it.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4 \begin{pseudo}[Pseudocódigo PC\_SMOTE]
-                                           
+l.37     \If{no hay vecinos válidos}
+                                     
 (That was another \errmessage.)
 
 ! Undefined control sequence.
-l.10 ...istancias inversas \( \alpha_j = 1 / \text
-                                                  {dist}(x_i, x_j) \)
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.39     \EndIf
+               
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 6 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
 ! Undefined control sequence.
-l.21         Calcular: \( x^{(j)}_{\text
-                                        {syn}} = x_i + \lambda \cdot (x_{nn}...
+<argument> ...X ,\algpx@indEndShiftY );}\tikzmark 
+                                                  {algpx@indentEnd-\FSTop {a...
+l.44 \EndFor
+            
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-)
-Overfull \hbox (0.70001pt too wide) in paragraph at lines 243--243
-[]\OT1/ptm/b/n/14.4 Implementar y eva-luar ex-pe-ri-men-tal-men-te el ren-di-mi
-en-to de am-bas t[]ecni-
- []
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no E in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no C in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no ) in font nullfont!
 
-LaTeX Font Info:    Trying to load font information for OT1+zi4 on input line 2
-52.
+
+[13]) (pseudocodigos/resultados_comparativos.tex
+LaTeX Font Info:    Trying to load font information for OT1+zi4 on input line 4
+.
+
 (C:\Users\User\AppData\Roaming\MiKTeX\tex/latex/inconsolata\ot1zi4.fd
 File: ot1zi4.fd 2018/01/14 OT1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `OT1/zi4/m/n' will be
-(Font)              scaled to size 12.0pt on input line 252.
+(Font)              scaled to size 12.0pt on input line 4.
+<figuras/comparacion_tecnicas_sobremuestreo.png, id=306, 570.933pt x 354.123pt>
 
-Overfull \hbox (0.91719pt too wide) in paragraph at lines 252--253
+File: figuras/comparacion_tecnicas_sobremuestreo.png Graphic file (type png)
+<use figuras/comparacion_tecnicas_sobremuestreo.png>
+Package pdftex.def Info: figuras/comparacion_tecnicas_sobremuestreo.png  used o
+n input line 23.
+(pdftex.def)             Requested size: 314.40001pt x 195.0114pt.
+
+
+[14{C:/Users/User/AppData/Roaming/MiKTeX/fonts/enc/dvips/inconsolata/i4-ot1-0.e
+nc}])
+Overfull \hbox (0.70001pt too wide) in paragraph at lines 253--253
+[]\OT1/ptm/b/n/14.4 Implementar y eva-luar ex-pe-ri-men-tal-men-te el ren-di-mi
+en-to de am-bas t[]ecni-
+ []
+
+
+Overfull \hbox (0.91719pt too wide) in paragraph at lines 262--263
 []\OT1/ptm/b/n/12 Carga y pre-pro-ce-sa-mien-to del da-ta-set: \OT1/ptm/m/n/12 
 el sis-te-ma de-tec-ta au-tom[]ati-ca-men-te los ar-chi-vos \OT1/zi4/m/n/12 .da
 ta
  []
 
 
-Overfull \hbox (32.9225pt too wide) in paragraph at lines 254--255
+Overfull \hbox (32.9225pt too wide) in paragraph at lines 264--265
 []\OT1/ptm/b/n/12 Normalizaci[]on: \OT1/ptm/m/n/12 to-dos los atri-bu-tos son e
 s-tan-da-ri-za-dos uti-li-zan-do \OT1/zi4/m/n/12 StandardScaler \OT1/ptm/m/n/12
  de \OT1/zi4/m/n/12 scikit-learn\OT1/ptm/m/n/12 ,
@@ -2221,9 +2371,8 @@ s-tan-da-ri-za-dos uti-li-zan-do \OT1/zi4/m/n/12 StandardScaler \OT1/ptm/m/n/12
 
 
 
-[12{C:/Users/User/AppData/Roaming/MiKTeX/fonts/enc/dvips/inconsolata/i4-ot1-0.e
-nc}]
-Overfull \hbox (66.25653pt too wide) in paragraph at lines 265--266
+[15 <./figuras/comparacion_tecnicas_sobremuestreo.png>]
+Overfull \hbox (66.25653pt too wide) in paragraph at lines 275--276
 []\OT1/ptm/m/n/12 El c[]odi-go fuen-te com-ple-to de es-te pi-pe-li-ne se en-cu
 en-tra do-cu-men-ta-do en el ar-chi-vo \OT1/zi4/m/n/12 script[]experimentos.tex
 \OT1/ptm/m/n/12 ,
@@ -2231,7 +2380,7 @@ en-tra do-cu-men-ta-do en el ar-chi-vo \OT1/zi4/m/n/12 script[]experimentos.tex
 
 
 
-[13]
+[16]
 
 ! LaTeX Error: Unicode character α (U+03B1)
                not set up for use with LaTeX.
@@ -2240,15 +2389,15 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.279 
+l.289 
       
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
 
 
-[14]
-Overfull \hbox (28.94173pt too wide) in paragraph at lines 279--279
+[17]
+Overfull \hbox (28.94173pt too wide) in paragraph at lines 289--289
 [][]\OT1/ptm/m/n/12 Saputra, R. H., Pra-ta-ma, B. W., & Sur-ya-ne-ga-ra, M. (20
 24). SMOTE-MRS: A no-vel SMO-TE{multiresolution
  []
@@ -2260,11 +2409,11 @@ LaTeX Font Info:    Font shape `OT1/zi4/m/n' will be
 (Font)              scaled to size 10.0pt on input line 2.
 
 
-[15]
+[18]
 
-[16]
+[19]
 
-[17]
+[20]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 153.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -2281,11 +2430,9 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+)
 
-
-[18])
-
-[19] (estructura_tesis.aux
+[21] (estructura_tesis.aux
 LaTeX Info: Redefining \sptext on input line 12.
 LaTeX Info: Redefining \. on input line 12.
 LaTeX Info: Redefining \% on input line 12.
@@ -2295,19 +2442,19 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-06-09>
  ***********
 Package rerunfilecheck Info: File `estructura_tesis.out' has not changed.
-(rerunfilecheck)             Checksum: FA7928F228199DE5D0598B4B503E0527;6971.
+(rerunfilecheck)             Checksum: 5E1E8E526DAAC74E6D29C110B3E43D17;7434.
 Package logreq Info: Writing requests to 'estructura_tesis.run.xml'.
 \openout1 = `estructura_tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 36650 strings out of 468221
- 706437 string characters out of 5442961
- 2358143 words of memory out of 5000000
- 64409 multiletter control sequences out of 15000+600000
- 659722 words of font info for 99 fonts, out of 8000000 for 9000
+ 38773 strings out of 468221
+ 752227 string characters out of 5442962
+ 2323471 words of memory out of 5000000
+ 66486 multiletter control sequences out of 15000+600000
+ 662335 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,10n,105p,1967b,2903s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,10n,105p,1967b,2903s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{toc} has been referenced but does not exist, replac
 ed by a fixed one
@@ -2324,9 +2471,9 @@ m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTe
 X/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/tim
 es/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Pr
 ogram Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on estructura_tesis.pdf (21 pages, 480842 bytes).
+Output written on estructura_tesis.pdf (23 pages, 518257 bytes).
 PDF statistics:
- 638 PDF objects out of 1000 (max. 8388607)
- 243 named destinations out of 1000 (max. 500000)
- 226 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 652 PDF objects out of 1000 (max. 8388607)
+ 247 named destinations out of 1000 (max. 500000)
+ 239 words of extra memory for PDF output out of 10000 (max. 10000000)
 

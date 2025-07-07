@@ -1,0 +1,49 @@
+
+\subsection{PC-SMOTE: Generación sintética guiada por densidad y riesgo}
+
+PC-SMOTE (Percentile-Controlled SMOTE) es una técnica propuesta en este trabajo que incorpora dos innovaciones fundamentales respecto a SMOTE clásico: la densidad geométrica local y el filtrado conjunto por riesgo. La densidad se define de manera novedosa como el grado de intersección entre áreas circulares de radio fijo centradas en cada muestra minoritaria, permitiendo identificar regiones densas sin depender exclusivamente del número de vecinos.
+
+El algoritmo opera en dos fases. Primero, calcula el \textbf{riesgo local} de cada muestra minoritaria como la proporción de vecinos mayoritarios en su vecindario. Luego, determina la \textbf{densidad por intersección} calculando cuántas esferas de radio $r$ se superponen en el espacio de características. Las muestras candidatas deben presentar riesgo medio y densidad mayor que cero para ser consideradas en la generación sintética.
+
+Adicionalmente, PC-SMOTE emplea una \textbf{selección adaptativa de vecinos} restringida por un percentil de distancia, y ajusta el parámetro de interpolación $\delta$ en función del riesgo de la muestra, generando puntos sintéticos sólo entre vecinos válidos y de forma controlada.
+
+Este enfoque reduce la probabilidad de generar instancias en regiones ruidosas o escasamente representadas, maximizando la utilidad de los sintéticos creados.
+
+\begin{algorithm}[H]
+\caption{Pseudocódigo de PC-SMOTE}
+\begin{algorithmic}[1]
+\Require Conjunto de datos $(X, y)$ con clases desbalanceadas
+\Require Número de vecinos $k \in \{5, 7, 9\}$, radio $r$, cantidad de muestras sintéticas $G$
+\Ensure Conjunto aumentado $(X', y')$
+
+\State Separar clases: $X_{min} \gets$ instancias minoritarias, $X_{maj} \gets$ instancias mayoritarias
+\For{cada $x_i \in X_{min}$}
+    \State Calcular vecinos $k$ más cercanos en $X$
+    \State Calcular riesgo $r_i \gets$ proporción de vecinos mayoritarios
+\EndFor
+
+\For{cada $x_i \in X_{min}$}
+    \State Calcular vecinos $k$ más cercanos en $X_{min}$
+    \State Calcular densidad $d_i \gets$ proporción de vecinos con distancia $\leq 2r$
+\EndFor
+
+\State Filtrar instancias peligrosas: $r_i$ dentro del rango y $d_i > 0$
+
+\State Inicializar conjunto de sintéticos $S \gets \emptyset$
+\For{$j = 1$ hasta $G$}
+    \State Elegir $x_i$ aleatorio del subconjunto filtrado
+    \State Obtener vecinos $N_i$ y calcular distancias
+    \State Filtrar vecinos dentro del percentil adecuado
+    \If{no hay vecinos válidos}
+        \State continuar al siguiente $j$
+    \EndIf
+    \State Elegir vecino $x_z$ válido
+    \State Calcular $\delta$ según $r_i$
+    \State Generar $x_{syn} = x_i + \delta \cdot (x_z - x_i)$
+    \State Agregar $x_{syn}$ a $S$
+\EndFor
+
+\State \Return $X' = X \cup S$, $y' = y \cup$ unos
+\end{algorithmic}
+\end{algorithm}
+

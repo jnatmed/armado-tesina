@@ -1,24 +1,43 @@
-\section*{Pseudocódigo: \textit{PC\_SMOTE}}
-\noindent\hypertarget{pseudocodigo_pc_smote}{}\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+\begin{algorithm}[H]
+\caption{Pseudocódigo de PC-SMOTE}
+\begin{algorithmic}[1]
+\REQUIRE Conjunto de datos $(X, y)$ con clases balanceadas, número de vecinos $k \in \{5, 7, 9\}$, radio de densidad $r$, número de muestras sintéticas $G$
+\ENSURE Conjunto aumentado $(X', y')$
 
-\begin{pseudo}[Pseudocódigo PC\_SMOTE]
-Entrada: conjunto de datos desbalanceado, vecinos k, umbral de percentil \( p \)  
-Salida: nuevas muestras sintéticas
+\STATE Separar clases: $X_{\text{min}} \gets$ instancias minoritarias, $X_{\text{maj}} \gets$ instancias mayoritarias
 
-Para cada instancia minoritaria \( x_i \):  
-    Calcular k vecinos más cercanos  
-    Calcular distancias inversas \( \alpha_j = 1 / \text{dist}(x_i, x_j) \)  
-    Sumar pesos para vecinos mayoritarios \( \alpha'_n \)  
-Fin Para
+\STATE Calcular vecinos $k$ más cercanos a cada $x_i \in X_{\text{min}}$ en el conjunto completo $X$
 
-Calcular percentil \( p \) de los valores \( \alpha'_n \)  
-Filtrar las muestras cuya \( \alpha'_n \) esté por debajo del percentil  
+\FOR{cada $x_i \in X_{\text{min}}$}
+    \STATE Calcular riesgo $r_i$ = proporción de vecinos mayoritarios entre los $k$
+\ENDFOR
 
-Para cada muestra filtrada:  
-    Generar \( g_i \) puntos sintéticos entre \( x_i \) y vecinos minoritarios  
-    Para \( j = 1 \) hasta \( g_i \):  
-        Seleccionar aleatoriamente vecino minoritario \( x_{nn} \)  
-        Calcular: \( x^{(j)}_{\text{syn}} = x_i + \lambda \cdot (x_{nn} - x_i) \), con \( \lambda \in [0, 1] \)  
-    Fin Para  
-Fin Para
-\end{pseudo}
+\STATE Calcular vecinos $k$ más cercanos entre $X_{\text{min}}$ únicamente
+
+\FOR{cada $x_i \in X_{\text{min}}$}
+    \STATE Calcular densidad local $d_i$ = proporción de vecinos cuya distancia $\leq 2r$
+\ENDFOR
+
+\STATE Definir umbral de riesgo y percentil de corte según el valor de $k$
+\STATE Filtrar instancias peligrosas: $x_i$ con $r_i$ dentro del rango y $d_i > 0$
+
+\STATE Inicializar lista de muestras sintéticas $S \gets \emptyset$
+
+\FOR{$j = 1$ hasta $G$}
+    \STATE Elegir aleatoriamente una muestra $x_i$ del subconjunto filtrado
+    \STATE Obtener $r_i$ y sus vecinos $N_i$
+    \STATE Calcular distancias de $x_i$ a $N_i$ y seleccionar vecinos dentro del percentil correspondiente
+    \IF{no hay vecinos válidos}
+        \STATE continuar al siguiente $j$
+    \ENDIF
+    \STATE Seleccionar aleatoriamente un vecino $x_z$ entre los válidos
+    \STATE Definir $\delta$ adaptativamente en función de $r_i$
+    \STATE Generar muestra sintética: $x_{\text{syn}} = x_i + \delta \cdot (x_z - x_i)$
+    \STATE Agregar $x_{\text{syn}}$ a $S$
+\ENDFOR
+
+\STATE $X' \gets X \cup S$, $y' \gets y \cup \text{unos}$
+
+\RETURN $(X', y')$
+\end{algorithmic}
+\end{algorithm}

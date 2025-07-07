@@ -17,6 +17,7 @@
 \usepackage{setspace}
 \usepackage{times}
 \usepackage{graphicx}
+\graphicspath{{figuras/}{codigo/figuras/}}
 \usepackage{tocloft}  % Mejora el índice
 
 \usepackage{booktabs}
@@ -27,6 +28,9 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{float}  % Para usar [H]
+
+\usepackage{algorithm}
+\usepackage{algpseudocodex}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listings, breakable}
@@ -235,8 +239,14 @@ En síntesis, la evolución del algoritmo SMOTE ha dado lugar a una diversidad d
 \subsubsection{Pseudocódigo: \textit{alpha\_dbasmote\_ar\_adasyn}}
 \input{pseudocodigos/alpha_dbasmote_ar_adasyn}
 
-\subsubsection{Pseudocódigo: \textit{pc\_smote}}
-\input{pseudocodigos/pc_smote}
+% \input{pseudocodigos/pc_smote.tex}
+
+\input{pseudocodigos/pc_smote_modificado.tex}
+
+\input{pseudocodigos/resultados_comparativos.tex}
+
+
+
 
 \subsection{Diseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}
 
@@ -274,7 +284,7 @@ El principal aporte de este trabajo consiste en el desarrollo de una técnica h�
 Como segundo aporte, se propone una nueva variante, que extiende el enfoque clásico de SMOTE mediante la incorporación de criterios adaptativos de generación de muestras. La propuesta incluye mecanismos adaptativos en las tres fases del algoritmo: (i) selección de muestras minoritarias, (ii) elección filtrada de vecinos representativos, y (iii) ajuste del parámetro de interpolación que determina la posición relativa de la muestra sintética entre una instancia minoritaria y su vecino seleccionado. La hipótesis es que esta estrategia permitirá un control más preciso sobre la distribución de las muestras generadas, adecuándose mejor a la morfología del espacio de decisión y mitigando la generación de ruido o redundancia.
 Ambas líneas de desarrollo buscan aportar soluciones que mejoren la capacidad de generalización de los clasificadores en contextos reales, tanto en clasificación binaria como multiclase, y servir como base para futuros trabajos que exploren la combinación de mecanismos estructurales con esquemas de generación controlada de datos sintéticos.
 
-\section{Referencias bibliográficas de la propuesta} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+\section{Referencias bibliográficas} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 \printbibliography
 
 \appendix

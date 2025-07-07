@@ -1,18 +1,33 @@
-\section*{Pseudocódigo: \textit{AR\_ADASYN}}
-\noindent\hypertarget{pseudocodigo_ar_adasyn}{}\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+\begin{algorithm}[H]
+\caption{Pseudocódigo de AR\_ADASYN}
+\begin{algorithmic}[1]
+\Require Conjunto de datos $(X, y)$ desbalanceado, número de vecinos $k$, proporción deseada de balance $\beta$
+\Ensure Nuevas muestras sintéticas $X_{syn}$
 
-\begin{pseudo}[Pseudocódigo AR\_ADASYN]
-Entrada: conjunto de datos desbalanceado, vecinos k, proporción deseada β  
-Salida: nuevas muestras sintéticas
+\State Calcular número total de muestras sintéticas: $G \gets \#X_{maj} - \#X_{min}$
 
-Para cada instancia minoritaria xᵢ etiquetada como peligrosa hacer:  
-    Calcular número de muestras sintéticas gᵢ a generar  
-    Identificar vecinos minoritarios x\_nn1 y x\_nn2  
-    Calcular ángulo θ y radio r a partir de distancia media  
-    Para j = 1 hasta gᵢ hacer:  
-        Generar ángulo α ∈ [0, θ] y radio β ∈ [0, r]  
-        Calcular punto sintético:  
-            x\_syn = xᵢ + β · R(α) · r(α)  
-    Fin Para  
-Fin Para
-\end{pseudo}
+\For{cada $x_i \in X_{min}$}
+    \State Obtener $k$ vecinos más cercanos en $X$
+    \State Calcular riesgo $w_i \gets$ proporción de vecinos mayoritarios
+    \State Calcular número de muestras sintéticas: $g_i \gets \left\lfloor \dfrac{w_i}{\sum w} \cdot G \right\rfloor$
+\EndFor
+
+\For{cada $x_i \in X_{min}$ tal que $g_i > 0$}
+    \State Obtener al menos dos vecinos minoritarios $x_{nn1}, x_{nn2}$
+    \State Calcular $v_1 = x_{nn1} - x_i$, $v_2 = x_{nn2} - x_i$
+    \State Calcular radio $r \gets \max(||v_1||, ||v_2||)$
+    \State Calcular ángulo $\theta$ entre $v_1$ y $v_2$
+    
+    \For{$j = 1$ hasta $g_i$}
+        \State Generar ángulo aleatorio $\alpha \in [0, \theta]$
+        \State Generar radio aleatorio $\rho \in [0, r]$
+        \State Calcular vector perpendicular aleatorio $v_\perp$
+        \State Calcular vector rotado: $v_{rot} = \cos(\alpha)v_1 + \sin(\alpha)v_\perp$
+        \State Generar muestra sintética: $x_{syn} = x_i + \rho \cdot v_{rot}$
+        \State Agregar $x_{syn}$ a $X_{syn}$
+    \EndFor
+\EndFor
+
+\State \Return $X_{syn}$
+\end{algorithmic}
+\end{algorithm}

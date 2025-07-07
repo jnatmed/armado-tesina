@@ -192,41 +192,442 @@
 \newlabel{tab:promedios_globales}{{3}{10}{Promedios globales de desempeño por técnica en todos los datasets}{table.caption.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.3}10.4. Análisis crítico}{10}{subsection.8.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {9}Propuesta metodológica}{10}{section.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Explorar desafíos recurrentes en el sobremuestreo actual}{10}{subsection.9.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Describir y formalizar matemáticamente dos versiones binarias (híbrida y con modificaciones estructurales respectivamente) y una versión multiclase del algoritmo de sobremuestreo SMOTE}{10}{subsection.9.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.1}Pseudocódigo: \textit  {alpha\_dbasmote}}{10}{subsubsection.9.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.2}Pseudocódigo: \textit  {ar\_adasyn}}{11}{subsubsection.9.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.3}Pseudocódigo: \textit  {alpha\_dbasmote\_ar\_adasyn}}{11}{subsubsection.9.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.4}Pseudocódigo: \textit  {pc\_smote}}{12}{subsubsection.9.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}Diseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}{12}{subsection.9.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Implementar y evaluar experimentalmente el rendimiento de ambas técnicas propias}{12}{subsection.9.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.5}9.4 Diseño del pipeline experimental}{12}{subsection.9.5}\protected@file@percent }
-\newlabel{sec:pipeline_experimental}{{9.5}{12}{9.4 Diseño del pipeline experimental}{subsection.9.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {10}Recursos involucrados y cronograma de trabajo}{13}{section.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {11}Aportes esperados}{13}{section.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {12}Referencias bibliográficas de la propuesta}{14}{section.12}\protected@file@percent }
-\abx@aux@page{45}{14}
-\abx@aux@page{46}{14}
-\abx@aux@page{47}{14}
-\abx@aux@page{48}{14}
-\abx@aux@page{49}{14}
-\abx@aux@page{50}{14}
-\abx@aux@page{51}{14}
-\abx@aux@page{52}{14}
-\abx@aux@page{53}{14}
-\abx@aux@page{54}{15}
-\abx@aux@page{55}{15}
-\abx@aux@page{56}{15}
-\abx@aux@page{57}{15}
-\abx@aux@page{58}{15}
-\abx@aux@page{59}{15}
-\abx@aux@page{60}{15}
-\abx@aux@page{61}{15}
-\abx@aux@page{62}{15}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Código fuente del pipeline experimental}{15}{appendix.Alph1}\protected@file@percent }
-\newlabel{apendice:codigo_pipeline}{{A}{15}{Código fuente del pipeline experimental}{appendix.Alph1}{}}
-\newlabel{lst:script_experimento}{{1}{15}{Script de experimentación automática}{lstlisting.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces Script de experimentación automática}}{15}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Explorar desafíos recurrentes en el sobremuestreo actual}{11}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Describir y formalizar matemáticamente dos versiones binarias (híbrida y con modificaciones estructurales respectivamente) y una versión multiclase del algoritmo de sobremuestreo SMOTE}{11}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.1}Pseudocódigo: \textit  {alpha\_dbasmote}}{11}{subsubsection.9.2.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces $\alpha $Distance Borderline-ADASYN-SMOTE}}{11}{algorithm.1}\protected@file@percent }
+\pgfsyspdfmark {pgfid1}{5066291}{38279082}
+\pgfsyspdfmark {pgfid2}{18519693}{38279082}
+\pgfsyspdfmark {pgfid3}{18519693}{38279082}
+\pgfsyspdfmark {pgfid4}{6245939}{37099797}
+\pgfsyspdfmark {pgfid5}{17849219}{37099797}
+\pgfsyspdfmark {pgfid6}{17849219}{37099797}
+\pgfsyspdfmark {pgfid7}{6245939}{35920512}
+\pgfsyspdfmark {pgfid8}{6245939}{35920512}
+\pgfsyspdfmark {pgfid9}{6245939}{35920512}
+\pgfsyspdfmark {pgfid10}{6245939}{35920512}
+\pgfsyspdfmark {pgfid11}{26407048}{35920512}
+\pgfsyspdfmark {pgfid12}{26407048}{35920512}
+\pgfsyspdfmark {pgfid13}{6245939}{34741227}
+\pgfsyspdfmark {pgfid14}{6245939}{34741227}
+\pgfsyspdfmark {pgfid15}{6245939}{34741227}
+\pgfsyspdfmark {pgfid16}{6245939}{34741227}
+\pgfsyspdfmark {pgfid17}{6245939}{34741227}
+\pgfsyspdfmark {pgfid18}{13047736}{34741227}
+\pgfsyspdfmark {pgfid19}{13047736}{34741227}
+\pgfsyspdfmark {pgfid20}{7425587}{33561942}
+\pgfsyspdfmark {pgfid21}{7425587}{33561942}
+\pgfsyspdfmark {pgfid22}{7425587}{33561942}
+\pgfsyspdfmark {pgfid23}{7425587}{33561942}
+\pgfsyspdfmark {pgfid24}{16663092}{33561942}
+\pgfsyspdfmark {pgfid25}{16663092}{33561942}
+\pgfsyspdfmark {pgfid26}{16663092}{33561942}
+\pgfsyspdfmark {pgfid27}{6245939}{32382657}
+\pgfsyspdfmark {pgfid28}{6245939}{32382657}
+\pgfsyspdfmark {pgfid29}{6245939}{32382657}
+\pgfsyspdfmark {pgfid30}{6245939}{32382657}
+\pgfsyspdfmark {pgfid31}{15310236}{32382657}
+\pgfsyspdfmark {pgfid32}{15310236}{32382657}
+\pgfsyspdfmark {pgfid33}{6245939}{31203372}
+\pgfsyspdfmark {pgfid34}{6245939}{31203372}
+\pgfsyspdfmark {pgfid35}{6245939}{31203372}
+\pgfsyspdfmark {pgfid36}{6245939}{31203372}
+\pgfsyspdfmark {pgfid37}{18423924}{31203372}
+\pgfsyspdfmark {pgfid38}{18423924}{31203372}
+\pgfsyspdfmark {pgfid39}{6245939}{30024087}
+\pgfsyspdfmark {pgfid40}{6245939}{30024087}
+\pgfsyspdfmark {pgfid41}{6245939}{30024087}
+\pgfsyspdfmark {pgfid42}{6245939}{30024087}
+\pgfsyspdfmark {pgfid43}{18612062}{30024087}
+\pgfsyspdfmark {pgfid44}{18612062}{30024087}
+\pgfsyspdfmark {pgfid45}{6245939}{28844802}
+\pgfsyspdfmark {pgfid46}{6245939}{28844802}
+\pgfsyspdfmark {pgfid47}{6245939}{28844802}
+\pgfsyspdfmark {pgfid48}{6245939}{28844802}
+\pgfsyspdfmark {pgfid49}{6245939}{28844802}
+\pgfsyspdfmark {pgfid50}{11304545}{28844802}
+\pgfsyspdfmark {pgfid51}{11304545}{28844802}
+\pgfsyspdfmark {pgfid52}{7425587}{27665517}
+\pgfsyspdfmark {pgfid53}{7425587}{27665517}
+\pgfsyspdfmark {pgfid54}{7425587}{27665517}
+\pgfsyspdfmark {pgfid55}{7425587}{27665517}
+\pgfsyspdfmark {pgfid56}{18211592}{27665517}
+\pgfsyspdfmark {pgfid57}{18211592}{27665517}
+\pgfsyspdfmark {pgfid58}{18211592}{27665517}
+\pgfsyspdfmark {pgfid59}{6245939}{27495261}
+\pgfsyspdfmark {pgfid60}{5066291}{25306947}
+\pgfsyspdfmark {pgfid61}{15286865}{25306947}
+\pgfsyspdfmark {pgfid62}{15286865}{25306947}
+\pgfsyspdfmark {pgfid63}{6245939}{24127662}
+\pgfsyspdfmark {pgfid64}{6245939}{24127662}
+\pgfsyspdfmark {pgfid65}{6245939}{24127662}
+\pgfsyspdfmark {pgfid66}{6245939}{24127662}
+\pgfsyspdfmark {pgfid67}{11729210}{24127662}
+\pgfsyspdfmark {pgfid68}{11729210}{24127662}
+\pgfsyspdfmark {pgfid69}{6245939}{22948377}
+\pgfsyspdfmark {pgfid70}{6245939}{22948377}
+\pgfsyspdfmark {pgfid71}{6245939}{22948377}
+\pgfsyspdfmark {pgfid72}{6245939}{22948377}
+\pgfsyspdfmark {pgfid73}{13436573}{22948377}
+\pgfsyspdfmark {pgfid74}{13436573}{22948377}
+\pgfsyspdfmark {pgfid75}{6245939}{21769092}
+\pgfsyspdfmark {pgfid76}{6245939}{21769092}
+\pgfsyspdfmark {pgfid77}{6245939}{21769092}
+\pgfsyspdfmark {pgfid78}{6245939}{21769092}
+\pgfsyspdfmark {pgfid79}{12710294}{21769092}
+\pgfsyspdfmark {pgfid80}{12710294}{21769092}
+\pgfsyspdfmark {pgfid81}{12710294}{21769092}
+\pgfsyspdfmark {pgfid82}{5066291}{20589807}
+\pgfsyspdfmark {pgfid83}{15286865}{20589807}
+\pgfsyspdfmark {pgfid84}{15286865}{20589807}
+\pgfsyspdfmark {pgfid85}{6245939}{19410522}
+\pgfsyspdfmark {pgfid86}{6245939}{19410522}
+\pgfsyspdfmark {pgfid87}{6245939}{19410522}
+\pgfsyspdfmark {pgfid88}{6245939}{19410522}
+\pgfsyspdfmark {pgfid89}{6245939}{19410522}
+\pgfsyspdfmark {pgfid90}{12838347}{19410522}
+\pgfsyspdfmark {pgfid91}{12838347}{19410522}
+\pgfsyspdfmark {pgfid92}{7425587}{18231237}
+\pgfsyspdfmark {pgfid93}{7425587}{18231237}
+\pgfsyspdfmark {pgfid94}{7425587}{18231237}
+\pgfsyspdfmark {pgfid95}{7425587}{18231237}
+\pgfsyspdfmark {pgfid96}{20956581}{18231237}
+\pgfsyspdfmark {pgfid97}{20956581}{18231237}
+\pgfsyspdfmark {pgfid98}{7425587}{17051952}
+\pgfsyspdfmark {pgfid99}{7425587}{17051952}
+\pgfsyspdfmark {pgfid100}{7425587}{17051952}
+\pgfsyspdfmark {pgfid101}{7425587}{17051952}
+\pgfsyspdfmark {pgfid102}{27859479}{17051952}
+\pgfsyspdfmark {pgfid103}{27859479}{17051952}
+\pgfsyspdfmark {pgfid104}{7425587}{15872667}
+\pgfsyspdfmark {pgfid105}{7425587}{15872667}
+\pgfsyspdfmark {pgfid106}{7425587}{15872667}
+\pgfsyspdfmark {pgfid107}{7425587}{15872667}
+\pgfsyspdfmark {pgfid108}{12849525}{15872667}
+\pgfsyspdfmark {pgfid109}{12849525}{15872667}
+\pgfsyspdfmark {pgfid110}{12849525}{15872667}
+\pgfsyspdfmark {pgfid111}{6245939}{15652758}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.2}Pseudocódigo: \textit  {ar\_adasyn}}{12}{subsubsection.9.2.2}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Pseudocódigo de AR\_ADASYN}}{12}{algorithm.2}\protected@file@percent }
+\pgfsyspdfmark {pgfid112}{5066291}{42543075}
+\pgfsyspdfmark {pgfid113}{12225367}{42543075}
+\pgfsyspdfmark {pgfid114}{12225367}{42543075}
+\pgfsyspdfmark {pgfid115}{6245939}{41363790}
+\pgfsyspdfmark {pgfid116}{18237415}{41363790}
+\pgfsyspdfmark {pgfid117}{18237415}{41363790}
+\pgfsyspdfmark {pgfid118}{6245939}{40184505}
+\pgfsyspdfmark {pgfid119}{6245939}{40184505}
+\pgfsyspdfmark {pgfid120}{6245939}{40184505}
+\pgfsyspdfmark {pgfid121}{6245939}{40184505}
+\pgfsyspdfmark {pgfid122}{24349081}{40184505}
+\pgfsyspdfmark {pgfid123}{24349081}{40184505}
+\pgfsyspdfmark {pgfid124}{6245939}{39005220}
+\pgfsyspdfmark {pgfid125}{6245939}{39005220}
+\pgfsyspdfmark {pgfid126}{6245939}{39005220}
+\pgfsyspdfmark {pgfid127}{6245939}{39005220}
+\pgfsyspdfmark {pgfid128}{24835918}{39005220}
+\pgfsyspdfmark {pgfid129}{24835918}{39005220}
+\pgfsyspdfmark {pgfid130}{24835918}{39005220}
+\pgfsyspdfmark {pgfid131}{5066291}{37825935}
+\pgfsyspdfmark {pgfid132}{16749198}{37825935}
+\pgfsyspdfmark {pgfid133}{16749198}{37825935}
+\pgfsyspdfmark {pgfid134}{6245939}{36646650}
+\pgfsyspdfmark {pgfid135}{6245939}{36646650}
+\pgfsyspdfmark {pgfid136}{6245939}{36646650}
+\pgfsyspdfmark {pgfid137}{6245939}{36646650}
+\pgfsyspdfmark {pgfid138}{23102435}{36646650}
+\pgfsyspdfmark {pgfid139}{23102435}{36646650}
+\pgfsyspdfmark {pgfid140}{6245939}{35467365}
+\pgfsyspdfmark {pgfid141}{6245939}{35467365}
+\pgfsyspdfmark {pgfid142}{6245939}{35467365}
+\pgfsyspdfmark {pgfid143}{6245939}{35467365}
+\pgfsyspdfmark {pgfid144}{19031125}{35467365}
+\pgfsyspdfmark {pgfid145}{19031125}{35467365}
+\pgfsyspdfmark {pgfid146}{6245939}{34288080}
+\pgfsyspdfmark {pgfid147}{6245939}{34288080}
+\pgfsyspdfmark {pgfid148}{6245939}{34288080}
+\pgfsyspdfmark {pgfid149}{6245939}{34288080}
+\pgfsyspdfmark {pgfid150}{18003196}{34288080}
+\pgfsyspdfmark {pgfid151}{18003196}{34288080}
+\pgfsyspdfmark {pgfid152}{6245939}{33108795}
+\pgfsyspdfmark {pgfid153}{6245939}{33108795}
+\pgfsyspdfmark {pgfid154}{6245939}{33108795}
+\pgfsyspdfmark {pgfid155}{6245939}{33108795}
+\pgfsyspdfmark {pgfid156}{15943300}{33108795}
+\pgfsyspdfmark {pgfid157}{15943300}{33108795}
+\pgfsyspdfmark {pgfid158}{6245939}{31929510}
+\pgfsyspdfmark {pgfid159}{6245939}{31929510}
+\pgfsyspdfmark {pgfid160}{6245939}{31929510}
+\pgfsyspdfmark {pgfid161}{6245939}{31929510}
+\pgfsyspdfmark {pgfid162}{6245939}{31929510}
+\pgfsyspdfmark {pgfid163}{12838347}{31929510}
+\pgfsyspdfmark {pgfid164}{12838347}{31929510}
+\pgfsyspdfmark {pgfid165}{7425587}{30750225}
+\pgfsyspdfmark {pgfid166}{7425587}{30750225}
+\pgfsyspdfmark {pgfid167}{7425587}{30750225}
+\pgfsyspdfmark {pgfid168}{7425587}{30750225}
+\pgfsyspdfmark {pgfid169}{18434050}{30750225}
+\pgfsyspdfmark {pgfid170}{18434050}{30750225}
+\pgfsyspdfmark {pgfid171}{7425587}{29570940}
+\pgfsyspdfmark {pgfid172}{7425587}{29570940}
+\pgfsyspdfmark {pgfid173}{7425587}{29570940}
+\pgfsyspdfmark {pgfid174}{7425587}{29570940}
+\pgfsyspdfmark {pgfid175}{17800045}{29570940}
+\pgfsyspdfmark {pgfid176}{17800045}{29570940}
+\pgfsyspdfmark {pgfid177}{7425587}{28391655}
+\pgfsyspdfmark {pgfid178}{7425587}{28391655}
+\pgfsyspdfmark {pgfid179}{7425587}{28391655}
+\pgfsyspdfmark {pgfid180}{7425587}{28391655}
+\pgfsyspdfmark {pgfid181}{20743657}{28391655}
+\pgfsyspdfmark {pgfid182}{20743657}{28391655}
+\pgfsyspdfmark {pgfid183}{7425587}{27212370}
+\pgfsyspdfmark {pgfid184}{7425587}{27212370}
+\pgfsyspdfmark {pgfid185}{7425587}{27212370}
+\pgfsyspdfmark {pgfid186}{7425587}{27212370}
+\pgfsyspdfmark {pgfid187}{23673541}{27212370}
+\pgfsyspdfmark {pgfid188}{23673541}{27212370}
+\pgfsyspdfmark {pgfid189}{7425587}{26033085}
+\pgfsyspdfmark {pgfid190}{7425587}{26033085}
+\pgfsyspdfmark {pgfid191}{7425587}{26033085}
+\pgfsyspdfmark {pgfid192}{7425587}{26033085}
+\pgfsyspdfmark {pgfid193}{21989078}{26033085}
+\pgfsyspdfmark {pgfid194}{21989078}{26033085}
+\pgfsyspdfmark {pgfid195}{7425587}{24853800}
+\pgfsyspdfmark {pgfid196}{7425587}{24853800}
+\pgfsyspdfmark {pgfid197}{7425587}{24853800}
+\pgfsyspdfmark {pgfid198}{7425587}{24853800}
+\pgfsyspdfmark {pgfid199}{13846911}{24853800}
+\pgfsyspdfmark {pgfid200}{13846911}{24853800}
+\pgfsyspdfmark {pgfid201}{13846911}{24853800}
+\pgfsyspdfmark {pgfid202}{6245939}{24633891}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.3}Pseudocódigo: \textit  {alpha\_dbasmote\_ar\_adasyn}}{12}{subsubsection.9.2.3}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Sobremuestreo h\u 00edbrido \boldmath  $\alpha $DBASMOTE\_AR\_ADASYN}}{13}{algorithm.3}\protected@file@percent }
+\pgfsyspdfmark {pgfid203}{5066291}{47088328}
+\pgfsyspdfmark {pgfid204}{16206157}{47088328}
+\pgfsyspdfmark {pgfid205}{16206157}{47088328}
+\pgfsyspdfmark {pgfid206}{6245939}{45909043}
+\pgfsyspdfmark {pgfid207}{18782201}{45909043}
+\pgfsyspdfmark {pgfid208}{18782201}{45909043}
+\pgfsyspdfmark {pgfid209}{6245939}{44729758}
+\pgfsyspdfmark {pgfid210}{6245939}{44729758}
+\pgfsyspdfmark {pgfid211}{6245939}{44729758}
+\pgfsyspdfmark {pgfid212}{6245939}{44729758}
+\pgfsyspdfmark {pgfid213}{19940556}{44729758}
+\pgfsyspdfmark {pgfid214}{19940556}{44729758}
+\pgfsyspdfmark {pgfid215}{6245939}{43550473}
+\pgfsyspdfmark {pgfid216}{6245939}{43550473}
+\pgfsyspdfmark {pgfid217}{6245939}{43550473}
+\pgfsyspdfmark {pgfid218}{6245939}{43550473}
+\pgfsyspdfmark {pgfid219}{25240659}{43550473}
+\pgfsyspdfmark {pgfid220}{25240659}{43550473}
+\pgfsyspdfmark {pgfid221}{6245939}{42371188}
+\pgfsyspdfmark {pgfid222}{6245939}{42371188}
+\pgfsyspdfmark {pgfid223}{6245939}{42371188}
+\pgfsyspdfmark {pgfid224}{6245939}{42371188}
+\pgfsyspdfmark {pgfid225}{6245939}{42371188}
+\pgfsyspdfmark {pgfid226}{11304545}{42371188}
+\pgfsyspdfmark {pgfid227}{11304545}{42371188}
+\pgfsyspdfmark {pgfid228}{7425587}{41191903}
+\pgfsyspdfmark {pgfid229}{7425587}{41191903}
+\pgfsyspdfmark {pgfid230}{7425587}{41191903}
+\pgfsyspdfmark {pgfid231}{7425587}{41191903}
+\pgfsyspdfmark {pgfid232}{18824213}{41191903}
+\pgfsyspdfmark {pgfid233}{18824213}{41191903}
+\pgfsyspdfmark {pgfid234}{18824213}{41191903}
+\pgfsyspdfmark {pgfid235}{6245939}{41021647}
+\pgfsyspdfmark {pgfid236}{5066291}{37654048}
+\pgfsyspdfmark {pgfid237}{15288420}{37654048}
+\pgfsyspdfmark {pgfid238}{15288420}{37654048}
+\pgfsyspdfmark {pgfid239}{6245939}{36474763}
+\pgfsyspdfmark {pgfid240}{6245939}{36474763}
+\pgfsyspdfmark {pgfid241}{6245939}{36474763}
+\pgfsyspdfmark {pgfid242}{6245939}{36474763}
+\pgfsyspdfmark {pgfid243}{22070452}{36474763}
+\pgfsyspdfmark {pgfid244}{22070452}{36474763}
+\pgfsyspdfmark {pgfid245}{6245939}{35295478}
+\pgfsyspdfmark {pgfid246}{6245939}{35295478}
+\pgfsyspdfmark {pgfid247}{6245939}{35295478}
+\pgfsyspdfmark {pgfid248}{6245939}{35295478}
+\pgfsyspdfmark {pgfid249}{23149274}{35295478}
+\pgfsyspdfmark {pgfid250}{23149274}{35295478}
+\pgfsyspdfmark {pgfid251}{6245939}{34116193}
+\pgfsyspdfmark {pgfid252}{6245939}{34116193}
+\pgfsyspdfmark {pgfid253}{6245939}{34116193}
+\pgfsyspdfmark {pgfid254}{6245939}{34116193}
+\pgfsyspdfmark {pgfid255}{25530397}{34116193}
+\pgfsyspdfmark {pgfid256}{25530397}{34116193}
+\pgfsyspdfmark {pgfid257}{6245939}{32936908}
+\pgfsyspdfmark {pgfid258}{6245939}{32936908}
+\pgfsyspdfmark {pgfid259}{6245939}{32936908}
+\pgfsyspdfmark {pgfid260}{6245939}{32936908}
+\pgfsyspdfmark {pgfid261}{21291038}{32936908}
+\pgfsyspdfmark {pgfid262}{21291038}{32936908}
+\pgfsyspdfmark {pgfid263}{6245939}{31757623}
+\pgfsyspdfmark {pgfid264}{6245939}{31757623}
+\pgfsyspdfmark {pgfid265}{6245939}{31757623}
+\pgfsyspdfmark {pgfid266}{6245939}{31757623}
+\pgfsyspdfmark {pgfid267}{6245939}{31757623}
+\pgfsyspdfmark {pgfid268}{11834091}{31757623}
+\pgfsyspdfmark {pgfid269}{11834091}{31757623}
+\pgfsyspdfmark {pgfid270}{7425587}{30578338}
+\pgfsyspdfmark {pgfid271}{7425587}{30578338}
+\pgfsyspdfmark {pgfid272}{7425587}{30578338}
+\pgfsyspdfmark {pgfid273}{7425587}{30578338}
+\pgfsyspdfmark {pgfid274}{21837037}{30578338}
+\pgfsyspdfmark {pgfid275}{21837037}{30578338}
+\pgfsyspdfmark {pgfid276}{7425587}{29399053}
+\pgfsyspdfmark {pgfid277}{7425587}{29399053}
+\pgfsyspdfmark {pgfid278}{7425587}{29399053}
+\pgfsyspdfmark {pgfid279}{7425587}{29399053}
+\pgfsyspdfmark {pgfid280}{25032067}{29399053}
+\pgfsyspdfmark {pgfid281}{25032067}{29399053}
+\pgfsyspdfmark {pgfid282}{25032067}{29399053}
+\pgfsyspdfmark {pgfid283}{6245939}{29102689}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}PC-SMOTE: Generación sintética guiada por densidad y riesgo}{13}{subsection.9.3}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Pseudocódigo de PC-SMOTE}}{14}{algorithm.4}\protected@file@percent }
+\pgfsyspdfmark {pgfid284}{5066291}{44610204}
+\pgfsyspdfmark {pgfid285}{12225367}{44610204}
+\pgfsyspdfmark {pgfid286}{12225367}{44610204}
+\pgfsyspdfmark {pgfid287}{6245939}{43430919}
+\pgfsyspdfmark {pgfid288}{18368733}{43430919}
+\pgfsyspdfmark {pgfid289}{18368733}{43430919}
+\pgfsyspdfmark {pgfid290}{6245939}{42251634}
+\pgfsyspdfmark {pgfid291}{6245939}{42251634}
+\pgfsyspdfmark {pgfid292}{6245939}{42251634}
+\pgfsyspdfmark {pgfid293}{6245939}{42251634}
+\pgfsyspdfmark {pgfid294}{24145649}{42251634}
+\pgfsyspdfmark {pgfid295}{24145649}{42251634}
+\pgfsyspdfmark {pgfid296}{24145649}{42251634}
+\pgfsyspdfmark {pgfid297}{5066291}{41072349}
+\pgfsyspdfmark {pgfid298}{12225367}{41072349}
+\pgfsyspdfmark {pgfid299}{12225367}{41072349}
+\pgfsyspdfmark {pgfid300}{6245939}{39893064}
+\pgfsyspdfmark {pgfid301}{6245939}{39893064}
+\pgfsyspdfmark {pgfid302}{6245939}{39893064}
+\pgfsyspdfmark {pgfid303}{6245939}{39893064}
+\pgfsyspdfmark {pgfid304}{19360072}{39893064}
+\pgfsyspdfmark {pgfid305}{19360072}{39893064}
+\pgfsyspdfmark {pgfid306}{6245939}{38713779}
+\pgfsyspdfmark {pgfid307}{6245939}{38713779}
+\pgfsyspdfmark {pgfid308}{6245939}{38713779}
+\pgfsyspdfmark {pgfid309}{6245939}{38713779}
+\pgfsyspdfmark {pgfid310}{27005214}{38713779}
+\pgfsyspdfmark {pgfid311}{27005214}{38713779}
+\pgfsyspdfmark {pgfid312}{27005214}{38713779}
+\pgfsyspdfmark {pgfid313}{5066291}{35175924}
+\pgfsyspdfmark {pgfid314}{11674950}{35175924}
+\pgfsyspdfmark {pgfid315}{11674950}{35175924}
+\pgfsyspdfmark {pgfid316}{6245939}{33996639}
+\pgfsyspdfmark {pgfid317}{6245939}{33996639}
+\pgfsyspdfmark {pgfid318}{6245939}{33996639}
+\pgfsyspdfmark {pgfid319}{6245939}{33996639}
+\pgfsyspdfmark {pgfid320}{19628718}{33996639}
+\pgfsyspdfmark {pgfid321}{19628718}{33996639}
+\pgfsyspdfmark {pgfid322}{6245939}{32817354}
+\pgfsyspdfmark {pgfid323}{6245939}{32817354}
+\pgfsyspdfmark {pgfid324}{6245939}{32817354}
+\pgfsyspdfmark {pgfid325}{6245939}{32817354}
+\pgfsyspdfmark {pgfid326}{18975708}{32817354}
+\pgfsyspdfmark {pgfid327}{18975708}{32817354}
+\pgfsyspdfmark {pgfid328}{6245939}{31638069}
+\pgfsyspdfmark {pgfid329}{6245939}{31638069}
+\pgfsyspdfmark {pgfid330}{6245939}{31638069}
+\pgfsyspdfmark {pgfid331}{6245939}{31638069}
+\pgfsyspdfmark {pgfid332}{20277311}{31638069}
+\pgfsyspdfmark {pgfid333}{20277311}{31638069}
+\pgfsyspdfmark {pgfid334}{6245939}{30458784}
+\pgfsyspdfmark {pgfid335}{6245939}{30458784}
+\pgfsyspdfmark {pgfid336}{6245939}{30458784}
+\pgfsyspdfmark {pgfid337}{6245939}{30458784}
+\pgfsyspdfmark {pgfid338}{6245939}{30458784}
+\pgfsyspdfmark {pgfid339}{15779773}{30458784}
+\pgfsyspdfmark {pgfid340}{15779773}{30458784}
+\pgfsyspdfmark {pgfid341}{7425587}{29279499}
+\pgfsyspdfmark {pgfid342}{7425587}{29279499}
+\pgfsyspdfmark {pgfid343}{7425587}{29279499}
+\pgfsyspdfmark {pgfid344}{7425587}{29279499}
+\pgfsyspdfmark {pgfid345}{14756110}{29279499}
+\pgfsyspdfmark {pgfid346}{14756110}{29279499}
+\pgfsyspdfmark {pgfid347}{14756110}{29279499}
+\pgfsyspdfmark {pgfid348}{6245939}{28100214}
+\pgfsyspdfmark {pgfid349}{6245939}{28100214}
+\pgfsyspdfmark {pgfid350}{6245939}{28100214}
+\pgfsyspdfmark {pgfid351}{6245939}{28100214}
+\pgfsyspdfmark {pgfid352}{13548485}{28100214}
+\pgfsyspdfmark {pgfid353}{13548485}{28100214}
+\pgfsyspdfmark {pgfid354}{6245939}{26920929}
+\pgfsyspdfmark {pgfid355}{6245939}{26920929}
+\pgfsyspdfmark {pgfid356}{6245939}{26920929}
+\pgfsyspdfmark {pgfid357}{6245939}{26920929}
+\pgfsyspdfmark {pgfid358}{12263089}{26920929}
+\pgfsyspdfmark {pgfid359}{12263089}{26920929}
+\pgfsyspdfmark {pgfid360}{6245939}{25741644}
+\pgfsyspdfmark {pgfid361}{6245939}{25741644}
+\pgfsyspdfmark {pgfid362}{6245939}{25741644}
+\pgfsyspdfmark {pgfid363}{6245939}{25741644}
+\pgfsyspdfmark {pgfid364}{16889472}{25741644}
+\pgfsyspdfmark {pgfid365}{16889472}{25741644}
+\pgfsyspdfmark {pgfid366}{6245939}{24562359}
+\pgfsyspdfmark {pgfid367}{6245939}{24562359}
+\pgfsyspdfmark {pgfid368}{6245939}{24562359}
+\pgfsyspdfmark {pgfid369}{6245939}{24562359}
+\pgfsyspdfmark {pgfid370}{11625026}{24562359}
+\pgfsyspdfmark {pgfid371}{11625026}{24562359}
+\pgfsyspdfmark {pgfid372}{11625026}{24562359}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Comparación experimental entre técnicas de sobremuestreo}{14}{subsection.9.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Comparación de métricas promedio entre técnicas de sobremuestreo (validación cruzada 5-fold, 10 repeticiones)}}{14}{table.caption.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces F1-score promedio alcanzado por cada técnica de sobremuestreo}}{15}{figure.caption.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.5}Diseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}{15}{subsection.9.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.6}Implementar y evaluar experimentalmente el rendimiento de ambas técnicas propias}{15}{subsection.9.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.7}9.4 Diseño del pipeline experimental}{15}{subsection.9.7}\protected@file@percent }
+\newlabel{sec:pipeline_experimental}{{9.7}{15}{9.4 Diseño del pipeline experimental}{subsection.9.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Recursos involucrados y cronograma de trabajo}{16}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}Aportes esperados}{16}{section.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {12}Referencias bibliográficas}{17}{section.12}\protected@file@percent }
+\abx@aux@page{45}{17}
+\abx@aux@page{46}{17}
+\abx@aux@page{47}{17}
+\abx@aux@page{48}{17}
+\abx@aux@page{49}{17}
+\abx@aux@page{50}{17}
+\abx@aux@page{51}{17}
+\abx@aux@page{52}{17}
+\abx@aux@page{53}{17}
+\abx@aux@page{54}{17}
+\abx@aux@page{55}{17}
+\abx@aux@page{56}{18}
+\abx@aux@page{57}{18}
+\abx@aux@page{58}{18}
+\abx@aux@page{59}{18}
+\abx@aux@page{60}{18}
+\abx@aux@page{61}{18}
+\abx@aux@page{62}{18}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Código fuente del pipeline experimental}{18}{appendix.Alph1}\protected@file@percent }
+\newlabel{apendice:codigo_pipeline}{{A}{18}{Código fuente del pipeline experimental}{appendix.Alph1}{}}
+\newlabel{lst:script_experimento}{{1}{18}{Script de experimentación automática}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces Script de experimentación automática}}{18}{lstlisting.1}\protected@file@percent }
+\expandafter\ifx\csname c@algpx@indentEndPage-0@totc\endcsname\relax\newcounter{algpx@indentEndPage-0@totc}\fi\setcounter{algpx@indentEndPage-0@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-1@totc\endcsname\relax\newcounter{algpx@indentEndPage-1@totc}\fi\setcounter{algpx@indentEndPage-1@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-2@totc\endcsname\relax\newcounter{algpx@indentEndPage-2@totc}\fi\setcounter{algpx@indentEndPage-2@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndCoordIndex-0@totc\endcsname\relax\newcounter{algpx@indentEndCoordIndex-0@totc}\fi\setcounter{algpx@indentEndCoordIndex-0@totc}{2}
+\expandafter\ifx\csname c@algpx@indentEndPage-3@totc\endcsname\relax\newcounter{algpx@indentEndPage-3@totc}\fi\setcounter{algpx@indentEndPage-3@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-4@totc\endcsname\relax\newcounter{algpx@indentEndPage-4@totc}\fi\setcounter{algpx@indentEndPage-4@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-5@totc\endcsname\relax\newcounter{algpx@indentEndPage-5@totc}\fi\setcounter{algpx@indentEndPage-5@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndCoordIndex-4@totc\endcsname\relax\newcounter{algpx@indentEndCoordIndex-4@totc}\fi\setcounter{algpx@indentEndCoordIndex-4@totc}{5}
+\expandafter\ifx\csname c@algpx@indentEndPage-6@totc\endcsname\relax\newcounter{algpx@indentEndPage-6@totc}\fi\setcounter{algpx@indentEndPage-6@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-7@totc\endcsname\relax\newcounter{algpx@indentEndPage-7@totc}\fi\setcounter{algpx@indentEndPage-7@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-8@totc\endcsname\relax\newcounter{algpx@indentEndPage-8@totc}\fi\setcounter{algpx@indentEndPage-8@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndCoordIndex-7@totc\endcsname\relax\newcounter{algpx@indentEndCoordIndex-7@totc}\fi\setcounter{algpx@indentEndCoordIndex-7@totc}{8}
+\expandafter\ifx\csname c@algpx@indentEndPage-9@totc\endcsname\relax\newcounter{algpx@indentEndPage-9@totc}\fi\setcounter{algpx@indentEndPage-9@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-10@totc\endcsname\relax\newcounter{algpx@indentEndPage-10@totc}\fi\setcounter{algpx@indentEndPage-10@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndCoordIndex-9@totc\endcsname\relax\newcounter{algpx@indentEndCoordIndex-9@totc}\fi\setcounter{algpx@indentEndCoordIndex-9@totc}{10}
+\expandafter\ifx\csname c@algpx@indentEndPage-11@totc\endcsname\relax\newcounter{algpx@indentEndPage-11@totc}\fi\setcounter{algpx@indentEndPage-11@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-12@totc\endcsname\relax\newcounter{algpx@indentEndPage-12@totc}\fi\setcounter{algpx@indentEndPage-12@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndCoordIndex-11@totc\endcsname\relax\newcounter{algpx@indentEndCoordIndex-11@totc}\fi\setcounter{algpx@indentEndCoordIndex-11@totc}{12}
+\expandafter\ifx\csname c@algpx@indentEndPage-13@totc\endcsname\relax\newcounter{algpx@indentEndPage-13@totc}\fi\setcounter{algpx@indentEndPage-13@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-14@totc\endcsname\relax\newcounter{algpx@indentEndPage-14@totc}\fi\setcounter{algpx@indentEndPage-14@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-15@totc\endcsname\relax\newcounter{algpx@indentEndPage-15@totc}\fi\setcounter{algpx@indentEndPage-15@totc}{0}
+\expandafter\ifx\csname c@algpx@indentEndPage-16@totc\endcsname\relax\newcounter{algpx@indentEndPage-16@totc}\fi\setcounter{algpx@indentEndPage-16@totc}{0}
 \abx@aux@read@bbl@mdfivesum{DEA0183F38FA5647A4C3291BEBE7C508}
 \abx@aux@defaultrefcontext{0}{carvalho2025resampling}{nyt/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{chawla2002smote}{nyt/global//global/global/global}
@@ -246,4 +647,4 @@
 \abx@aux@defaultrefcontext{0}{wang2024aCH}{nyt/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{wang2024bmkc}{nyt/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{wang2025aoch}{nyt/global//global/global/global}
-\gdef \@abspage@last{21}
+\gdef \@abspage@last{23}

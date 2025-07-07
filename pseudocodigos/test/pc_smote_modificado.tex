@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocodex}  % <--- este es el correcto en tu caso
+\usepackage{graphicx}
+
+\begin{document}
+
+% Aquí tu algoritmo
+\begin{algorithm}
+\caption{PC-SMOTE: Generación adaptativa de vecinos}
+\begin{algorithmic}[1]
+\Require $(X, y)$ conjunto de datos, $k$ vecinos, radio $r$, muestras sintéticas $G$
+\Ensure Conjunto aumentado $(X', y')$
+\State Separar $X_{min}, X_{maj}$ según clase
+\For{cada $x_i \in X_{min}$}
+    \State Calcular $k$ vecinos en $X$
+    \State Calcular riesgo $r_i \gets$ proporción de vecinos mayoritarios
+    \State Calcular $k$ vecinos en $X_{min}$ y densidad $d_i$
+\EndFor
+\State Filtrar instancias con $r_i$ en rango y $d_i > 0$
+\State $S \gets \emptyset$
+\For{$j = 1$ hasta $G$}
+    \State Elegir $x_i$ aleatorio del subconjunto filtrado
+    \State Obtener $r_i$ y vecinos $N_i$
+    \State Filtrar $N_i$ por percentil
+    \If{no hay vecinos válidos}
+        \State continuar
+    \EndIf
+    \State Elegir $x_z$ válido, calcular $\delta$
+    \State $x_{syn} = x_i + \delta \cdot (x_z - x_i)$
+    \State Agregar $x_{syn}$ a $S$
+\EndFor
+\State \Return $X' = X \cup S$, $y' = y \cup$ unos
+\end{algorithmic}
+\end{algorithm}
+
+\end{document}
