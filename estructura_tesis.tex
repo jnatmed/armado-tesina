@@ -227,56 +227,24 @@ En este marco, resulta pertinente reconocer que el diseño de técnicas de sobre
 
 En síntesis, la evolución del algoritmo SMOTE ha dado lugar a una diversidad de enfoques diseñados para mitigar sus principales limitaciones, entre ellas la generación indiscriminada de muestras en regiones seguras, la falta de sensibilidad al contexto local y la dificultad para extenderse a escenarios multiclase. No obstante, muchas de estas variantes tienden a abordar aspectos específicos del problema de forma aislada, sin articular mecanismos que contemplen simultáneamente la selección informada de instancias y una generación sintética guiada por criterios estructurales. En este contexto, la presente investigación se orienta al desarrollo de una estrategia híbrida que combine técnicas de selección en regiones fronterizas con esquemas adaptativos de generación, tomando como base la integración entre $ \alpha $SMOTE y AR-ADASYN. Adicionalmente, se propone una extensión metodológica que introduce un mecanismo de filtrado por percentiles, diseñado para mejorar la discriminación entre muestras relevantes y ruidosas en función de su entorno local. Ambas contribuciones apuntan a optimizar la utilidad de los ejemplos sintéticos generados y favorecer su aplicabilidad en entornos de clasificación multiclase con alto desbalance, reforzando la coherencia entre la teoría del sobremuestreo y su implementación práctica.
 
-\input{resultados-experimentales}
-
 \section{Metodología} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
-\subsection{Explorar desafíos recurrentes en el sobremuestreo actual}
-\subsection{Describir y formalizar matemáticamente dos versiones binarias (híbrida y con modificaciones estructurales respectivamente) y una versión multiclase del algoritmo de sobremuestreo SMOTE}
 
 \subsubsection{Pseudocódigo: \textit{alpha\_dbasmote}}
-\input{pseudocodigos/alpha_dbasmote}
+\input{pseudocodigos/1_alpha_dbasmote}
 
 \subsubsection{Pseudocódigo: \textit{ar\_adasyn}}
-\input{pseudocodigos/ar_adasyn}
+\input{pseudocodigos/2_ar_adasyn}
 
 \subsubsection{Pseudocódigo: \textit{alpha\_dbasmote\_ar\_adasyn}}
-\input{pseudocodigos/alpha_dbasmote_ar_adasyn}
+\input{pseudocodigos/3_alpha_dbasmote_ar_adasyn}
 
-\input{pseudocodigos/pc_smote_modificado.tex}
+\subsubsection{Pseudocódigo: \textit{PC\_SMOTE}}
+\input{pseudocodigos/4_pc_smote.tex}
 
-\input{pseudocodigos/pc_smote.tex}
+\input{pseudocodigos/41_pc_smote_descripcion.tex}
+
 
 \input{pseudocodigos/resultados_comparativos.tex}
-
-
-
-
-\subsection{Diseñar y analizar una propuesta algorítmica de las 3 versiones del procedimiento de sobremuestreo}
-
-\subsection{Implementar y evaluar experimentalmente el rendimiento de ambas técnicas propias}
-
-
-\subsection{9.4 Diseño del pipeline experimental}
-\label{sec:pipeline_experimental}
-
-Para evaluar el desempeño de distintos clasificadores en contextos de datos desbalanceados, se diseñó un pipeline automatizado en Python que ejecuta las siguientes etapas de forma secuencial sobre múltiples datasets:
-
-\begin{enumerate}
-    \item \textbf{Carga y preprocesamiento del dataset:} el sistema detecta automáticamente los archivos \texttt{.data} en carpetas estructuradas, eliminando valores faltantes, filas no numéricas o encabezados mal formateados. Además, convierte rangos tipo ``1-9'' en su promedio numérico.
-    
-    \item \textbf{Normalización:} todos los atributos son estandarizados utilizando \texttt{StandardScaler} de \texttt{scikit-learn}, centrando en cero y ajustando a varianza unitaria.
-    
-    \item \textbf{Sobremuestreo:} se aplican tres técnicas de sobremuestreo independientes —\texttt{SMOTE}, \texttt{ADASYN} y \texttt{BorderlineSMOTE}— con \texttt{random\_state=42} para reproducibilidad.
-    
-    \item \textbf{Entrenamiento:} para cada combinación de dataset, técnica de sobremuestreo y modelo (Random Forest, Regresión Logística o KNN), se realiza una partición \texttt{train-test} con 70\% para entrenamiento y 30\% para validación.
-    
-    \item \textbf{Evaluación:} se calculan métricas de clasificación para cada clase (precisión, recall y F1-score), así como la \texttt{accuracy} global. Además, se guarda la matriz de confusión como figura para facilitar el análisis cualitativo.
-    
-    \item \textbf{Exportación de resultados:} todos los resultados son volcados a un archivo \texttt{CSV} por dataset, y las matrices de confusión se guardan como imágenes PNG en la carpeta correspondiente.
-\end{enumerate}
-
-El código fuente completo de este pipeline se encuentra documentado en el archivo \texttt{script\_experimentos.tex}, el cual se incluye en la tesis mediante el entorno \texttt{listings}.
-
 
 \section{Recursos involucrados y cronograma de trabajo} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 
@@ -297,7 +265,7 @@ Ambas líneas de desarrollo buscan aportar soluciones que mejoren la capacidad d
 
 A continuación se presenta el código fuente del script en Python utilizado para la ejecución masiva de experimentos con técnicas de sobremuestreo:
 
-\input{script_experimentos}
+\input{apendice/script_experimentos}
 
 
 
