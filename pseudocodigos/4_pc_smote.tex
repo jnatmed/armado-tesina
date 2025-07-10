@@ -1,38 +1,53 @@
-\begin{algorithm}[H]
-\caption{Pseudocódigo de PC-SMOTE}
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm, algpseudocode}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+
+\begin{document}
+
+\section*{Pseudocódigo de PC-SMOTE (Percentile-Controlled SMOTE)}
+
+\begin{algorithm}
+\caption{PC-SMOTE: Técnica de sobremuestreo controlada por percentiles}
 \begin{algorithmic}[1]
-\State \textbf{Entrada:} Conjunto de datos $(X, y)$ con clases desbalanceadas; número de vecinos $k \in \{5, 7, 9\}$; radio $r$; cantidad de muestras sintéticas $G$
-\State \textbf{Salida:} Conjunto aumentado $(X', y')$
+\State \textbf{Entrada:} Dataset desequilibrado $D$, número total de sintéticos $G$, número de vecinos $k$, modo de dimensionalidad $d \in \{2D, 3D, nD\}$, \
+criterio de pureza $C_p \in \{\text{entropía}, \text{proporción de clase}, \text{otro}\}$, percentiles de radio $p_r$, entropía $p_e$ y densidad $p_d$.
+\State \textbf{Salida:} Nuevas muestras sintéticas agregadas al dataset.
 
-\State Separar clases: $X_{min} \gets$ instancias minoritarias, $X_{maj} \gets$ instancias mayoritarias
+\State Inicializar $S \leftarrow \emptyset$ (conjunto de muestras candidatas)
+\For{cada clase minoritaria $c_i$}
+    \For{cada muestra $x_i \in D$ de clase $c_i$}
+        \State Calcular $k$ vecinos más cercanos $N_i$ (\textit{sin restricción de clase}, se utilizarán para evaluar pureza)
+        \State Calcular radio adaptativo $r_i$ como la distancia al $k$-ésimo vecino \textit{(entre todos, sin distinción de clase)}
+        \State Determinar volumen local $V_i$ \textit{(para cálculo de densidad):}
+        \If{$d = 2D$}
+            \State $V_i \leftarrow \pi r_i^2$
+        \ElsIf{$d = 3D$}
+            \State $V_i \leftarrow \frac{4}{3} \pi r_i^3$
+        \Else
+            \State $V_i \leftarrow \frac{\pi^{n/2}}{\Gamma(n/2 + 1)} \cdot r_i^n$
+        \EndIf
+        \State Contar $m_i$ vecinos de la \textit{misma clase} que $x_i$ (dentro del radio $r_i$)
+        \State Calcular densidad local: $D_i = \frac{m_i}{V_i}$
+        \State Evaluar pureza $P_i$ de la vecindad usando criterio $C_p$
+        \If{$P_i$ supera el percentil $p_e$ \textbf{y} $D_i$ supera $p_d$}
+            \State Agregar $x_i$ a $S$ como muestra candidata
+        \EndIf
+    \EndFor \Comment{fin del for de muestras de clase $c_i$}
+\EndFor \Comment{fin del for por clase minoritaria}
 
-\For{cada $x_i \in X_{min}$}
-    \State Calcular vecinos $k$ más cercanos en $X$
-    \State Calcular riesgo $r_i \gets$ proporción de vecinos mayoritarios
-\EndFor
+\State Determinar distribución uniforme de $G$ entre las muestras de $S$: $G_i = \frac{G}{|S|}$
+\For{cada $x_i \in S$}
+    \For{$j = 1$ hasta $G_i$}
+        \State Seleccionar vecino $x_j$ de la misma clase con probabilidad inversa a la distancia:
+        \[ p_j = \frac{1/\|x_i - x_j\|}{\sum_k 1/\|x_i - x_k\|} \]
+        \State Generar nueva muestra: $x_{new} = x_i + \lambda (x_j - x_i)$ con $\lambda \sim \mathcal{U}(0,1)$
+        \State Agregar $x_{new}$ al dataset
+    \EndFor \Comment{fin del for por número de sintéticos de $x_i$}
+\EndFor \Comment{fin del for por muestras candidatas}
 
-\For{cada $x_i \in X_{min}$}
-    \State Calcular vecinos $k$ más cercanos en $X_{min}$
-    \State Calcular densidad $d_i \gets$ proporción de vecinos con distancia $\leq 2r$
-\EndFor
-
-\State Filtrar instancias peligrosas: $r_i$ dentro del rango y $d_i > 0$
-
-\State Inicializar conjunto de sintéticos $S \gets \emptyset$
-
-\For{$j = 1$ hasta $G$}
-    \State Elegir $x_i$ aleatorio del subconjunto filtrado
-    \State Obtener vecinos $N_i$ y calcular distancias
-    \State Filtrar vecinos dentro del percentil adecuado
-    \If{no hay vecinos válidos}
-        \State Continuar al siguiente $j$
-    \EndIf
-    \State Elegir vecino $x_z$ válido
-    \State Calcular $\delta$ según $r_i$
-    \State Generar $x_{syn} = x_i + \delta \cdot (x_z - x_i)$
-    \State Agregar $x_{syn}$ a $S$
-\EndFor
-
-\State \Return $X' = X \cup S$, $y' = y \cup$ unos
 \end{algorithmic}
 \end{algorithm}
+
+\end{document}

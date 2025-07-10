@@ -3,29 +3,34 @@ from sklearn.utils import check_random_state
 import numpy as np
 
 class PCSMOTE:
-    def __init__(self, sampling_strategy='auto', k_neighbors=5, random_state=None, radio_densidad=1.0):
+    def __init__(self, k_neighbors=5, random_state=None,
+                 radio_densidad=1.0, percentil_dist=75,
+                 percentil_entropia=None, percentil_densidad=None):
         """
-        Constructor del algoritmo PC-SMOTE con análisis de densidad local.
-        
+        Implementación de PC-SMOTE (Percentile-Controlled SMOTE) con criterios de:
+        - riesgo basado en vecinos de clases diferentes
+        - densidad basada en intersección geométrica local
+        - selección adaptativa de vecinos basada en percentiles
+
         Parámetros:
-        - sampling_strategy: estrategia de muestreo (por ahora no utilizada)
-        - k_neighbors: número de vecinos para evaluar riesgo y densidad
-        - random_state: para reproducibilidad
-        - radio_densidad: radio para definir las áreas circulares de intersección
+        - k_neighbors: cantidad de vecinos a considerar
+        - random_state: estado aleatorio para reproducibilidad
+        - radio_densidad: radio fijo para estimar densidad por intersección
+        - percentil_dist: percentil usado para selección de vecinos válidos (interpolación)
+        - percentil_entropia: umbral para pureza (no implementado aún)
+        - percentil_densidad: umbral para densidad (no implementado aún)
         """
-        self.sampling_strategy = sampling_strategy
         self.k = k_neighbors
         self.random_state = check_random_state(random_state)
         self.radio_densidad = radio_densidad
+        self.percentil_dist = percentil_dist
+        self.percentil_entropia = percentil_entropia
+        self.percentil_densidad = percentil_densidad
 
     def calcular_densidad_interseccion(self, X_min, vecinos, radio):
         """
-        Calcula la densidad local como la cantidad de vecinos que se intersecan
-        espacialmente con la muestra, según un radio circular fijo.
-
-        Densidad = intersecciones / k
-
-        Si ninguna área vecina se superpone, se considera "ruido" (densidad = 0).
+        Calcula la densidad como cantidad de intersecciones circulares sobre k vecinos.
+        Cada punto define un círculo de radio fijo; se cuenta cuántos se superponen.
         """
         densidades = []
         for i, xi in enumerate(X_min):
@@ -41,59 +46,44 @@ class PCSMOTE:
 
     def fit_resample(self, X, y):
         """
-        Aplica PC-SMOTE con filtrado por riesgo y densidad local.
+        Ejecuta PC-SMOTE con:
+        1. Estimación de riesgo (proporción de vecinos mayoritarios)
+        2. Cálculo de densidad local (por intersección)
+        3. Filtro conjunto y generación sintética adaptativa
 
-        Paso 1: calcula el riesgo basado en proporción de vecinos mayoritarios.
-        Paso 2: elimina muestras minoritarias con densidad nula (ruido).
-        Paso 3: genera muestras sintéticas solo en regiones densas o semi-densas.
+        Entrada:
+        - X: matriz de atributos (numpy array)
+        - y: vector de etiquetas binarias (0=mayoritaria, 1=minoritaria)
+
+        Salida:
+        - X_resampled: matriz extendida con instancias sintéticas
+        - y_resampled: etiquetas correspondientes
         """
         X = np.array(X)
         y = np.array(y)
 
-        # Separar las clases
-        X_min = X[y == 1]  # Minoritaria
-        X_maj = X[y == 0]  # Mayoritaria
+        X_min = X[y == 1]
+        X_maj = X[y == 0]
 
-        # === Fase 1: Riesgo ===
-        # Evaluar proporción de vecinos mayoritarios en k vecinos más cercanos
+        # Riesgo: vecinos mixtos
         nn = NearestNeighbors(n_neighbors=self.k + 1).fit(X)
         vecinos = nn.kneighbors(X_min, return_distance=False)[:, 1:]
-
-        riesgo = []
-        for idxs in vecinos:
-            clases_vecinas = y[idxs]
-            r = np.sum(clases_vecinas == 0) / self.k
-            riesgo.append(r)
+        riesgo = [np.sum(y[idxs] == 0) / self.k for idxs in vecinos]
         riesgo = np.array(riesgo)
 
-        # === Fase 2: Densidad local por intersección de áreas ===
-        # Evalúa qué tan densa es la región local usando intersección de radios fijos
+        # Densidad local
         vecinos_minor = NearestNeighbors(n_neighbors=self.k + 1).fit(X_min).kneighbors(X_min, return_distance=False)[:, 1:]
         densidades = self.calcular_densidad_interseccion(X_min, vecinos_minor, radio=self.radio_densidad)
 
-        # === Filtro conjunto por riesgo y densidad ===
-        if self.k == 5:
-            r_mask = (riesgo >= 0.4) & (riesgo <= 0.6)
-            percentil_corte = 75
-        elif self.k == 7:
-            r_mask = (riesgo >= 0.3) & (riesgo <= 0.7)
-            percentil_corte = 70
-        elif self.k == 9:
-            r_mask = (riesgo >= 0.2) & (riesgo <= 0.8)
-            percentil_corte = 65
-        else:
-            raise ValueError("Solo se admite k = 5, 7 o 9")
-
-        # Eliminar muestras con densidad == 0 (zonas ruidosas)
+        # Filtro por riesgo y densidad mínima
+        r_mask = (riesgo >= 0.4) & (riesgo <= 0.6)
         densidad_mask = densidades > 0.0
         combinacion_mask = r_mask & densidad_mask
 
-        # Aplicar filtro a las muestras candidatas
         X_min_filtrado = X_min[combinacion_mask]
         riesgo_filtrado = riesgo[combinacion_mask]
         vecinos_filtrados = vecinos[combinacion_mask]
 
-        # === Generación de muestras sintéticas ===
         n_sint = len(X_maj) - len(X_min)
         muestras_sinteticas = []
 
@@ -103,10 +93,9 @@ class PCSMOTE:
             r_i = riesgo_filtrado[idx]
             idxs_vecinos = vecinos_filtrados[idx]
 
-            # Selección adaptativa de vecinos válidos según un percentil de distancia
             distancias = np.linalg.norm(X[idxs_vecinos] - xi, axis=1)
-            percentil = np.percentile(distancias, percentil_corte)
-            vecinos_validos = idxs_vecinos[distancias <= percentil]
+            umbral = np.percentile(distancias, self.percentil_dist)
+            vecinos_validos = idxs_vecinos[distancias <= umbral]
 
             if len(vecinos_validos) == 0:
                 continue
@@ -114,7 +103,7 @@ class PCSMOTE:
             z_idx = self.random_state.choice(vecinos_validos)
             xz = X[z_idx]
 
-            # δ adaptativo según el riesgo
+            # δ adaptativo según riesgo
             if 0.4 <= r_i < 0.5:
                 delta = self.random_state.uniform(0.6, 0.8)
             elif 0.5 <= r_i <= 0.6:
@@ -122,11 +111,9 @@ class PCSMOTE:
             else:
                 delta = self.random_state.uniform(0.4, 0.6)
 
-            # Interpolación para crear el punto sintético
             xsint = xi + delta * (xz - xi)
             muestras_sinteticas.append(xsint)
 
-        # Unir los nuevos datos con los originales
         X_sint = np.array(muestras_sinteticas)
         y_sint = np.ones(len(X_sint))
 
