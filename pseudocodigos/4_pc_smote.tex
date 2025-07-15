@@ -1,53 +1,73 @@
-\documentclass{article}
-\usepackage{amsmath, amssymb}
-\usepackage{algorithm, algpseudocode}
-\usepackage[margin=1in]{geometry}
-\usepackage{graphicx}
+\subsection{Descripción del algoritmo PC-SMOTE}
 
-\begin{document}
+El algoritmo \textbf{PC-SMOTE} (Percentile-Controlled SMOTE) es una técnica de sobremuestreo diseñada para generar instancias sintéticas únicamente en regiones seguras pero informativas del espacio de características. A diferencia de SMOTE clásico, que genera nuevos datos interpolando entre vecinos sin considerar su contexto, PC-SMOTE incorpora tres mecanismos de control:
 
-\section*{Pseudocódigo de PC-SMOTE (Percentile-Controlled SMOTE)}
+\begin{itemize}
+  \item \textbf{Análisis de riesgo:} Evalúa cuántos vecinos cercanos pertenecen a la clase mayoritaria. Solo se consideran instancias de riesgo intermedio (por ejemplo, con 40\%-60\% de vecinos mayoritarios), lo que sugiere que la muestra se encuentra en una región de frontera.
+  
+  \item \textbf{Análisis de densidad:} Evalúa la densidad local calculando la cantidad de intersecciones entre radios de vecinos de la misma clase. Esto permite excluir regiones dispersas o con comportamiento ruidoso.
+  
+  \item \textbf{Control por percentiles:} Tanto el umbral de riesgo como el de densidad y la distancia máxima para interpolar son ajustables mediante percentiles, lo cual otorga mayor flexibilidad y adaptabilidad del algoritmo al problema específico.
+\end{itemize}
+
+El algoritmo selecciona únicamente aquellas instancias que cumplen simultáneamente con un nivel de riesgo aceptable y una densidad superior a un umbral predefinido. A partir de estas muestras candidatas se generan nuevas instancias mediante interpolación controlada, con deltas aleatorios ajustados según el riesgo. Esto permite introducir diversidad manteniendo coherencia estructural en las regiones críticas del espacio de entrada.
+
+El algoritmo también puede extenderse a clasificación multiclase aplicando el procedimiento de forma binaria para cada clase minoritaria frente al resto.
+
+\subsection{Pseudocódigo del algoritmo PC-SMOTE}
 
 \begin{algorithm}
-\caption{PC-SMOTE: Técnica de sobremuestreo controlada por percentiles}
+\caption{PC-SMOTE (Percentile-Controlled SMOTE)}
 \begin{algorithmic}[1]
-\State \textbf{Entrada:} Dataset desequilibrado $D$, número total de sintéticos $G$, número de vecinos $k$, modo de dimensionalidad $d \in \{2D, 3D, nD\}$, \
-criterio de pureza $C_p \in \{\text{entropía}, \text{proporción de clase}, \text{otro}\}$, percentiles de radio $p_r$, entropía $p_e$ y densidad $p_d$.
-\State \textbf{Salida:} Nuevas muestras sintéticas agregadas al dataset.
+\State \textbf{Entrada:} Conjunto de datos $(X, y)$, número de vecinos $k$, total de sintéticos $G$, modo espacial $d \in \{2D, 3D\}$, percentil de riesgo $[r_{min}, r_{max}]$, percentil de densidad $p_d$, percentil de distancia $p_{dist}$.
+\State \textbf{Salida:} Conjunto aumentado $(X', y')$ con $G$ muestras sintéticas de la clase minoritaria.
 
-\State Inicializar $S \leftarrow \emptyset$ (conjunto de muestras candidatas)
-\For{cada clase minoritaria $c_i$}
-    \For{cada muestra $x_i \in D$ de clase $c_i$}
-        \State Calcular $k$ vecinos más cercanos $N_i$ (\textit{sin restricción de clase}, se utilizarán para evaluar pureza)
-        \State Calcular radio adaptativo $r_i$ como la distancia al $k$-ésimo vecino \textit{(entre todos, sin distinción de clase)}
-        \State Determinar volumen local $V_i$ \textit{(para cálculo de densidad):}
-        \If{$d = 2D$}
-            \State $V_i \leftarrow \pi r_i^2$
-        \ElsIf{$d = 3D$}
-            \State $V_i \leftarrow \frac{4}{3} \pi r_i^3$
-        \Else
-            \State $V_i \leftarrow \frac{\pi^{n/2}}{\Gamma(n/2 + 1)} \cdot r_i^n$
-        \EndIf
-        \State Contar $m_i$ vecinos de la \textit{misma clase} que $x_i$ (dentro del radio $r_i$)
-        \State Calcular densidad local: $D_i = \frac{m_i}{V_i}$
-        \State Evaluar pureza $P_i$ de la vecindad usando criterio $C_p$
-        \If{$P_i$ supera el percentil $p_e$ \textbf{y} $D_i$ supera $p_d$}
-            \State Agregar $x_i$ a $S$ como muestra candidata
-        \EndIf
-    \EndFor \Comment{fin del for de muestras de clase $c_i$}
-\EndFor \Comment{fin del for por clase minoritaria}
+\State $X_{min} \gets$ muestras de la clase minoritaria
+\State $X_{maj} \gets$ muestras de la clase mayoritaria
+\State $n_{sint} \gets |X_{maj}| - |X_{min}|$
 
-\State Determinar distribución uniforme de $G$ entre las muestras de $S$: $G_i = \frac{G}{|S|}$
-\For{cada $x_i \in S$}
-    \For{$j = 1$ hasta $G_i$}
-        \State Seleccionar vecino $x_j$ de la misma clase con probabilidad inversa a la distancia:
-        \[ p_j = \frac{1/\|x_i - x_j\|}{\sum_k 1/\|x_i - x_k\|} \]
-        \State Generar nueva muestra: $x_{new} = x_i + \lambda (x_j - x_i)$ con $\lambda \sim \mathcal{U}(0,1)$
-        \State Agregar $x_{new}$ al dataset
-    \EndFor \Comment{fin del for por número de sintéticos de $x_i$}
-\EndFor \Comment{fin del for por muestras candidatas}
+\State Calcular $k$ vecinos más cercanos a cada $x_i \in X_{min}$ en $X$ (para riesgo): $N_i$
+\State Calcular riesgo $r_i \gets$ proporción de vecinos mayoritarios en $N_i$
+
+\State Calcular $k$ vecinos más cercanos a cada $x_i \in X_{min}$ en $X_{min}$ (para densidad): $V_i$
+\For{cada $x_i \in X_{min}$}
+    \State Calcular número de vecinos en $V_i$ cuya distancia a $x_i$ es $\leq 2 \cdot \text{radio}$ (intersección)
+    \State Densidad local $d_i \gets$ número de intersecciones / $|V_i|$
+\EndFor
+
+\State Calcular umbral de densidad $d^* \gets$ percentil $p_d$ sobre $d_i$
+\State Filtrar muestras con $r_i \in [r_{min}, r_{max}]$ y $d_i \geq d^*$: conjunto $S$
+
+\If{$S = \emptyset$}
+    \State \Return $(X, y)$ \Comment{No hay puntos válidos para sintetizar}
+\EndIf
+
+\State Inicializar lista de sintéticos $X_{sint} \gets \emptyset$
+
+\While{$|X_{sint}| < n_{sint}$}
+    \State Elegir $x_i \in S$ aleatoriamente
+    \State Obtener vecinos $N_i$ de $x_i$ (misma clase)
+    \State Calcular distancias $\|x_i - x_j\|$ para $x_j \in N_i$
+    \State Filtrar vecinos con distancia $\leq$ percentil $p_{dist}$
+    \If{no hay vecinos válidos}
+        \State \textbf{continuar}
+    \EndIf
+    \State Elegir $x_j$ aleatoriamente de vecinos válidos
+    \State Determinar $\delta$ según $r_i$:
+        \[
+        \delta \sim 
+        \begin{cases}
+            \mathcal{U}(0.6, 0.8) & \text{si } 0.4 \leq r_i < 0.5 \\
+            \mathcal{U}(0.3, 0.5) & \text{si } 0.5 \leq r_i \leq 0.6 \\
+            \mathcal{U}(0.4, 0.6) & \text{otro caso}
+        \end{cases}
+        \]
+    \State $x_{new} \gets x_i + \delta \cdot (x_j - x_i)$
+    \State Agregar $x_{new}$ a $X_{sint}$
+\EndWhile
+
+\State $X' \gets X \cup X_{sint}$, $y' \gets y \cup \{\text{clase minoritaria}\}^{n_{sint}}$
+\State \Return $(X', y')$
 
 \end{algorithmic}
 \end{algorithm}
-
-\end{document}

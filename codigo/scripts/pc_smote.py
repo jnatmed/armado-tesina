@@ -1,5 +1,6 @@
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import check_random_state
+from scipy.stats import entropy
 import numpy as np
 
 class PCSMOTE:
@@ -31,6 +32,14 @@ class PCSMOTE:
             densidades.append(densidad)
         return np.array(densidades)
 
+    def calcular_entropia(self, vecinos, y):
+        entropias = []
+        for idxs in vecinos:
+            clases, counts = np.unique(y[idxs], return_counts=True)
+            p = counts / counts.sum()
+            entropias.append(entropy(p, base=2))
+        return np.array(entropias)
+
     def fit_resample(self, X, y):
         X = np.array(X)
         y = np.array(y)
@@ -43,21 +52,40 @@ class PCSMOTE:
             print(f"📌 Total muestras minoritarias: {len(X_min)}")
             print(f"📌 Total muestras mayoritarias: {len(X_maj)}")
 
+        # Vecindarios de riesgo
         nn = NearestNeighbors(n_neighbors=self.k + 1).fit(X)
         vecinos = nn.kneighbors(X_min, return_distance=False)[:, 1:]
         riesgo = np.array([np.sum(y[idxs] == 0) / self.k for idxs in vecinos])
 
+        # Vecindarios para densidad
         vecinos_minor = NearestNeighbors(n_neighbors=self.k + 1).fit(X_min).kneighbors(X_min, return_distance=False)[:, 1:]
         densidades = self.calcular_densidad_interseccion(X_min, vecinos_minor, self.radio_densidad)
 
-        r_mask = (riesgo >= 0.4) & (riesgo <= 0.6)
+        # === FILTRADO POR PUREZA SEGÚN CRITERIO ELEGIDO ===
+        if self.criterio_pureza == 'entropia':
+            entropias = self.calcular_entropia(vecinos, y)
+            if self.percentil_entropia is not None:
+                umbral_entropia = np.percentile(entropias, self.percentil_entropia)
+                pureza_mask = entropias <= umbral_entropia
+            else:
+                pureza_mask = entropias <= 1.0  # default permisivo
+
+        elif self.criterio_pureza == 'proporcion':
+            proporciones_min = np.array([np.sum(y[idxs] == 1) / self.k for idxs in vecinos])
+            pureza_mask = (proporciones_min >= 0.4) & (proporciones_min <= 0.6)
+
+        else:
+            raise ValueError(f"Criterio de pureza no reconocido: {self.criterio_pureza}")
+
+        # === FILTRADO POR DENSIDAD ===
         if self.percentil_densidad is not None:
             umbral_densidad = np.percentile(densidades, self.percentil_densidad)
             densidad_mask = densidades >= umbral_densidad
         else:
             densidad_mask = densidades > 0.0
 
-        combinacion_mask = r_mask & densidad_mask
+        # Combinación de criterios
+        combinacion_mask = pureza_mask & densidad_mask
         X_min_filtrado = X_min[combinacion_mask]
 
         if len(X_min_filtrado) == 0:
