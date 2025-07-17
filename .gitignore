@@ -12,7 +12,7 @@
 *.fdb_latexmk
 
 # PDFs generados
-*.pdf
+# *.pdf
 
 # Archivos de VSCode
 .vscode/
