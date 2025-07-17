@@ -1,0 +1,20 @@
+\subsection{Resumen de técnicas evaluadas}
+
+Las siguientes técnicas de sobremuestreo fueron aplicadas sobre los datasets presentados en la sección anterior:
+
+\begin{itemize}
+    \item \textbf{SMOTE}: Técnica base que genera instancias sintéticas interpolando entre una muestra minoritaria y uno de sus vecinos más cercanos \parencite{chawla2002smote}.
+    
+    \item \textbf{ADASYN}: Variante que adapta la cantidad de muestras generadas a la dificultad local de clasificación, favoreciendo regiones de alta incertidumbre \parencite{he2008adasyn}.
+    
+    \item \textbf{Borderline-SMOTE}: Solo genera muestras en regiones cercanas a la frontera entre clases, ignorando regiones seguras o ruidosas \parencite{han2005borderline}.
+    
+    \item \textbf{PC-SMOTE}: Técnica propuesta en este trabajo que utiliza percentiles para controlar el riesgo, densidad y distancia de interpolación, generando muestras únicamente en regiones seguras pero informativas.
+    
+    \item \textbf{α-DBA-SMOTE}: Variante reciente que utiliza distancias angulares (α-distancias) y un modelo estructural para seleccionar muestras peligrosas con mayor precisión, centrándose en zonas limítrofes entre clases \parencite{park2024radius}.
+    
+    \item \textbf{AR-ADASYN}: Variante moderna de ADASYN que genera ejemplos sintéticos con interpolación guiada por áreas radiales, adaptando tanto la dirección como la intensidad de la generación en función del entorno local \parencite{park2024radius}.
+    
+    \item \textbf{α-DBA-SMOTE + AR-ADASYN}: Versión híbrida propuesta en este trabajo que combina la selección estructurada de instancias peligrosas basada en α-distancias con la generación adaptativa radial de AR-ADASYN. Esta variante busca aprovechar el poder de detección de frontera de α-DBA y la flexibilidad geométrica de AR-ADASYN.
+\end{itemize}
+

@@ -1,0 +1,27 @@
+\section{Análisis exploratorio de los datasets}
+
+En esta sección se presenta un análisis preliminar de los datasets utilizados en los experimentos. El objetivo fue examinar sus principales características estructurales y, en particular, el grado de desbalance entre clases, dado que las técnicas de sobremuestreo aplicadas requieren conocer la proporción entre clases mayoritaria y minoritaria para calibrar adecuadamente la generación de instancias sintéticas.
+
+A continuación, se resume la información esencial de cada conjunto de datos:
+
+\begin{table}[H]
+\centering
+\caption{Resumen estadístico de los datasets utilizados}
+\begin{tabularx}{\textwidth}{lccccc}
+\toprule
+\textbf{Dataset} & \textbf{Instancias} & \textbf{Atributos} & \textbf{Clases} & \textbf{Clase minoritaria (\%)} & \textbf{Tipo} \\
+\midrule
+Breast Cancer & 569 & 30 & 2 & 37.3\% & Binario \\
+Diabetes & 768 & 8 & 2 & 34.9\% & Binario \\
+Ecoli & 336 & 7 & 8 & 6.0\% & Multiclase \\
+Glass & 214 & 9 & 6 & 4.7\% & Multiclase \\
+Heart Disease & 303 & 13 & 2 & 45.2\% & Binario \\
+EuroSAT & 27,000 & 13 & 10 & 9.8\% & Multiclase \\
+\bottomrule
+\end{tabularx}
+\label{tab:resumen_datasets}
+\end{table}
+
+Se observa que todos los conjuntos presentan algún grado de desbalance, especialmente Ecoli y Glass, en los que algunas clases minoritarias representan menos del 10\% del total. Este fenómeno también se replica, aunque en menor medida, en EuroSAT, un dataset multiclase de mayor escala y naturaleza visual (imágenes satelitales), donde las clases menos representadas alcanzan apenas el 9.8\% del total.
+
+El análisis de estos desequilibrios guió el diseño de los experimentos, asegurando la aplicación adecuada de técnicas de sobremuestreo para abordar la desproporción entre clases. Además, la diversidad de dominios —biomedicina, geoimagen, biología, química— permitió validar la robustez de las técnicas evaluadas en contextos heterogéneos.

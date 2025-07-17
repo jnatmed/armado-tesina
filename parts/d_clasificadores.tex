@@ -1,0 +1,17 @@
+\section{Clasificadores}
+
+Con el objetivo de evaluar el impacto de las técnicas de sobremuestreo sobre distintos escenarios, se empleó un conjunto diverso de clasificadores ampliamente utilizados en la literatura. Estos modelos fueron seleccionados por su capacidad para adaptarse a diferentes estructuras de datos y por representar enfoques variados de aprendizaje automático.
+
+\begin{itemize}
+    \item \textbf{K-Nearest Neighbors (KNN)}: Se utilizó un clasificador basado en vecinos más cercanos, donde cada instancia es clasificada por mayoría de votos entre sus $k$ vecinos más próximos. Este modelo es particularmente sensible al desequilibrio de clases, lo cual lo convierte en un buen candidato para evaluar el impacto del sobremuestreo.
+    
+    \item \textbf{Support Vector Machines (SVM)}: Se empleó un clasificador SVM con kernel radial (RBF), que busca encontrar el hiperplano óptimo que separa las clases con el mayor margen posible. Dado que SVM no incorpora ponderación de clases por defecto, su desempeño también se ve afectado por el desbalance, siendo útil para observar cómo varía al aplicar las técnicas evaluadas.
+    
+    \item \textbf{Random Forest (RF)}: Se utilizó un ensamblado de árboles de decisión, entrenados con muestreo aleatorio y selección de atributos al azar. Su robustez frente al ruido y su capacidad de manejar atributos mixtos lo convierten en una opción confiable para establecer comparaciones.
+    
+    \item \textbf{Gradient Boosting Classifier (GB)}: Se aplicó una versión clásica de boosting, donde los clasificadores débiles se agregan secuencialmente con enfoque en las instancias mal clasificadas por los anteriores. Este método permite observar cómo afectan las técnicas de sobremuestreo al aprendizaje secuencial.
+    
+    \item \textbf{XGBoost}: Finalmente, se empleó el algoritmo Extreme Gradient Boosting, una versión optimizada y regularizada de boosting que ha demostrado un desempeño sobresaliente en tareas clasificatorias. Su inclusión permitió comparar resultados con un modelo de última generación, sensible a la calidad de los datos de entrenamiento.
+\end{itemize}
+
+Cada clasificador fue evaluado con los datos originales y con cada conjunto aumentado por las distintas técnicas de sobremuestreo, utilizando una estrategia de validación cruzada estratificada para asegurar la comparabilidad entre métodos.

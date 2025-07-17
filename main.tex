@@ -1,12 +1,22 @@
 \documentclass[12pt,a4paper]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[spanish]{babel}
-\usepackage[backend=biber, style=apa, sorting=nyt]{biblatex}
-\addbibresource{referencias.bib}
+% --------------------------------------------------------------------
+% Codificación y configuración básica de idioma
+% --------------------------------------------------------------------
+\usepackage[utf8]{inputenc}            % Codificación de entrada UTF-8
+\usepackage[T1]{fontenc}               % Codificación de salida de fuente
+\usepackage[spanish]{babel}            % Traducción automática al español
+\usepackage{csquotes}                  % Recomendado para citas (compatible con biblatex)
 
-\usepackage{csquotes}
+% --------------------------------------------------------------------
+% Bibliografía en estilo APA (con biblatex + biber)
+% --------------------------------------------------------------------
+\usepackage[backend=biber, style=apa, sorting=nyt]{biblatex}
+\addbibresource{referencias.bib}       % Archivo .bib de referencias
+
+% --------------------------------------------------------------------
+% Hipervínculos y navegación en PDF
+% --------------------------------------------------------------------
 \usepackage[
   colorlinks=true,
   linkcolor=blue,
@@ -14,27 +24,70 @@
   filecolor=blue,
   urlcolor=blue
 ]{hyperref}
+
+% --------------------------------------------------------------------
+% Márgenes y espaciado
+% --------------------------------------------------------------------
 \usepackage{geometry}
+\geometry{
+  top=2cm,
+  bottom=2cm,
+  left=2cm,
+  right=2cm,
+  headheight=14pt  % necesario para evitar warning de fancyhdr
+}
 \usepackage{setspace}
-\usepackage{times}
+\onehalfspacing                         % Interlineado 1.5
+
+% --------------------------------------------------------------------
+% Tipografía
+% --------------------------------------------------------------------
+\usepackage{times}                     % Fuente Times (clásica y académica)
+
+% --------------------------------------------------------------------
+% Encabezado y pie de página con fancyhdr
+% --------------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}                              % Limpia encabezado y pie
+\fancyhead[L]{\thepage}                % Número de página a la izquierda
+\fancyhead[R]{\MakeUppercase{\rightmark}} % Título de sección en mayúsculas a la derecha
+\renewcommand{\headrulewidth}{0pt}     % Línea del encabezado: 0pt para quitarla
+
+% Configuración de marca de sección (para article)
+\usepackage{sectsty}
+\makeatletter
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\makeatother
+
+% --------------------------------------------------------------------
+% Índice (ToC) con mejoras visuales
+% --------------------------------------------------------------------
+\usepackage{tocloft}
+\renewcommand{\contentsname}{Índice}   % Título del índice
+
+% --------------------------------------------------------------------
+% Gráficos e imágenes
+% --------------------------------------------------------------------
 \usepackage{graphicx}
-\graphicspath{{figuras/}{codigo/figuras/}}
-\usepackage{tocloft}  % Mejora el índice
+\graphicspath{{figuras/}{codigo/figuras/}}  % Carpetas donde buscar imágenes
 
-\usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage{array}
-\usepackage{caption}
+% --------------------------------------------------------------------
+% Tablas avanzadas
+% --------------------------------------------------------------------
+\usepackage{booktabs}                  % Mejores líneas horizontales
+\usepackage{tabularx}                  % Tablas con ancho ajustable
+\usepackage{array}                     % Mejoras en alineación de columnas
 
-\usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage{float}  % Para usar [H]
-
+% --------------------------------------------------------------------
+% Algoritmos y pseudocódigo
+% --------------------------------------------------------------------
 \usepackage{algorithm}
-\usepackage{algpseudocodex}
+\usepackage{algpseudocodex}            % Versión en español de algpseudocode
 
-
-
+% --------------------------------------------------------------------
+% Entornos personalizados para pseudocódigo (con tcolorbox)
+% --------------------------------------------------------------------
 \usepackage{tcolorbox}
 \tcbuselibrary{listings, breakable}
 
@@ -57,6 +110,13 @@
   }
 }
 
+% --------------------------------------------------------------------
+% Código fuente (listings)
+% --------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}                    % Colores para listings
+\usepackage{inconsolata}               % Fuente monoespaciada legible
+
 \lstset{
   inputencoding=utf8,
   extendedchars=true,
@@ -66,18 +126,10 @@
            {á}{{\'a}}1
            {✓}{{$\checkmark$}}1,
   breaklines=true,
-  basicstyle=\ttfamily\footnotesize
-}
-
-\usepackage{listings}
-\usepackage{xcolor}
-\usepackage{inconsolata}
-\lstset{
   basicstyle=\ttfamily\footnotesize,
   keywordstyle=\color{blue},
   commentstyle=\color{gray},
   stringstyle=\color{green!60!black},
-  breaklines=true,
   frame=single,
   columns=fullflexible,
   keepspaces=true,
@@ -86,20 +138,11 @@
   language=Python
 }
 
+% --------------------------------------------------------------------
+% Figuras fijas (float)
+% --------------------------------------------------------------------
+\usepackage{float}  % Para usar la opción [H]
 
-% Márgenes
-\geometry{
-  top=2cm,
-  bottom=2cm,
-  left=2cm,
-  right=2cm
-}
-
-% Interlineado 1.5
-\onehalfspacing
-
-% Cambiar título del índice
-\renewcommand{\contentsname}{Índice}
 
 \begin{document}
 
@@ -227,33 +270,46 @@ En este marco, resulta pertinente reconocer que el diseño de técnicas de sobre
 
 En síntesis, la evolución del algoritmo SMOTE ha dado lugar a una diversidad de enfoques diseñados para mitigar sus principales limitaciones, entre ellas la generación indiscriminada de muestras en regiones seguras, la falta de sensibilidad al contexto local y la dificultad para extenderse a escenarios multiclase. No obstante, muchas de estas variantes tienden a abordar aspectos específicos del problema de forma aislada, sin articular mecanismos que contemplen simultáneamente la selección informada de instancias y una generación sintética guiada por criterios estructurales. En este contexto, la presente investigación se orienta al desarrollo de una estrategia híbrida que combine técnicas de selección en regiones fronterizas con esquemas adaptativos de generación, tomando como base la integración entre $ \alpha $SMOTE y AR-ADASYN. Adicionalmente, se propone una extensión metodológica que introduce un mecanismo de filtrado por percentiles, diseñado para mejorar la discriminación entre muestras relevantes y ruidosas en función de su entorno local. Ambas contribuciones apuntan a optimizar la utilidad de los ejemplos sintéticos generados y favorecer su aplicabilidad en entornos de clasificación multiclase con alto desbalance, reforzando la coherencia entre la teoría del sobremuestreo y su implementación práctica.
 
-\section{Metodología} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+\input{parts/a_metodologia.tex}
+% Breve introducción al contenido de la sección
 
-\subsubsection{Pseudocódigo: \textit{alpha\_dbasmote}}
-\input{pseudocodigos/1_alpha_dbasmote}
+\input{parts/b_analisis_datasets.tex}
+% Aquí va tu análisis de distribución, visualizaciones, desequilibrio
 
-\subsubsection{Pseudocódigo: \textit{ar\_adasyn}}
-\input{pseudocodigos/2_ar_adasyn}
+\input{parts/c_tecnicas_sobremuestreo.tex}
+\input{parts/c1_resumen_tecnicas_evaludas.tex}
+% SMOTE, ADASYN, Borderline‑SMOTE, PC-SMOTE, α‑Distance B‑SMOTE + AR‑ADASYN
 
-\subsubsection{Pseudocódigo: \textit{alpha\_dbasmote\_ar\_adasyn}}
-\input{pseudocodigos/3_alpha_dbasmote_ar_adasyn}
+\input{parts/c2_formalizacion_algoritmica.tex}
+% Aquí va tu descripción conceptual y pseudocódigos de cada técnica
 
-\subsubsection{Pseudocódigo: \textit{PC\_SMOTE}}
-\input{pseudocodigos/4_pc_smote.tex}
+\input{parts/d_clasificadores.tex}
+% Random Forest, SVM, KNN, Gradient Boosting, XGBoost
 
-\input{pseudocodigos/41_pc_smote_descripcion.tex}
+\input{parts/e_implementacion_procolo_experimental.tex}
+% Detalles de preprocesamiento, pipeline, grilla de parámetros, guardado de resultados
+
+\input{parts/f_resultados.tex}
+% Tablas comparativas, mejores configuraciones, mat. conf.
+% Referencia a heatmap, e.g. “ver Figura X”
+
+\input{parts/g_discusion.tex}
+% Interpretación de resultados, comparativas, limitaciones
+
+\input{parts/h_conclusiones_trabajos_futuros.tex}
+% Síntesis, aporte teórico-práctico, sugerencias
 
 
-\input{pseudocodigos/resultados_comparativos.tex}
+\section{Aportes esperados} 
+\noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 
-\section{Recursos involucrados y cronograma de trabajo} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+Desde una perspectiva académica, se espera que este trabajo constituya un aporte a la línea de investigación en preprocesamiento de datos y diseño de algoritmos orientados a escenarios de aprendizaje automático con clases desbalanceadas.
 
-\section{Aportes esperados} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
+El principal aporte consiste en el desarrollo de una técnica híbrida que integra mecanismos de selección y generación sintética basados en fundamentos geométricos y adaptativos. En concreto, se propuso un modelo que combina técnicas de selección de instancias peligrosas con esquemas de generación de datos modernos. La hipótesis central fue que esta integración permitiría generar muestras sintéticas más representativas y útiles para el clasificador, especialmente en regiones de frontera donde las clases presentan solapamiento o alta variabilidad interna.
 
-Desde una perspectiva académica, se espera que este trabajo sea un aporte a la línea de investigación en preprocesamiento de datos y diseño de algoritmos orientados a escenarios de aprendizaje automático con clases desbalanceadas. 
-El principal aporte de este trabajo consiste en el desarrollo de una técnica híbrida que integra mecanismos de selección y generación sintética basados en fundamentos geométricos y adaptativos. En concreto, se propone un modelo que combine técnicas de selección de instancias peligrosas con esquemas de generación de datos modernos. La hipótesis central es que esta integración permitirá generar muestras sintéticas más representativas y útiles para el clasificador, especialmente en regiones de frontera donde las clases presentan solapamiento o alta variabilidad interna.
-Como segundo aporte, se propone una nueva variante, que extiende el enfoque clásico de SMOTE mediante la incorporación de criterios adaptativos de generación de muestras. La propuesta incluye mecanismos adaptativos en las tres fases del algoritmo: (i) selección de muestras minoritarias, (ii) elección filtrada de vecinos representativos, y (iii) ajuste del parámetro de interpolación que determina la posición relativa de la muestra sintética entre una instancia minoritaria y su vecino seleccionado. La hipótesis es que esta estrategia permitirá un control más preciso sobre la distribución de las muestras generadas, adecuándose mejor a la morfología del espacio de decisión y mitigando la generación de ruido o redundancia.
-Ambas líneas de desarrollo buscan aportar soluciones que mejoren la capacidad de generalización de los clasificadores en contextos reales, tanto en clasificación binaria como multiclase, y servir como base para futuros trabajos que exploren la combinación de mecanismos estructurales con esquemas de generación controlada de datos sintéticos.
+Como segundo aporte, se diseñó una nueva variante que extiende el enfoque clásico de SMOTE mediante la incorporación de criterios adaptativos en sus tres fases principales: (i) selección de muestras minoritarias, (ii) elección filtrada de vecinos representativos, y (iii) ajuste del parámetro de interpolación que determina la posición relativa de las muestras generadas. La hipótesis planteada fue que esta estrategia permitiría un control más preciso sobre la distribución de las muestras sintéticas, adecuándose mejor a la morfología del espacio de decisión y mitigando la generación de ruido o redundancia.
+
+Ambas líneas de desarrollo buscan mejorar la capacidad de generalización de los clasificadores en contextos reales, tanto en clasificación binaria como multiclase, y servir como base para futuros trabajos que exploren la combinación de mecanismos estructurales con esquemas de generación controlada de datos sintéticos.
 
 \section{Referencias bibliográficas} \noindent\hyperlink{toc}{\small$\uparrow$ Volver al índice}
 \printbibliography

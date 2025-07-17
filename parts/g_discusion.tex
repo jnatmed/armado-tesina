@@ -1,0 +1,23 @@
+\section{Discusión}
+
+Los resultados obtenidos permitieron identificar patrones relevantes en el comportamiento de las técnicas de sobremuestreo y su interacción con distintos clasificadores y datasets. En esta sección se analizan los hallazgos más significativos y se discuten sus implicancias.
+
+\subsection{Desempeño de las técnicas avanzadas}
+
+Las variantes más recientes como PC-SMOTE, AR-ADASYN y α‑DBASMOTE mostraron ventajas claras frente a los métodos tradicionales. Su capacidad para incorporar información estructural del espacio de características (como densidad, riesgo o pureza) contribuyó a una generación más eficiente de ejemplos sintéticos, minimizando el sobreajuste y reduciendo el ruido.
+
+Se destacó la versión combinada α‑DBASMOTE + AR‑ADASYN por su robustez frente a diferentes tipos de desbalance, logrando un equilibrio entre diversidad y precisión. Esta técnica combinada aprovechó la identificación geométrica precisa de zonas frontera (α‑DBASMOTE) y una generación adaptativa focalizada en muestras peligrosas (AR-ADASYN).
+
+\subsection{Importancia del clasificador elegido}
+
+La elección del clasificador también influyó significativamente en los resultados. Modelos como XGBoost y Gradient Boosting mostraron una mayor capacidad para capturar estructuras complejas en los datos sintéticos, mientras que métodos como KNN fueron más sensibles a la calidad del sobremuestreo. Esto refuerza la idea de que la selección del clasificador no debe disociarse de la técnica de balanceo utilizada.
+
+\subsection{Limitaciones observadas}
+
+Algunas técnicas, como ADASYN y Borderline-SMOTE, presentaron limitaciones en datasets con bajo volumen de datos o fuerte solapamiento entre clases. En ciertos casos, la generación excesiva de ejemplos en zonas ruidosas incrementó la tasa de falsos positivos. Además, si bien PC-SMOTE ofreció un buen rendimiento general, su eficacia dependió de una cuidadosa calibración de parámetros.
+
+Finalmente, se observó que los resultados variaron considerablemente entre datasets, lo que sugiere que no existe una técnica universalmente superior. Cada combinación de dataset, técnica de sobremuestreo y clasificador planteó desafíos específicos, lo que justifica la necesidad de realizar estudios comparativos como el presente.
+
+\subsection{Implicancias}
+
+Este análisis confirmó la relevancia de evaluar técnicas de sobremuestreo bajo un enfoque integral, considerando tanto su formalización teórica como su impacto práctico sobre el rendimiento de clasificación. Además, la inclusión de visualizaciones y métricas múltiples permitió una comprensión más profunda del efecto de cada técnica sobre la geometría del espacio de características.

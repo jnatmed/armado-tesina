@@ -1,0 +1,18 @@
+\section{Conclusiones y trabajos futuros}
+
+El presente trabajo tuvo como objetivo analizar, implementar y comparar distintas técnicas de sobremuestreo en contextos de clasificación con datos desbalanceados. Se evaluaron métodos tradicionales como SMOTE, ADASYN y Borderline-SMOTE, así como variantes recientes como PC-SMOTE, AR-ADASYN y α‑DBASMOTE, tanto en sus versiones individuales como combinadas.
+
+Los resultados obtenidos confirmaron que las técnicas avanzadas, al incorporar criterios de densidad, riesgo y pureza, ofrecieron mejoras sustanciales en métricas como F1-score y AUC-ROC. En particular, la técnica híbrida α‑DBASMOTE + AR‑ADASYN logró un desempeño superior en varios escenarios, combinando una selección precisa de muestras críticas con una generación adaptativa de ejemplos sintéticos.
+
+Además, se observó que el rendimiento final dependió no solo del método de sobremuestreo, sino también del clasificador utilizado y del dataset evaluado. Esta dependencia resalta la importancia de realizar evaluaciones integrales que contemplen múltiples combinaciones de técnicas y clasificadores.
+
+Como trabajos futuros, se identificaron varias líneas de exploración:
+
+\begin{itemize}
+  \item Incorporar estrategias de selección de atributos para mejorar la calidad de las instancias generadas.
+  \item Extender el análisis a datasets multietiqueta o secuenciales, donde el problema del desbalance presenta nuevas complejidades.
+  \item Aplicar los algoritmos propuestos en dominios reales, como imágenes médicas o series temporales, evaluando su desempeño en entornos no controlados.
+  \item Diseñar variantes más eficientes computacionalmente que mantengan la precisión sin aumentar el costo de entrenamiento.
+\end{itemize}
+
+En síntesis, esta investigación aportó evidencia empírica y formal sobre la eficacia de nuevas estrategias de sobremuestreo, destacando su potencial para mejorar la clasificación en dominios complejos y desbalanceados.

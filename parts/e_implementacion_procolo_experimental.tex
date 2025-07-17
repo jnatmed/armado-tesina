@@ -1,0 +1,32 @@
+\section{Implementación y protocolo experimental}
+
+Todos los experimentos fueron implementados en Python 3.11, utilizando las librerías \texttt{imbalanced-learn}, \texttt{scikit-learn}, \texttt{NumPy} y \texttt{Pandas}, entre otras. El entorno de trabajo consistió en notebooks de Jupyter ejecutados localmente, con control de versiones mediante Git y almacenamiento estructurado de resultados por dataset, técnica y clasificador.
+
+\subsection{Preprocesamiento}
+
+Cada dataset fue normalizado mediante escalado Min-Max en el rango $[0, 1]$, a fin de asegurar comparabilidad entre atributos y mejorar el desempeño de los clasificadores sensibles a la escala. Las clases minoritarias fueron identificadas explícitamente para el proceso de sobremuestreo.
+
+\subsection{Configuración experimental}
+
+Se evaluaron todas las combinaciones posibles entre los siguientes elementos:
+
+\begin{itemize}
+  \item \textbf{Técnicas de sobremuestreo}: SMOTE, ADASYN, Borderline-SMOTE, PC-SMOTE, α‑DBASMOTE, AR‑ADASYN y su versión combinada α‑DBASMOTE + AR‑ADASYN.
+  \item \textbf{Clasificadores}: KNN, SVM (con kernel RBF), Random Forest, Gradient Boosting y XGBoost.
+  \item \textbf{Datasets}: Breast Cancer Wisconsin, Diabetes, Ecoli, Glass Identification y Heart Disease.
+\end{itemize}
+
+Para cada combinación se realizó validación cruzada estratificada de 5 pliegues, con muestreo aplicado únicamente sobre los conjuntos de entrenamiento de cada pliegue, evitando así filtraciones de datos en el proceso de evaluación.
+
+\subsection{Evaluación y métricas}
+
+Los modelos fueron evaluados principalmente mediante las siguientes métricas:
+
+\begin{itemize}
+  \item \textbf{F1-score}: armónico entre precisión y recall, ideal para clases desbalanceadas.
+  \item \textbf{AUC-ROC}: área bajo la curva ROC, útil para evaluar la capacidad discriminativa del modelo.
+  \item \textbf{Matriz de confusión}: análisis detallado de verdaderos positivos, falsos positivos, etc.
+  \item \textbf{Visualización 2D/3D}: se generaron proyecciones para ilustrar el efecto geométrico del sobremuestreo en datasets seleccionados.
+\end{itemize}
+
+Se registraron tanto los valores promedio como las desviaciones estándar para cada métrica, y se exportaron los resultados en archivos CSV para posterior análisis. Las mejores configuraciones fueron seleccionadas según el mayor F1-score promedio, priorizando además la estabilidad de los modelos.

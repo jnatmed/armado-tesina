@@ -71,3 +71,43 @@ El algoritmo también puede extenderse a clasificación multiclase aplicando el 
 
 \end{algorithmic}
 \end{algorithm}
+
+\subsection{Evaluación experimental de PC-SMOTE}
+
+Una vez implementado el algoritmo \textbf{PC-SMOTE} con soporte multiclase y control por percentiles, se procedió a evaluar su desempeño en el dataset EuroSAT mediante una búsqueda en grilla sobre tres parámetros fundamentales:
+
+\begin{itemize}
+  \item El \textbf{percentil de riesgo}, que define el rango aceptable de mezcla entre clases.
+  \item El \textbf{percentil de densidad}, que determina la compactación mínima esperada para considerar una región como segura.
+  \item El \textbf{criterio de pureza}, que controla si se usa proporción de clases o entropía como métrica de contaminación.
+\end{itemize}
+
+Se utilizó un clasificador \textbf{Random Forest} con 100 árboles y reducción de dimensionalidad mediante \textbf{PCA} (100 componentes). La métrica empleada para la comparación fue el \textit{F1-score ponderado}.
+
+La Tabla \ref{tab:pcsmote_grid_results} resume los resultados más representativos:
+
+\begin{table}[H]
+\centering
+\caption{Resultados experimentales de PC-SMOTE con distintas configuraciones}
+\label{tab:pcsmote_grid_results}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Densidad (percentil)} & \textbf{Riesgo (percentil)} & \textbf{Pureza} & \textbf{F1-score ponderado} \\
+\hline
+25 & 25 & proporción & \textbf{0.5976} \\
+50 & 25 & proporción & 0.5872 \\
+75 & 25 & proporción & 0.5791 \\
+25 & 50 & entropía   & 0.5733 \\
+25 & 75 & entropía   & 0.5699 \\
+\hline
+\end{tabular}
+\end{table}
+
+Los resultados indican que el mejor desempeño se obtuvo cuando se combinó un umbral bajo de densidad y riesgo (ambos en el percentil 25) junto con el criterio de pureza basado en la proporción de clases. Esta combinación favorece la generación de instancias en zonas que, si bien presentan un riesgo intermedio (lo cual indica frontera), mantienen una estructura suficientemente densa y homogénea.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.4]{pcsmote_heatmap_best.png}
+  \caption{Matriz de confusión para la mejor configuración de PC-SMOTE (densidad=25, riesgo=25, pureza=proporción)}
+  \label{fig:pcsmote_best_heatmap}
+\end{figure}
