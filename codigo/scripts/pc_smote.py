@@ -2,6 +2,7 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import check_random_state
 from scipy.stats import entropy
 import numpy as np
+from collections import Counter
 
 class PCSMOTE:
     def __init__(self, k_neighbors=5, random_state=None,
@@ -52,12 +53,22 @@ class PCSMOTE:
             print(f"📌 Total muestras minoritarias: {len(X_min)}")
             print(f"📌 Total muestras mayoritarias: {len(X_maj)}")
 
+        if len(X_min) < self.k + 1:
+            if self.verbose:
+                print(f"⚠️ Muy pocas muestras minoritarias ({len(X_min)}). Se requieren al menos {self.k + 1}. Devolviendo dataset original.")
+            return X.copy(), y.copy()
+
         # Vecindarios de riesgo
         nn = NearestNeighbors(n_neighbors=self.k + 1).fit(X)
         vecinos = nn.kneighbors(X_min, return_distance=False)[:, 1:]
         riesgo = np.array([np.sum(y[idxs] == 0) / self.k for idxs in vecinos])
 
         # Vecindarios para densidad
+        if len(X_min) < self.k + 1:
+            if self.verbose:
+                print(f"⚠️ Muy pocas muestras para calcular densidad. Devolviendo dataset original.")
+            return X.copy(), y.copy()
+
         vecinos_minor = NearestNeighbors(n_neighbors=self.k + 1).fit(X_min).kneighbors(X_min, return_distance=False)[:, 1:]
         densidades = self.calcular_densidad_interseccion(X_min, vecinos_minor, self.radio_densidad)
 
@@ -68,7 +79,7 @@ class PCSMOTE:
                 umbral_entropia = np.percentile(entropias, self.percentil_entropia)
                 pureza_mask = entropias <= umbral_entropia
             else:
-                pureza_mask = entropias <= 1.0  # default permisivo
+                pureza_mask = entropias <= 1.0
 
         elif self.criterio_pureza == 'proporcion':
             proporciones_min = np.array([np.sum(y[idxs] == 1) / self.k for idxs in vecinos])
@@ -88,9 +99,9 @@ class PCSMOTE:
         combinacion_mask = pureza_mask & densidad_mask
         X_min_filtrado = X_min[combinacion_mask]
 
-        if len(X_min_filtrado) == 0:
+        if len(X_min_filtrado) < self.k + 1:
             if self.verbose:
-                print("⚠️ No se encontraron muestras válidas. Devolviendo original.")
+                print(f"⚠️ Muy pocas muestras luego del filtrado ({len(X_min_filtrado)}). Se requieren al menos {self.k + 1}. Devolviendo dataset original.")
             return X.copy(), y.copy()
 
         riesgo_filtrado = riesgo[combinacion_mask]
@@ -130,14 +141,18 @@ class PCSMOTE:
         y_resampled = np.hstack([y, y_sint])
         return X_resampled, y_resampled
 
+
     def fit_resample_multiclass(self, X, y):
         clases = np.unique(y)
         X_res = X.copy()
         y_res = y.copy()
 
+        conteo_original = Counter(y)
+        max_count = max(conteo_original.values())
+
         for clase in clases:
             y_bin = (y == clase).astype(int)
-            if np.sum(y_bin) < np.max(np.bincount(y)):
+            if np.sum(y_bin) < max_count:
                 X_bin_res, y_bin_res = self.fit_resample(X, y_bin)
                 nuevos = len(X_bin_res) - len(X)
                 if nuevos > 0:

@@ -1,19 +1,19 @@
-dataset,densidad,riesgo,pureza,f1_score,error
-ecoli,25,25,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,25,25,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,25,50,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,25,50,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,25,75,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,25,75,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,50,25,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,50,25,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,50,50,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,50,50,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,50,75,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,50,75,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,75,25,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,75,25,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,75,50,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,75,50,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,75,75,entropia,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
-ecoli,75,75,proporcion,,Cannot cast array data from dtype('O') to dtype('int64') according to the rule 'safe'
+dataset,densidad,riesgo,pureza,f1_score,balanced_accuracy,mcc,cohen_kappa
+ecoli,25,25,proporcion,0.9150081085065604,0.9421695402298851,0.8854543921523537,0.8799293702177752
+ecoli,50,25,proporcion,0.9150081085065604,0.9421695402298851,0.8854543921523537,0.8799293702177752
+ecoli,75,25,proporcion,0.9150081085065604,0.9421695402298851,0.8854543921523537,0.8799293702177752
+ecoli,75,75,proporcion,0.9014092025194833,0.9183600164203612,0.8629045122333829,0.8595455886692239
+ecoli,50,75,proporcion,0.9014092025194833,0.9183600164203612,0.8629045122333829,0.8595455886692239
+ecoli,25,75,proporcion,0.9014092025194833,0.9183600164203612,0.8629045122333829,0.8595455886692239
+ecoli,50,50,proporcion,0.900225708132223,0.9364224137931035,0.8665955617019122,0.860655737704918
+ecoli,75,50,proporcion,0.900225708132223,0.9364224137931035,0.8665955617019122,0.860655737704918
+ecoli,25,50,proporcion,0.900225708132223,0.9364224137931035,0.8665955617019122,0.860655737704918
+ecoli,25,25,entropia,0.8973928498427084,0.9317528735632185,0.8667976608126887,0.8601234205113135
+ecoli,75,50,entropia,0.8973928498427084,0.9317528735632185,0.8667976608126887,0.8601234205113135
+ecoli,50,50,entropia,0.8973928498427084,0.9317528735632185,0.8667976608126887,0.8601234205113135
+ecoli,25,50,entropia,0.8973928498427084,0.9317528735632185,0.8667976608126887,0.8601234205113135
+ecoli,50,25,entropia,0.8973928498427084,0.9317528735632185,0.8667976608126887,0.8601234205113135
+ecoli,75,25,entropia,0.8973928498427084,0.9317528735632185,0.8667976608126887,0.8601234205113135
+ecoli,25,75,entropia,0.8839441955271811,0.9079433497536945,0.8439949891753203,0.8397171479080731
+ecoli,50,75,entropia,0.8839441955271811,0.9079433497536945,0.8439949891753203,0.8397171479080731
+ecoli,75,75,entropia,0.8839441955271811,0.9079433497536945,0.8439949891753203,0.8397171479080731

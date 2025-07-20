@@ -13,25 +13,49 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
 
     # Carga tabular por defecto
     df = pd.read_csv(path, header=header, sep=sep)
-    df = df[~df.isin(['?']).any(axis=1)]
+    df = df[~df.isin(['?', 'NA', 'None']).any(axis=1)]
+
 
     if col_target is None or col_features is None:
         raise ValueError("Debés especificar las columnas de características y la columna target.")
+
+    # ⚠️ Validación: columnas no numéricas en col_features
+    tipos_invalidos = df[col_features].select_dtypes(include=['object']).columns
+    if len(tipos_invalidos) > 0:
+        print(f"⚠️ Advertencia: columnas no numéricas detectadas: {list(tipos_invalidos)}")
 
     df_features = df[col_features].apply(pd.to_numeric, errors='coerce')
     df_target = df[[col_target]] if isinstance(col_target, str) else df[col_target]
 
     df_clean = pd.concat([df_features, df_target], axis=1).dropna()
 
-    X = df_clean[col_features].values
+    X = df_clean[col_features].to_numpy(dtype=np.float64)
     y = df_clean[col_target].values.ravel()
 
+    # Verificación final antes de retornar
+    if not np.issubdtype(X.dtype, np.number):
+        raise TypeError("❌ X contiene columnas no numéricas incluso después del preprocesamiento.")
+
+    if not np.isfinite(X).all():
+        raise ValueError("❌ X contiene valores NaN o infinitos.")
+    
     # Binarizar solo si se solicita
     if binarizar:
         if clase_minoria is None:
             raise ValueError("Debe indicarse la clase minoritaria si se va a binarizar.")
         y = np.where(y == clase_minoria, 1, 0)
 
+    # Verificación final antes de retornar
+    try:
+        X = np.asarray(X, dtype=np.float64)
+    except Exception as e:
+        print("❌ Error forzando conversión a float64:", e)
+        print("🕵️‍♂️ Primeras 5 filas de X:")
+        print(X[:5])
+        print("🧬 Tipos detectados en X:")
+        print([type(val) for val in X[0]])
+        raise e
+    
     return X, y, None  # None en lugar de 'clases' explícitas
 
 
