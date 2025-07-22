@@ -1,12 +1,16 @@
 config_datasets = {
-    # Dataset ECOLI - Multiclase (8 clases)
-    "ecoli": {
-        "path": "../datasets/ecoli/ecoli.data",
-        "clase_minoria": "imL",  # Coincide con la clase minoritaria real
-        "col_features": list(range(1, 8)),  # Columnas 1 a 7 como features
-        "col_target": 8,  # Columna 8 es el target
-        "sep": r'\s+',  # Separador por espacios
-        "header": None
+    # Dataset SHUTTLE - Multiclase (7 clases, altamente desbalanceado)
+    # Simula el estado de un sistema de control de un transbordador espacial.
+    # La clase 1 representa el 78% de los datos, mientras que clases como la 6 y 7 tienen muy pocas muestras.
+    # Ideal para evaluar la efectividad de técnicas de sobremuestreo en entornos multiclase severamente desbalanceados.
+    "shuttle": {
+        "path": "../datasets/statlog+shuttle/shuttle.csv",
+        "clase_minoria": 7,  # Clase más pequeña (~15 instancias)
+        "col_features": [f"feat_{i}" for i in range(9)],  # Columnas nombradas como strings
+        "clases_minor": [2, 6, 7],  # ✅ Clases consideradas como minoritarias        
+        "col_target": 'target',  # Columna "target"
+        "sep": ",",
+        "header": 0
     },
     # Dataset WDBC (Breast Cancer Wisconsin) - Binario
     "wdbc": {

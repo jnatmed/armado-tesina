@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+heart,SVM,adasyn,0.374223325693914,0.2054383116883117,0.10078136103678408,0.0953637391632115

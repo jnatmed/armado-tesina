@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+glass,RandomForest,borderline,0.7414132379248659,0.7571428571428571,0.6618835756341166,0.6594672426205903

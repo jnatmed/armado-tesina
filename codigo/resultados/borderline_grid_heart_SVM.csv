@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+heart,SVM,borderline,0.4068500674952288,0.27421536796536794,0.13077588270724932,0.12632821723730803

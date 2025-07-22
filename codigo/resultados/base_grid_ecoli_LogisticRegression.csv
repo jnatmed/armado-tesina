@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+ecoli,LogisticRegression,base,0.84453290087965,0.6985930735930737,0.7963462457142836,0.7910264290104487

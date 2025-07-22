@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+glass,SVM,borderline,0.6607451193902154,0.7547619047619047,0.5800813542851279,0.5615227736233854

@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+heart,LogisticRegression,base,0.5407695848292369,0.3095779220779221,0.3270811356133535,0.3172507965407374

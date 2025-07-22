@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+wdbc,SVM,borderline,0.904961328051311,0.9186507936507937,0.8123018552804168,0.8015194681861348

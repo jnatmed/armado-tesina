@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+ecoli,SVM,base,0.915266106442577,0.9241071428571429,0.8833489823697378,0.8791469194312796

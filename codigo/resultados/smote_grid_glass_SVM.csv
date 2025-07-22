@@ -1,0 +1,2 @@
+dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
+glass,SVM,smote,0.6536867783379413,0.6555555555555556,0.5351569802328834,0.5251897860593513
