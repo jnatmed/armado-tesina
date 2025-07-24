@@ -106,25 +106,32 @@ class PCSMOTE:
 
         riesgo_filtrado = riesgo[combinacion_mask]
         vecinos_filtrados = vecinos[combinacion_mask]
-        n_sint = len(X_maj) - len(X_min)
+        n_sint = len(X_maj) - len(X_min)  # Cantidad de muestras sintéticas necesarias
         muestras_sinteticas = []
 
+        # === GENERACIÓN DE MUESTRAS SINTÉTICAS ===
         for _ in range(n_sint):
-            idx = self.random_state.randint(len(X_min_filtrado))
+            idx = self.random_state.randint(len(X_min_filtrado))  # Elijo muestra base
             xi = X_min_filtrado[idx]
             r_i = riesgo_filtrado[idx]
             idxs_vecinos = vecinos_filtrados[idx]
 
-            distancias = np.linalg.norm(X[idxs_vecinos][:, :3] - xi[:3], axis=1) if self.modo_espacial == '3d' else np.linalg.norm(X[idxs_vecinos] - xi, axis=1)
+            # Distancia a vecinos en función del modo espacial
+            distancias = (
+                np.linalg.norm(X[idxs_vecinos][:, :3] - xi[:3], axis=1)
+                if self.modo_espacial == '3d'
+                else np.linalg.norm(X[idxs_vecinos] - xi, axis=1)
+            )
             umbral = np.percentile(distancias, self.percentil_dist)
-            vecinos_validos = idxs_vecinos[distancias <= umbral]
+            vecinos_validos = idxs_vecinos[distancias <= umbral]  # Vecinos cercanos
 
             if len(vecinos_validos) == 0:
                 continue
 
-            z_idx = self.random_state.choice(vecinos_validos)
+            z_idx = self.random_state.choice(vecinos_validos)  # Selecciona vecino z
             xz = X[z_idx]
 
+            # Delta variable según el riesgo r_i para controlar interpolación
             if 0.4 <= r_i < 0.5:
                 delta = self.random_state.uniform(0.6, 0.8)
             elif 0.5 <= r_i <= 0.6:
@@ -132,9 +139,11 @@ class PCSMOTE:
             else:
                 delta = self.random_state.uniform(0.4, 0.6)
 
+            # Interpolación lineal controlada
             xsint = xi + delta * (xz - xi)
             muestras_sinteticas.append(xsint)
 
+        # === UNIÓN CON EL CONJUNTO ORIGINAL ===
         X_sint = np.array(muestras_sinteticas)
         y_sint = np.ones(len(X_sint))
         X_resampled = np.vstack([X, X_sint])
@@ -143,21 +152,38 @@ class PCSMOTE:
 
 
     def fit_resample_multiclass(self, X, y):
+        # Obtiene las clases únicas presentes en el dataset
         clases = np.unique(y)
+
+        # Copias de los datos originales para ir acumulando los resultados
         X_res = X.copy()
         y_res = y.copy()
 
+        # Se determina la clase con mayor cantidad de muestras (mayoritaria global)
         conteo_original = Counter(y)
         max_count = max(conteo_original.values())
 
+        # Iteración uno contra todos: cada clase se trata como minoritaria frente al resto
         for clase in clases:
+            # Vector binario: 1 para la clase actual, 0 para las demás
             y_bin = (y == clase).astype(int)
+
+            # Si la clase actual tiene menos muestras que la clase mayoritaria global
             if np.sum(y_bin) < max_count:
+                # Se aplica el método binario `fit_resample` sobre esta clase
                 X_bin_res, y_bin_res = self.fit_resample(X, y_bin)
+
+                # Se calcula cuántas nuevas muestras sintéticas fueron agregadas
                 nuevos = len(X_bin_res) - len(X)
+
                 if nuevos > 0:
+                    # Se extraen solo las nuevas muestras
                     X_nuevos = X_bin_res[-nuevos:]
+                    # Se les asigna la etiqueta original de la clase (no el binario)
                     y_nuevos = np.full(nuevos, clase)
+                    # Se concatenan al conjunto de datos resampleado final
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
+
+        # Se devuelve el dataset reequilibrado con todas las clases
         return X_res, y_res

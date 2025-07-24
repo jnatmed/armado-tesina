@@ -1,0 +1,2 @@
+f1_score_macro,f1_score_minor,balanced_accuracy,mcc,cohen_kappa,dataset,modelo,tecnica
+0.8215919012950236,0.6425536062378168,0.8946116395453076,0.9548000437691894,0.953895814113444,shuttle,SVM,smote

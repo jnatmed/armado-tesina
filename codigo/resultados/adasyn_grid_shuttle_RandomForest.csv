@@ -1,0 +1,2 @@
+f1_score_macro,f1_score_minor,balanced_accuracy,mcc,cohen_kappa,dataset,modelo,tecnica
+0.9095360377175172,0.6618245614035086,0.917176005898849,0.9980124957456147,0.9980122012144579,shuttle,RandomForest,adasyn

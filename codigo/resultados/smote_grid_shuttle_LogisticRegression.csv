@@ -1,0 +1,2 @@
+f1_score_macro,f1_score_minor,balanced_accuracy,mcc,cohen_kappa,dataset,modelo,tecnica
+0.7121982467870269,0.7044513243894048,0.9164298258228707,0.7476584222875735,0.7272970659008766,shuttle,LogisticRegression,smote
