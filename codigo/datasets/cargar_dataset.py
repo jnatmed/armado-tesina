@@ -13,7 +13,7 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
 
     # Carga tabular por defecto
     df = pd.read_csv(path, header=header, sep=sep)
-    df = df[~df.isin(['?', 'NA', 'None']).any(axis=1)]
+    df = df[~df.isin(['?', 'NA', 'None']).any(axis=1)] # elimina filas con strings inválidos ('?', 'NA', 'None')
 
 
     if col_target is None or col_features is None:
