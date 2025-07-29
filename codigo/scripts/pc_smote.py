@@ -9,7 +9,7 @@ class PCSMOTE:
                  radio_densidad=1.0, percentil_dist=75,
                  percentil_entropia=None, percentil_densidad=None,
                  criterio_pureza='entropia', modo_espacial='2d',
-                 max_sinteticas=None, verbose=True):
+                 factor_equilibrio=0.8, verbose=True):
         self.k = k_neighbors
         self.random_state = check_random_state(random_state)
         self.radio_densidad = radio_densidad
@@ -18,7 +18,7 @@ class PCSMOTE:
         self.percentil_densidad = percentil_densidad
         self.criterio_pureza = criterio_pureza
         self.modo_espacial = modo_espacial
-        self.max_sinteticas = max_sinteticas
+        self.factor_equilibrio = factor_equilibrio
         self.verbose = verbose
 
     def calcular_densidad_interseccion(self, X_min, vecinos, radio):
@@ -30,8 +30,7 @@ class PCSMOTE:
                 distancia = np.linalg.norm(xi[:3] - xj[:3]) if self.modo_espacial == '3d' else np.linalg.norm(xi - xj)
                 if distancia <= 2 * radio:
                     intersecciones += 1
-            densidad = intersecciones / len(vecinos[i])
-            densidades.append(densidad)
+            densidades.append(intersecciones / len(vecinos[i]))
         return np.array(densidades)
 
     def calcular_entropia(self, vecinos, y):
@@ -42,7 +41,7 @@ class PCSMOTE:
             entropias.append(entropy(p, base=2))
         return np.array(entropias)
 
-    def fit_resample(self, X, y):
+    def fit_resample(self, X, y, max_sinteticas=None):
         X = np.array(X)
         y = np.array(y)
 
@@ -67,11 +66,8 @@ class PCSMOTE:
 
         if self.criterio_pureza == 'entropia':
             entropias = self.calcular_entropia(vecinos, y)
-            if self.percentil_entropia is not None:
-                umbral_entropia = np.percentile(entropias, self.percentil_entropia)
-                pureza_mask = entropias <= umbral_entropia
-            else:
-                pureza_mask = entropias <= 1.0
+            pureza_mask = entropias <= (np.percentile(entropias, self.percentil_entropia)
+                                        if self.percentil_entropia is not None else 1.0)
         elif self.criterio_pureza == 'proporcion':
             proporciones_min = np.array([np.sum(y[idxs] == 1) / self.k for idxs in vecinos])
             pureza_mask = (proporciones_min >= 0.4) & (proporciones_min <= 0.6)
@@ -89,16 +85,13 @@ class PCSMOTE:
 
         if len(X_min_filtrado) < self.k + 1:
             if self.verbose:
-                print(f"⚠️ Muy pocas muestras luego del filtrado ({len(X_min_filtrado)}). Se requieren al menos {self.k + 1}. Devolviendo dataset original.")
+                print(f"⚠️ Muy pocas muestras luego del filtrado ({len(X_min_filtrado)}). Devolviendo dataset original.")
             return X.copy(), y.copy()
 
         riesgo_filtrado = riesgo[combinacion_mask]
         vecinos_filtrados = vecinos[combinacion_mask]
 
-        n_sint = len(X_maj) - len(X_min)
-        if self.max_sinteticas is not None:
-            n_sint = min(n_sint, self.max_sinteticas)
-
+        n_sint = max_sinteticas if max_sinteticas is not None else len(X_maj) - len(X_min)
         muestras_sinteticas = []
 
         for _ in range(n_sint):
@@ -107,11 +100,9 @@ class PCSMOTE:
             r_i = riesgo_filtrado[idx]
             idxs_vecinos = vecinos_filtrados[idx]
 
-            distancias = (
-                np.linalg.norm(X[idxs_vecinos][:, :3] - xi[:3], axis=1)
-                if self.modo_espacial == '3d'
-                else np.linalg.norm(X[idxs_vecinos] - xi, axis=1)
-            )
+            distancias = (np.linalg.norm(X[idxs_vecinos][:, :3] - xi[:3], axis=1)
+                          if self.modo_espacial == '3d'
+                          else np.linalg.norm(X[idxs_vecinos] - xi, axis=1))
             umbral = np.percentile(distancias, self.percentil_dist)
             vecinos_validos = idxs_vecinos[distancias <= umbral]
 
@@ -128,16 +119,17 @@ class PCSMOTE:
             else:
                 delta = self.random_state.uniform(0.4, 0.6)
 
-            xsint = xi + delta * (xz - xi)
-            muestras_sinteticas.append(xsint)
+            muestras_sinteticas.append(xi + delta * (xz - xi))
 
         X_sint = np.array(muestras_sinteticas)
         y_sint = np.ones(len(X_sint))
 
         if self.verbose:
             print(f"🧬 Se generaron {len(X_sint)} muestras sintéticas para la clase minoritaria (y=1)")
-            if len(X_sint) > 5000:
-                print(f"⚠️ Advertencia: Se generaron {len(X_sint)} muestras para y=1 (excede 5.000)")
+            if max_sinteticas is not None:
+                print(f"📈 Objetivo de generación: {max_sinteticas} muestras")
+                if len(X_sint) < max_sinteticas:
+                    print(f"⚠️ Solo se generaron {len(X_sint)} de {max_sinteticas} posibles (limitado por filtrado o vecinos)")
 
         X_resampled = np.vstack([X, X_sint])
         y_resampled = np.hstack([y, y_sint])
@@ -149,12 +141,37 @@ class PCSMOTE:
         y_res = y.copy()
         conteo_original = Counter(y)
         max_count = max(conteo_original.values())
+
+        if self.verbose:
+            print("📊 Distribución de clases en el conjunto de entrenamiento (antes del sobremuestreo):")
+            print("╔══════════╦════════════╦════════════════════╦════════════════════════════════════╗")
+            print("║  Clase   ║   Train    ║ Objetivo (balance) ║   Estado                            ║")
+            print("╠══════════╬════════════╬════════════════════╬════════════════════════════════════╣")
+            for clase in sorted(conteo_original):
+                original = conteo_original[clase]
+                objetivo = int(max_count * self.factor_equilibrio)
+
+                if original >= objetivo:
+                    estado = "✅ No se sobremuestrea (ya cumple o excede)"
+                else:
+                    estado = "⬆ Será sobremuestreada"
+
+                print(f"║   {str(clase):<6}  ║   {original:<8} ║   {objetivo:<16} ║   {estado:<36} ║")
+            print("╚══════════╩════════════╩════════════════════╩════════════════════════════════════╝")
+
         conteo_sinteticas = Counter()
 
         for clase in clases:
             y_bin = (y == clase).astype(int)
+            actual = np.sum(y_bin)
+            objetivo = int(max_count * self.factor_equilibrio)
 
-            if np.sum(y_bin) < max_count:
+            if self.verbose:
+                print(f"⚖️ [Clase {clase}] Aplicando factor_equilibrio={self.factor_equilibrio} → objetivo: {objetivo} muestras")
+
+            cantidad_faltante = max(0, objetivo - actual)
+
+            if cantidad_faltante > 0:
                 sampler_tmp = PCSMOTE(
                     k_neighbors=self.k,
                     random_state=self.random_state,
@@ -164,24 +181,23 @@ class PCSMOTE:
                     percentil_densidad=self.percentil_densidad,
                     criterio_pureza=self.criterio_pureza,
                     modo_espacial=self.modo_espacial,
-                    max_sinteticas=self.max_sinteticas,
-                    verbose=False  # evitar doble log
+                    factor_equilibrio=self.factor_equilibrio,
+                    verbose=False
                 )
-
-                X_bin_res, y_bin_res = sampler_tmp.fit_resample(X, y_bin)
+                X_bin_res, y_bin_res = sampler_tmp.fit_resample(X, y_bin, max_sinteticas=cantidad_faltante)
                 nuevos = len(X_bin_res) - len(X)
-
                 if nuevos > 0:
                     X_nuevos = X_bin_res[-nuevos:]
                     y_nuevos = np.full(nuevos, clase)
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
                     conteo_sinteticas[clase] += nuevos
-
                     if self.verbose:
                         print(f"🧬 Clase {clase}: {nuevos} muestras sintéticas generadas")
-                        if nuevos > 5000:
-                            print(f"⚠️ Advertencia: Clase {clase} generó más de 5.000 muestras sintéticas")
+                        if nuevos > cantidad_faltante:
+                            print(f"⚠️ Advertencia: Clase {clase} generó más muestras ({nuevos}) que las esperadas ({cantidad_faltante})")
+                        elif nuevos < cantidad_faltante:
+                            print(f"⚠️ Solo se generaron {nuevos} de {cantidad_faltante} esperadas (limitado por filtrado o vecinos)")
 
         if self.verbose and conteo_sinteticas:
             print("📊 Total de muestras sintéticas generadas por clase:")
