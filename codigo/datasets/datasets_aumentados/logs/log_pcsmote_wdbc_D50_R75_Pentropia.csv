@@ -1,0 +1,3 @@
+dataset,clase,train_original,objetivo_balance,estado,muestras_sinteticas_generadas,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio
+wdbc,0,285,228,no se sobremuestrea,0,50,75,entropia,PCSMOTE,0.8
+wdbc,1,170,228,sobremuestreada,58,50,75,entropia,PCSMOTE,0.8

@@ -1,0 +1,8 @@
+dataset,clase,train_original,objetivo_balance,estado,muestras_sinteticas_generadas,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio
+shuttle,1,36469,29175,no se sobremuestrea,0,50,75,entropia,PCSMOTE,0.8
+shuttle,2,40,29175,sobremuestreada,29135,50,75,entropia,PCSMOTE,0.8
+shuttle,3,137,29175,sobremuestreada,29038,50,75,entropia,PCSMOTE,0.8
+shuttle,4,7122,29175,sobremuestreada,22053,50,75,entropia,PCSMOTE,0.8
+shuttle,5,2614,29175,sobremuestreada,26561,50,75,entropia,PCSMOTE,0.8
+shuttle,6,8,29175,sobremuestreada,29167,50,75,entropia,PCSMOTE,0.8
+shuttle,7,10,29175,sobremuestreada,29165,50,75,entropia,PCSMOTE,0.8

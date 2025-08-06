@@ -1,0 +1,7 @@
+dataset,clase,train_original,objetivo_balance,estado,muestras_sinteticas_generadas,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio
+glass,1,56,48,no se sobremuestrea,0,75,25,proporcion,PCSMOTE,0.8
+glass,2,61,48,no se sobremuestrea,0,75,25,proporcion,PCSMOTE,0.8
+glass,3,14,48,sobremuestreada,0,75,25,proporcion,PCSMOTE,0.8
+glass,5,10,48,sobremuestreada,0,75,25,proporcion,PCSMOTE,0.8
+glass,6,7,48,sobremuestreada,0,75,25,proporcion,PCSMOTE,0.8
+glass,7,23,48,sobremuestreada,0,75,25,proporcion,PCSMOTE,0.8

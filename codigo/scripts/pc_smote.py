@@ -1,8 +1,9 @@
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import check_random_state
 from scipy.stats import entropy
-import numpy as np
 from collections import Counter
+import numpy as np
+import pandas as pd
 
 class PCSMOTE:
     def __init__(self, k_neighbors=5, random_state=None,
@@ -20,6 +21,7 @@ class PCSMOTE:
         self.modo_espacial = modo_espacial
         self.factor_equilibrio = factor_equilibrio
         self.verbose = verbose
+        self.logs_por_clase = []
 
     def calcular_densidad_interseccion(self, X_min, vecinos, radio):
         densidades = []
@@ -48,13 +50,7 @@ class PCSMOTE:
         X_min = X[y == 1]
         X_maj = X[y == 0]
 
-        if self.verbose:
-            print(f"📌 Total muestras minoritarias: {len(X_min)}")
-            print(f"📌 Total muestras mayoritarias: {len(X_maj)}")
-
         if len(X_min) < self.k + 1:
-            if self.verbose:
-                print(f"⚠️ Muy pocas muestras minoritarias ({len(X_min)}). Se requieren al menos {self.k + 1}. Devolviendo dataset original.")
             return X.copy(), y.copy()
 
         nn = NearestNeighbors(n_neighbors=self.k + 1).fit(X)
@@ -84,8 +80,6 @@ class PCSMOTE:
         X_min_filtrado = X_min[combinacion_mask]
 
         if len(X_min_filtrado) < self.k + 1:
-            if self.verbose:
-                print(f"⚠️ Muy pocas muestras luego del filtrado ({len(X_min_filtrado)}). Devolviendo dataset original.")
             return X.copy(), y.copy()
 
         riesgo_filtrado = riesgo[combinacion_mask]
@@ -124,13 +118,6 @@ class PCSMOTE:
         X_sint = np.array(muestras_sinteticas)
         y_sint = np.ones(len(X_sint))
 
-        if self.verbose:
-            print(f"🧬 Se generaron {len(X_sint)} muestras sintéticas para la clase minoritaria (y=1)")
-            if max_sinteticas is not None:
-                print(f"📈 Objetivo de generación: {max_sinteticas} muestras")
-                if len(X_sint) < max_sinteticas:
-                    print(f"⚠️ Solo se generaron {len(X_sint)} de {max_sinteticas} posibles (limitado por filtrado o vecinos)")
-
         X_resampled = np.vstack([X, X_sint])
         y_resampled = np.hstack([y, y_sint])
         return X_resampled, y_resampled
@@ -142,34 +129,14 @@ class PCSMOTE:
         conteo_original = Counter(y)
         max_count = max(conteo_original.values())
 
-        if self.verbose:
-            print("📊 Distribución de clases en el conjunto de entrenamiento (antes del sobremuestreo):")
-            print("╔══════════╦════════════╦════════════════════╦════════════════════════════════════╗")
-            print("║  Clase   ║   Train    ║ Objetivo (balance) ║   Estado                            ║")
-            print("╠══════════╬════════════╬════════════════════╬════════════════════════════════════╣")
-            for clase in sorted(conteo_original):
-                original = conteo_original[clase]
-                objetivo = int(max_count * self.factor_equilibrio)
-
-                if original >= objetivo:
-                    estado = "✅ No se sobremuestrea (ya cumple o excede)"
-                else:
-                    estado = "⬆ Será sobremuestreada"
-
-                print(f"║   {str(clase):<6}  ║   {original:<8} ║   {objetivo:<16} ║   {estado:<36} ║")
-            print("╚══════════╩════════════╩════════════════════╩════════════════════════════════════╝")
-
-        conteo_sinteticas = Counter()
-
         for clase in clases:
             y_bin = (y == clase).astype(int)
             actual = np.sum(y_bin)
             objetivo = int(max_count * self.factor_equilibrio)
-
-            if self.verbose:
-                print(f"⚖️ [Clase {clase}] Aplicando factor_equilibrio={self.factor_equilibrio} → objetivo: {objetivo} muestras")
+            estado = "sobremuestreada" if actual < objetivo else "no se sobremuestrea"
 
             cantidad_faltante = max(0, objetivo - actual)
+            nuevos = 0
 
             if cantidad_faltante > 0:
                 sampler_tmp = PCSMOTE(
@@ -191,17 +158,27 @@ class PCSMOTE:
                     y_nuevos = np.full(nuevos, clase)
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
-                    conteo_sinteticas[clase] += nuevos
-                    if self.verbose:
-                        print(f"🧬 Clase {clase}: {nuevos} muestras sintéticas generadas")
-                        if nuevos > cantidad_faltante:
-                            print(f"⚠️ Advertencia: Clase {clase} generó más muestras ({nuevos}) que las esperadas ({cantidad_faltante})")
-                        elif nuevos < cantidad_faltante:
-                            print(f"⚠️ Solo se generaron {nuevos} de {cantidad_faltante} esperadas (limitado por filtrado o vecinos)")
 
-        if self.verbose and conteo_sinteticas:
-            print("📊 Total de muestras sintéticas generadas por clase:")
-            for clase, cantidad in conteo_sinteticas.items():
-                print(f"   🧪 Clase {clase}: {cantidad} muestras")
+            self.logs_por_clase.append({
+                "dataset": getattr(self, "nombre_dataset", "unknown"),
+                "clase": clase,
+                "train_original": actual,
+                "objetivo_balance": objetivo,
+                "estado": estado,
+                "muestras_sinteticas_generadas": nuevos,
+                "percentil_densidad": self.percentil_densidad,
+                "percentil_riesgo": self.percentil_dist,
+                "criterio_pureza": self.criterio_pureza,
+                "tecnica_sobremuestreo": "PCSMOTE",
+                "factor_equilibrio": self.factor_equilibrio
+            })
 
         return X_res, y_res
+
+    def exportar_log_csv(self, path_salida):
+        if not self.logs_por_clase:
+            print("⚠️ No hay log de sobremuestreo para exportar.")
+            return
+        df = pd.DataFrame(self.logs_por_clase)
+        df.to_csv(path_salida, index=False)
+        print(f"📁 Log de sobremuestreo guardado en: {path_salida}")
