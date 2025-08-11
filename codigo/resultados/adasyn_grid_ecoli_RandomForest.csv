@@ -1,2 +1,0 @@
-dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa,error
-ecoli,RandomForest,adasyn,,,,,"Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 2, n_samples = 2"

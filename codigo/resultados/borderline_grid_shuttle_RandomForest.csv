@@ -1,2 +1,0 @@
-f1_score_macro,f1_score_minor,balanced_accuracy,mcc,cohen_kappa,dataset,modelo,tecnica
-0.9289373302933612,0.7166666666666666,0.9412723551020278,0.9979640520156347,0.9979636539953202,shuttle,RandomForest,borderline

@@ -1,2 +1,0 @@
-dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
-heart,RandomForest,adasyn,0.5136243386243386,0.26225649350649355,0.26367675463525525,0.26177344081459475

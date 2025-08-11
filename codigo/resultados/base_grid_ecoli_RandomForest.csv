@@ -1,2 +1,0 @@
-dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
-ecoli,RandomForest,base,0.9014092025194833,0.9183600164203612,0.8629045122333829,0.8595455886692239

@@ -1,2 +1,0 @@
-f1_score_macro,f1_score_minor,balanced_accuracy,mcc,cohen_kappa,dataset,modelo,tecnica
-0.6457332971493771,0.6522875816993464,0.8303892821321078,0.6171915993406185,0.5897799937636524,shuttle,LogisticRegression,adasyn

@@ -1,2 +1,0 @@
-dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
-wdbc,SVM,adasyn,0.9390019435970705,0.941468253968254,0.8713438408287706,0.8699902248289345

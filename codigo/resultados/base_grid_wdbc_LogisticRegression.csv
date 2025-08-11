@@ -1,2 +1,0 @@
-dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
-wdbc,LogisticRegression,base,0.9376836024305945,0.9216269841269842,0.8687664928166448,0.8646998982706002

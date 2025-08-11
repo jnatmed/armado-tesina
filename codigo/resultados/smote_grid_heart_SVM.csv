@@ -1,2 +1,0 @@
-dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
-heart,SVM,smote,0.375089605734767,0.23969155844155843,0.1212325530131269,0.11242603550295849

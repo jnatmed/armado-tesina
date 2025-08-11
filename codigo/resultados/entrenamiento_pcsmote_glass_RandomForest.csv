@@ -1,2 +1,0 @@
-f1_score_macro,balanced_accuracy,mcc,cohen_kappa,dataset,modelo,tecnica
-0.8766676784758067,0.8789880952380951,0.8385527921272227,0.8373991294195002,glass,RandomForest,pcsmote

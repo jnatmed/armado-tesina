@@ -1,2 +1,0 @@
-dataset,modelo,tecnica,f1_score,balanced_accuracy,mcc,cohen_kappa
-wdbc,RandomForest,smote,0.9736164257756981,0.9692460317460317,0.9433397594898876,0.9431704885343968
