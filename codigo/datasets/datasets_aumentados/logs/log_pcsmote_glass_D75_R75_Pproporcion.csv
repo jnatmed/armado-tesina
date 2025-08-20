@@ -1,7 +1,7 @@
-dataset,clase,train_original,objetivo_balance,estado,muestras_sinteticas_generadas,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio
-glass,1,56,48,no se sobremuestrea,0,75,75,proporcion,PCSMOTE,0.8
-glass,2,61,48,no se sobremuestrea,0,75,75,proporcion,PCSMOTE,0.8
-glass,3,14,48,sobremuestreada,0,75,75,proporcion,PCSMOTE,0.8
-glass,5,10,48,sobremuestreada,0,75,75,proporcion,PCSMOTE,0.8
-glass,6,7,48,sobremuestreada,0,75,75,proporcion,PCSMOTE,0.8
-glass,7,23,48,sobremuestreada,0,75,75,proporcion,PCSMOTE,0.8
+dataset,clase,train_original,objetivo_balance,estado,motivo_sin_sinteticas,muestras_sinteticas_generadas,total_original,total_resampled,ratio_original,ratio_resampled,n_candidatas,n_filtradas,riesgo_medio,riesgo_std,densidad_media,vecinos_validos_promedio,umbral_densidad,umbral_entropia,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio,random_state,modo_espacial,timestamp
+glass,1,56,48,no se sobremuestrea,sin_faltante(actual>=objetivo),0,171,171,0.327485,0.327485,,,,,,,,,75.0,75.0,proporcion,PCSMOTE,0.8,42,2d,2025-08-20T00:20:21.137526
+glass,2,61,48,no se sobremuestrea,sin_faltante(actual>=objetivo),0,171,171,0.356725,0.356725,,,,,,,,,75.0,75.0,proporcion,PCSMOTE,0.8,42,2d,2025-08-20T00:20:21.137526
+glass,3,14,48,sobremuestreada,insuficientes_filtradas,0,171,171,0.081871,0.081871,14.0,1.0,0.6,0.0,0.7142857142857142,4.0,1.0,,75.0,75.0,proporcion,PCSMOTE,0.8,42,2d,2025-08-20T00:20:21.137526
+glass,5,10,48,sobremuestreada,insuficientes_filtradas,0,171,171,0.05848,0.05848,10.0,2.0,0.5,0.09999999999999998,0.08,4.0,0.2,,75.0,75.0,proporcion,PCSMOTE,0.8,42,2d,2025-08-20T00:20:21.153155
+glass,6,7,48,sobremuestreada,insuficientes_filtradas,0,171,171,0.040936,0.040936,7.0,2.0,0.5,0.09999999999999998,0.34285714285714286,4.0,0.6,,75.0,75.0,proporcion,PCSMOTE,0.8,42,2d,2025-08-20T00:20:21.153155
+glass,7,23,48,sobremuestreada,insuficientes_filtradas,0,171,171,0.134503,0.134503,23.0,0.0,,,0.6869565217391305,,1.0,,75.0,75.0,proporcion,PCSMOTE,0.8,42,2d,2025-08-20T00:20:21.153155

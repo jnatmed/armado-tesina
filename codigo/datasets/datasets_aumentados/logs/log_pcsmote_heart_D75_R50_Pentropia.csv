@@ -1,6 +1,6 @@
-dataset,clase,train_original,objetivo_balance,estado,muestras_sinteticas_generadas,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio
-heart,0,128,102,no se sobremuestrea,0,75,50,entropia,PCSMOTE,0.8
-heart,1,43,102,sobremuestreada,59,75,50,entropia,PCSMOTE,0.8
-heart,2,28,102,sobremuestreada,74,75,50,entropia,PCSMOTE,0.8
-heart,3,28,102,sobremuestreada,74,75,50,entropia,PCSMOTE,0.8
-heart,4,10,102,sobremuestreada,0,75,50,entropia,PCSMOTE,0.8
+dataset,clase,train_original,objetivo_balance,estado,motivo_sin_sinteticas,muestras_sinteticas_generadas,total_original,total_resampled,ratio_original,ratio_resampled,n_candidatas,n_filtradas,riesgo_medio,riesgo_std,densidad_media,vecinos_validos_promedio,umbral_densidad,umbral_entropia,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio,random_state,modo_espacial,timestamp
+heart,0,128,102,no se sobremuestrea,sin_faltante(actual>=objetivo),0,237,237,0.540084,0.540084,,,,,,,,,75.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:24.642846
+heart,1,43,102,sobremuestreada,ok,59,237,296,0.181435,0.344595,43.0,11.0,0.5818181818181819,0.19917183909278768,0.06511627906976745,3.0,0.1,0.9709505944546688,75.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:24.704649
+heart,2,28,102,sobremuestreada,ok,74,237,370,0.118143,0.275676,28.0,28.0,0.7500000000000001,0.1742330131092924,0.04285714285714286,3.0,0.0,0.9709505944546688,75.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:24.759767
+heart,3,28,102,sobremuestreada,ok,74,237,444,0.118143,0.22973,28.0,28.0,0.8214285714285715,0.17999433097648793,0.014285714285714287,3.0,0.0,0.9709505944546688,75.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:24.842111
+heart,4,10,102,sobremuestreada,ok,92,237,536,0.042194,0.190299,10.0,7.0,1.0,0.0,0.0,3.0,0.0,0.5414460711655218,75.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:25.054068
