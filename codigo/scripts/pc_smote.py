@@ -332,6 +332,8 @@ class PCSMOTE:
                 "n_filtradas": None
             }
 
+            motivo = ""
+            
             if faltante > 0:
                 # Resample binario por clase (apoya logging interno en _meta)
                 sampler_tmp = PCSMOTE(
@@ -356,7 +358,7 @@ class PCSMOTE:
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
 
-                motivo = ""
+                
                 if estado == "no se sobremuestrea":
                     motivo = "sin_faltante(actual>=objetivo)"
                 elif estado == "sobremuestreada" and nuevos == 0:
