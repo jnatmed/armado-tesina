@@ -466,37 +466,21 @@ class PCSMOTE:
             "INSERT INTO `experimento` "
             "(`dataset_id`,`config_id`,`modelo_id`,`cv_splits`,`n_iter`,`n_jobs_search`,"
             "`search_time_sec`,`mejor_configuracion`,`source_file`) "
-            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
-            "ON DUPLICATE KEY UPDATE `mejor_configuracion`=VALUES(`mejor_configuracion`)"
+            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) AS v "
+            "ON DUPLICATE KEY UPDATE "
+            "  `experimento_id`=LAST_INSERT_ID(`experimento_id`), "
+            "  `mejor_configuracion`=v.`mejor_configuracion`, "
+            "  `search_time_sec`=v.`search_time_sec`, "
+            "  `cv_splits`=v.`cv_splits`, `n_iter`=v.`n_iter`, "
+            "  `n_jobs_search`=v.`n_jobs_search`, `source_file`=v.`source_file`"
         )
-        params_ins = (dataset_id, config_id, modelo_id, cv_splits, n_iter, n_jobs_search,
-                    sts, mejor_configuracion, source_file)
-        db.exec(sql_ins, params_ins)
-
-        # --- 2) Recuperar experimento_id por la UNIQUE compuesta ---
-        sql_sel = (
-            "SELECT `experimento_id` FROM `experimento` WHERE "
-            "`dataset_id`=%s AND `config_id`=%s AND `modelo_id`=%s "
-            "AND ((`cv_splits` IS NULL AND %s IS NULL) OR `cv_splits`=%s) "
-            "AND ((`n_iter` IS NULL AND %s IS NULL) OR `n_iter`=%s) "
-            "AND ((`n_jobs_search` IS NULL AND %s IS NULL) OR `n_jobs_search`=%s) "
-            "AND ((`search_time_sec` IS NULL AND %s IS NULL) OR `search_time_sec`=%s) "
-            "AND ((`source_file` IS NULL AND %s IS NULL) OR `source_file`=%s) "
-            "LIMIT 1"
-        )
-        row = db.select_one(sql_sel, (
-            dataset_id, config_id, modelo_id,
-            cv_splits, cv_splits,
-            n_iter, n_iter,
-            n_jobs_search, n_jobs_search,
-            sts, sts,
-            source_file, source_file
+        db.exec(sql_ins, (
+            dataset_id, config_id, modelo_id, cv_splits, n_iter, n_jobs_search,
+            sts, mejor_configuracion, source_file
         ))
-        if not row:
-            raise RuntimeError("No se pudo recuperar experimento_id.")
-        experimento_id = int(row["experimento_id"])
+        experimento_id = int(db.cursor.lastrowid) 
 
-        # --- 3) Upsert en `metricas` (si te pasaron métricas) ---
+        # --- 3) UPSERT en `metricas` (opcional: versión con alias) ---
         if metricas:
             valid = {
                 "cv_f1_macro","cv_balanced_accuracy","cv_mcc","cv_cohen_kappa",
@@ -506,25 +490,10 @@ class PCSMOTE:
             if data:
                 cols = ", ".join(f"`{c}`" for c in data.keys())
                 placeholders = ", ".join(["%s"] * len(data))
-                updates = ", ".join(f"`{c}`=VALUES(`{c}`)" for c in data.keys())
+                updates = ", ".join(f"`{c}`=v.`{c}`" for c in data.keys())
                 sql = (
-                    f"INSERT INTO `metricas` (`experimento_id`, {cols}) VALUES (%s, {placeholders}) "
+                    f"INSERT INTO `metricas` (`experimento_id`, {cols}) "
+                    f"VALUES (%s, {placeholders}) AS v "
                     f"ON DUPLICATE KEY UPDATE {updates}"
                 )
                 db.exec(sql, (experimento_id, *data.values()))
-
-        # --- 4) (Opcional) Guardar logs por clase en tabla propia ---
-        if guardar_logs and getattr(self, "logs_por_clase", None):
-            def _san(v):
-                # convierte numpy/pandas a tipos básicos para MySQL
-                if isinstance(v, (np.floating,)): return float(v)
-                if isinstance(v, (np.integer,)):  return int(v)
-                if isinstance(v, (pd.Timestamp,)): return v.isoformat()
-                return v
-            for r in self.logs_por_clase:
-                fila = {k: _san(v) for k, v in dict(r).items()}
-                fila["experimento_id"] = experimento_id
-                # Filtrá claves que no existan en la tabla si es necesario, o asegurate de que la tabla tenga estas columnas.
-                db.insert_dict(tabla_logs, fila)
-
-        return experimento_id
