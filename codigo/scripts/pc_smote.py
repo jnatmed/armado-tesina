@@ -332,6 +332,7 @@ class PCSMOTE:
                 "n_filtradas": None
             }
 
+            motivo = ""
             if faltante > 0:
                 # Resample binario por clase (apoya logging interno en _meta)
                 sampler_tmp = PCSMOTE(
@@ -356,7 +357,7 @@ class PCSMOTE:
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
 
-                motivo = ""
+                
                 if estado == "no se sobremuestrea":
                     motivo = "sin_faltante(actual>=objetivo)"
                 elif estado == "sobremuestreada" and nuevos == 0:
@@ -425,3 +426,105 @@ class PCSMOTE:
             })
 
         return X_res, y_res
+
+
+    # --------------------- Guardado en base de datos ---------------------
+
+    def guardar_en_db(
+        self,
+        db,  # instancia de DatabaseConnection YA conectada
+        *,
+        dataset_id: int,
+        config_id: int,
+        modelo_id: int,
+        cv_splits: int | None = None,
+        n_iter: int | None = None,
+        n_jobs_search: int | None = None,
+        search_time_sec: float | None = None,
+        mejor_configuracion=None,   # dict o str; si es dict lo serializa a JSON
+        source_file: str | None = None,
+        metricas: dict | None = None,
+        guardar_logs: bool = False,          # opcional: guarda self.logs_por_clase
+        tabla_logs: str = "log_pcsmote"      # nombre de tabla para logs (si existe)
+    ) -> int:
+        """
+        Crea o reutiliza un registro en `experimento` según su UNIQUE compuesta
+        y hace upsert en `metricas`. Opcionalmente, persiste self.logs_por_clase.
+        Devuelve experimento_id.
+        """
+        import json
+        import numpy as np
+        import pandas as pd
+
+        # --- normalizaciones ---
+        if isinstance(mejor_configuracion, dict):
+            mejor_configuracion = json.dumps(mejor_configuracion, ensure_ascii=False)
+        sts = None if search_time_sec is None else round(float(search_time_sec), 3)
+
+        # --- 1) UPSERT en `experimento` (respeta la UNIQUE compuesta) ---
+        sql_ins = (
+            "INSERT INTO `experimento` "
+            "(`dataset_id`,`config_id`,`modelo_id`,`cv_splits`,`n_iter`,`n_jobs_search`,"
+            "`search_time_sec`,`mejor_configuracion`,`source_file`) "
+            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+            "ON DUPLICATE KEY UPDATE `mejor_configuracion`=VALUES(`mejor_configuracion`)"
+        )
+        params_ins = (dataset_id, config_id, modelo_id, cv_splits, n_iter, n_jobs_search,
+                    sts, mejor_configuracion, source_file)
+        db.exec(sql_ins, params_ins)
+
+        # --- 2) Recuperar experimento_id por la UNIQUE compuesta ---
+        sql_sel = (
+            "SELECT `experimento_id` FROM `experimento` WHERE "
+            "`dataset_id`=%s AND `config_id`=%s AND `modelo_id`=%s "
+            "AND ((`cv_splits` IS NULL AND %s IS NULL) OR `cv_splits`=%s) "
+            "AND ((`n_iter` IS NULL AND %s IS NULL) OR `n_iter`=%s) "
+            "AND ((`n_jobs_search` IS NULL AND %s IS NULL) OR `n_jobs_search`=%s) "
+            "AND ((`search_time_sec` IS NULL AND %s IS NULL) OR `search_time_sec`=%s) "
+            "AND ((`source_file` IS NULL AND %s IS NULL) OR `source_file`=%s) "
+            "LIMIT 1"
+        )
+        row = db.select_one(sql_sel, (
+            dataset_id, config_id, modelo_id,
+            cv_splits, cv_splits,
+            n_iter, n_iter,
+            n_jobs_search, n_jobs_search,
+            sts, sts,
+            source_file, source_file
+        ))
+        if not row:
+            raise RuntimeError("No se pudo recuperar experimento_id.")
+        experimento_id = int(row["experimento_id"])
+
+        # --- 3) Upsert en `metricas` (si te pasaron métricas) ---
+        if metricas:
+            valid = {
+                "cv_f1_macro","cv_balanced_accuracy","cv_mcc","cv_cohen_kappa",
+                "test_f1_macro","test_balanced_accuracy","test_mcc","test_cohen_kappa"
+            }
+            data = {k: metricas[k] for k in metricas.keys() & valid}
+            if data:
+                cols = ", ".join(f"`{c}`" for c in data.keys())
+                placeholders = ", ".join(["%s"] * len(data))
+                updates = ", ".join(f"`{c}`=VALUES(`{c}`)" for c in data.keys())
+                sql = (
+                    f"INSERT INTO `metricas` (`experimento_id`, {cols}) VALUES (%s, {placeholders}) "
+                    f"ON DUPLICATE KEY UPDATE {updates}"
+                )
+                db.exec(sql, (experimento_id, *data.values()))
+
+        # --- 4) (Opcional) Guardar logs por clase en tabla propia ---
+        if guardar_logs and getattr(self, "logs_por_clase", None):
+            def _san(v):
+                # convierte numpy/pandas a tipos básicos para MySQL
+                if isinstance(v, (np.floating,)): return float(v)
+                if isinstance(v, (np.integer,)):  return int(v)
+                if isinstance(v, (pd.Timestamp,)): return v.isoformat()
+                return v
+            for r in self.logs_por_clase:
+                fila = {k: _san(v) for k, v in dict(r).items()}
+                fila["experimento_id"] = experimento_id
+                # Filtrá claves que no existan en la tabla si es necesario, o asegurate de que la tabla tenga estas columnas.
+                db.insert_dict(tabla_logs, fila)
+
+        return experimento_id

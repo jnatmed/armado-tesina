@@ -35,6 +35,26 @@ class DatabaseConnection:
         except Error as e:
             print("❌ Error al conectar a MySQL:", e)
 
+
+    def insert_dict(self, table: str, data: dict):
+        cols = ", ".join(f"`{c}`" for c in data.keys())
+        placeholders = ", ".join(["%s"] * len(data))
+        sql = f"INSERT INTO `{table}` ({cols}) VALUES ({placeholders})"
+        self.cursor.execute(sql, tuple(data.values()))
+        self.connection.commit()
+        return self.cursor.lastrowid
+
+    def select_one(self, sql: str, params: tuple):
+        self.cursor.execute(sql, params)
+        row = self.cursor.fetchone()
+        return row
+
+    def exec(self, sql: str, params: tuple = ()):
+        self.cursor.execute(sql, params)
+        self.connection.commit()
+        return self.cursor.rowcount
+
+
     def execute_query(self, query, params=None):
         try:
             self.cursor.execute(query, params or ())
