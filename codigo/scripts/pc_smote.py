@@ -49,6 +49,19 @@ class PCSMOTE:
 
     # --------------------- Utilidades ---------------------
 
+    @staticmethod
+    def to_config_dict(sampler):
+        """
+        Convierte un objeto PCSMOTE a un diccionario de configuración.
+        """
+        return {
+            'tecnica': 'PCSMOTE',
+            'densidad': getattr(sampler, 'percentil_densidad', None),
+            'riesgo': getattr(sampler, 'percentil_dist', None),
+            'pureza': getattr(sampler, 'criterio_pureza', None),
+            'tipo': 'multiclase' if hasattr(sampler, 'fit_resample_multiclass') else 'binario'
+        }
+
     def reset_logs(self):
         self.logs_por_clase = []
         self.meta_experimento = {}
@@ -497,3 +510,5 @@ class PCSMOTE:
                     f"ON DUPLICATE KEY UPDATE {updates}"
                 )
                 db.exec(sql, (experimento_id, *data.values()))
+                
+        return experimento_id

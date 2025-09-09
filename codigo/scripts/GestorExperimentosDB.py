@@ -1,5 +1,9 @@
 import numpy as np
 import json
+from cargar_dataset import cargar_dataset      
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
+from pc_smote import PCSMOTE  # Asegúrate de que este módulo esté disponible               # Función para cargar datasets según configuración
 
 class GestorExperimentosDB:
     def __init__(self, db):
@@ -114,3 +118,81 @@ class GestorExperimentosDB:
         self.db.exec(sql_met, vals)
         return experimento_id
 
+    def aumentar_dataset_pcsmote_y_guardar(self, nombre_dataset, config, percentil_densidad, 
+                                        percentil_riesgo, criterio_pureza, test_size=0.2):
+        """
+        Genera un dataset aumentado con PCSMOTE.
+        
+        Args:
+            nombre_dataset: Nombre del dataset
+            config: Configuración del dataset
+            percentil_densidad: Percentil de densidad para PCSMOTE
+            percentil_riesgo: Percentil de riesgo para PCSMOTE
+            criterio_pureza: Criterio de pureza ('entropia' o 'proporcion')
+            test_size: Tamaño del conjunto de prueba
+        
+        Returns:
+            (experimento_id, experimento_nombre, sampler) o (None, None, None) en caso de error
+        """
+        print(f"📂 Cargando dataset: {nombre_dataset}")
+
+        try:
+            # 1) Cargar dataset original
+            X, y, _ = cargar_dataset(
+                path=config["path"],
+                clase_minoria=config.get("clase_minoria"),
+                col_features=config.get("col_features"),
+                col_target=config.get("col_target"),
+                sep=config.get("sep", ","),
+                header=config.get("header", None),
+                binarizar=False,
+                tipo=config.get("tipo", "tabular")
+            )
+
+            # 2) Codificar etiquetas si son strings
+            if y.dtype == object or (len(y) > 0 and isinstance(y[0], str)):
+                y = LabelEncoder().fit_transform(y)
+
+            # 3) Si es un dataset de imágenes, convertir a vector plano
+            if config.get("tipo") == "imagen":
+                X = X.reshape((X.shape[0], -1)).astype(np.float32)
+
+            # 4) Escalar TODO el dataset antes de dividir
+            scaler = StandardScaler()
+            X = scaler.fit_transform(X)  
+
+            # 5) Dividir en train/test (después del escalado)
+            X_train, _, y_train, _ = train_test_split(
+                X, y, test_size=test_size, random_state=42, stratify=y
+            )
+
+            # 6) Aplicar PCSMOTE
+            print(f"🧬 Aplicando PCSMOTE | Densidad: {percentil_densidad} | Riesgo: {percentil_riesgo} | Pureza: {criterio_pureza}")
+            sampler = PCSMOTE(
+                random_state=42,
+                percentil_densidad=percentil_densidad,
+                percentil_dist=percentil_riesgo,
+                percentil_entropia=75 if criterio_pureza == 'entropia' else None,
+                criterio_pureza=criterio_pureza,
+                modo_espacial='2d',
+                factor_equilibrio=0.8
+            )
+            sampler.nombre_dataset = nombre_dataset
+
+            # 7) Aplicar sobremuestreo
+            if hasattr(sampler, "fit_resample_multiclass"):
+                X_train_res, y_train_res = sampler.fit_resample_multiclass(X_train, y_train)
+            else:
+                X_train_res, y_train_res = sampler.fit_resample(X_train, y_train)
+
+            # 8) Generar ID único para el experimento
+            import time
+            experimento_id = int(str(int(time.time() * 1000))[-8:])
+            experimento_nombre = f"pcsmote_{nombre_dataset}_D{percentil_densidad}_R{percentil_riesgo}_P{criterio_pureza}"
+            
+            print(f"✅ Procesamiento completado para: {experimento_nombre}")
+            return experimento_id, experimento_nombre, sampler
+
+        except Exception as e:
+            print(f"❌ Error al aumentar dataset {nombre_dataset}: {e}")
+            return None, None, None
