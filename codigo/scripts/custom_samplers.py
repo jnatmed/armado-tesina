@@ -3,7 +3,6 @@ from alfa_dbasmote import AlphaDistanceDBASMOTE
 from ar_adasyn import ARADASYN
 from pc_smote import PCSMOTE
 from sklearn.base import BaseEstimator
-from imblearn.base import SamplerMixin
 
 class AlphaDistanceDBASMOTEWrapper:
     def __init__(self, beta=1.0, m=5, random_state=None):
