@@ -1,40 +1,97 @@
 \documentclass{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
-\usepackage{amsmath, amssymb}
-\usepackage{algorithm}
-\usepackage{algpseudocodex}  % <--- este es el correcto en tu caso
-\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}      % para seguridad con cajas/redimensiones
+\usepackage{changepage}    % adjustwidth
+\usepackage{algorithm}     
+\usepackage{algpseudocode}
+\usepackage{etoolbox}
+
+% Comentarios multilínea en algpseudocode
+\algrenewcommand\algorithmiccomment[1]{\hfill\(\triangleright\)\;%
+  \parbox[t]{.72\linewidth}{#1}}
+
+% Reducir sangría de cada nivel (por defecto ~1em)
+\algrenewcommand\algorithmicindent{0.8em}
 
 \begin{document}
 
-% Aquí tu algoritmo
 \begin{algorithm}
-\caption{PC-SMOTE: Generación adaptativa de vecinos}
+\footnotesize                % más compacto que \small
+\caption{PC-SMOTE (Percentile-Controlled SMOTE) — binario + multiclase en un único esquema}
+% ampliar márgenes SOLO dentro del algoritmo
+\begin{adjustwidth}{-0.6cm}{-0.6cm}
 \begin{algorithmic}[1]
-\Require $(X, y)$ conjunto de datos, $k$ vecinos, radio $r$, muestras sintéticas $G$
-\Ensure Conjunto aumentado $(X', y')$
-\State Separar $X_{min}, X_{maj}$ según clase
-\For{cada $x_i \in X_{min}$}
-    \State Calcular $k$ vecinos en $X$
-    \State Calcular riesgo $r_i \gets$ proporción de vecinos mayoritarios
-    \State Calcular $k$ vecinos en $X_{min}$ y densidad $d_i$
+
+\State \textbf{Entrada:} $X\in\mathbb{R}^{n\times d}$, $y$ (binario o multiclase).
+\State \textbf{Hiperparámetros:} $k$, radio $r$, $p_{\text{dist}}$, $p_{\text{den}}$ (opc), $p_{\text{ent}}$ (opc),
+criterio $\in\{\text{entropía, proporción}\}$, modo $d\in\{\text{2D,3D}\}$,
+\textit{multiclase}: factor\_equilibrio $\in(0,1]$, $max\_total\_multiplier$, $max\_sinteticas\_por\_clase$ (opc).
+\State \textbf{Salida:} $(X',y')$.
+
+\Statex \textbf{Parte A — auxiliares}
+\State \emph{Riesgo en $x_i$:} $k$-NN global en $X$ $\Rightarrow$ vecindad $\mathcal{N}^{all}_i$;
+$r_i \gets \tfrac{1}{k}\sum_{j\in \mathcal{N}^{all}_i}\mathbf{1}[y_j=\text{mayoritaria}]$.
+\State \emph{Densidad (minoritaria):} $k$-NN en $X_{\min}$ $\Rightarrow$ $\mathcal{N}^{min}_i$;
+$d_i \gets \#\{j\in\mathcal{N}^{min}_i:\|x_i-x_j\|_2\le 2r\}/|\mathcal{N}^{min}_i|$ \Comment{en 3D usar primeras 3 coords}
+\State \emph{Pureza:}
+\Statex \quad Entropía $\Rightarrow$ $ent_i=-\sum_c p_{c,i}\log_2 p_{c,i}$ en $\mathcal{N}^{all}_i$;
+umbral $u_{\text{ent}}=\mathrm{percentil}(ent,p_{\text{ent}})$ (o $1.0$ si no se da);
+\emph{mask\_pureza}$=[\,ent_i\le u_{\text{ent}}\,]$.
+\Statex \quad Proporción $\Rightarrow$ $q_i=\tfrac{1}{k}\sum_{j\in\mathcal{N}^{all}_i}\mathbf{1}[y_j=\text{minoritaria}]$;
+\emph{mask\_pureza}$=[\,0.4\le q_i\le 0.6\,]$.
+
+\Statex \textbf{Parte B — núcleo binario \texttt{PC-SMOTE-BINARIO}$(X,y)$}
+\State $X_{\min}\gets X[y=1]$, $X_{\maj}\gets X[y=0]$. \If{$|X_{\min}|<k+1$} \State \Return $(X,y)$ \EndIf
+\State Calcular $\mathcal{N}^{all}_i$, $r_i$; y $\mathcal{N}^{min}_i$, $d_i$.
+\State Umbral de densidad: si $p_{\text{den}}$ dado $\Rightarrow$
+$u_{\text{den}}=\mathrm{percentil}(d,p_{\text{den}})$ y \emph{mask\_dens}$=[\,d_i\ge u_{\text{den}}\,]$;
+si no, \emph{mask\_dens}$=[\,d_i>0\,]$.
+\State Candidatos $S=\{x_i\in X_{\min}:\text{\emph{mask\_pureza}}\land\text{\emph{mask\_dens}}\}$.
+\If{$|S|<k+1$} \State \Return $(X,y)$ \EndIf
+\State $n_{\text{sint}} \gets \max(0, |X_{\maj}| - |X_{\min}|)$ \Comment{si no se fija otro valor}
+\State $X_{\text{sint}}\gets\emptyset$
+\While{$|X_{\text{sint}}|<n_{\text{sint}}$}
+  \State Elegir $x_i\in S$; obtener $\mathcal{N}^{all}_i$ y distancias $d_{ij}$ (usar 3D si $d=\text{3D}$).
+  \State $\tau_i=\mathrm{percentil}(d_{ij},p_{\text{dist}})$; 
+  $\mathcal{V}_i=\{j\in\mathcal{N}^{all}_i: d_{ij}\le \tau_i\}$.
+  \If{$|\mathcal{V}_i|=0$} \State \Continue \EndIf
+  \State Elegir $z\in\mathcal{V}_i$; $x_z\gets X[z]$.
+  \State Seleccionar $\delta$ según $r_i$:
+  \[
+  \delta\sim
+  \begin{cases}
+  \mathcal{U}(0.6,0.8) & \text{si } 0.4\le r_i<0.5,\\
+  \mathcal{U}(0.3,0.5) & \text{si } 0.5\le r_i\le 0.6,\\
+  \mathcal{U}(0.4,0.6) & \text{otro caso.}
+  \end{cases}
+  \]
+  \State $x_{\text{new}}=x_i+\delta(x_z-x_i)$; añadir $x_{\text{new}}$ a $X_{\text{sint}}$ (etiqueta $1$).
+\EndWhile
+\State \Return $\big([X;X_{\text{sint}}],[y;\mathbf{1}]\big)$
+
+\Statex \textbf{Parte C — multiclase \texttt{PC-SMOTE-MC}$(X,y)$}
+\State $X'\gets X$, $y'\gets y$; $\mathcal{C}\gets$ clases únicas; $n_0=|y|$; $n_{\max}=\max_{c\in\mathcal{C}}|\{i:y_i=c\}|$.
+\ForAll{$c\in\mathcal{C}$}
+  \State $y^{(c)}=\mathbf{1}[y=c]$; $n_{\text{act}}=|\{i:y_i=c\}|$;
+  $n_{\text{obj}}=\lfloor n_{\max}\cdot\text{factor\_equilibrio}\rfloor$;
+  $faltante=\max(0,n_{\text{obj}}-n_{\text{act}})$.
+  \State \textbf{Tope por clase:} si $max\_sinteticas\_por\_clase$ $\Rightarrow$ $faltante=\min(faltante,max\_sinteticas\_por\_clase)$.
+  \State \textbf{Tope global:} si $max\_total\_multiplier$ $\Rightarrow$
+  $n_{\max\_total}=\lfloor n_0\cdot max\_total\_multiplier\rfloor$ y 
+  $faltante=\min\!\big(faltante,\,n_{\max\_total}-|y'|\big)$.
+  \If{$faltante\le 0$} \State \Continue \EndIf
+  \State Ejecutar \texttt{PC-SMOTE-BINARIO} sobre $(X,y^{(c)})$ con $n_{\text{sint}}=faltante$.
+  \State Tomar las últimas $faltante$ sintéticas $\hat X$, etiquetarlas con $c$;
+  concatenar: $X'=[X';\hat X]$, $y'=[y';c\mathbf{1}]$.
 \EndFor
-\State Filtrar instancias con $r_i$ en rango y $d_i > 0$
-\State $S \gets \emptyset$
-\For{$j = 1$ hasta $G$}
-    \State Elegir $x_i$ aleatorio del subconjunto filtrado
-    \State Obtener $r_i$ y vecinos $N_i$
-    \State Filtrar $N_i$ por percentil
-    \If{no hay vecinos válidos}
-        \State continuar
-    \EndIf
-    \State Elegir $x_z$ válido, calcular $\delta$
-    \State $x_{syn} = x_i + \delta \cdot (x_z - x_i)$
-    \State Agregar $x_{syn}$ a $S$
-\EndFor
-\State \Return $X' = X \cup S$, $y' = y \cup$ unos
+\State \Return $(X',y')$
+
 \end{algorithmic}
+\end{adjustwidth}
 \end{algorithm}
 
 \end{document}

@@ -1,0 +1,164 @@
+{
+  "('LogisticRegression', 'glass', 'aumentado')": {
+    "clf__C": 9.877700294007917,
+    "clf__class_weight": "balanced",
+    "clf__dual": false,
+    "clf__fit_intercept": false,
+    "clf__penalty": "l2",
+    "clf__solver": "saga",
+    "clf__tol": 2.3270677083837777e-05
+  },
+  "('LogisticRegression', 'glass', 'base')": {
+    "clf__C": 0.4042872735027334,
+    "clf__class_weight": "balanced",
+    "clf__dual": false,
+    "clf__fit_intercept": true,
+    "clf__penalty": "l2",
+    "clf__solver": "liblinear",
+    "clf__tol": 0.0008706020878304854
+  },
+  "('LogisticRegression', 'wdbc', 'aumentado')": {
+    "clf__C": 0.4689400963537689,
+    "clf__class_weight": "balanced",
+    "clf__dual": false,
+    "clf__fit_intercept": false,
+    "clf__penalty": "l2",
+    "clf__solver": "saga",
+    "clf__tol": 5.4041038546473305e-05
+  },
+  "('LogisticRegression', 'wdbc', 'base')": {
+    "clf__C": 0.4042872735027334,
+    "clf__class_weight": "balanced",
+    "clf__dual": false,
+    "clf__fit_intercept": true,
+    "clf__penalty": "l2",
+    "clf__solver": "liblinear",
+    "clf__tol": 0.0008706020878304854
+  },
+  "('LogisticRegression', 'heart', 'aumentado')": {
+    "clf__C": 0.35849855803404745,
+    "clf__class_weight": null,
+    "clf__dual": false,
+    "clf__fit_intercept": true,
+    "clf__penalty": "l1",
+    "clf__solver": "liblinear",
+    "clf__tol": 2.1930485556643678e-05
+  },
+  "('LogisticRegression', 'heart', 'base')": {
+    "clf__C": 0.4042872735027334,
+    "clf__class_weight": "balanced",
+    "clf__dual": false,
+    "clf__fit_intercept": true,
+    "clf__penalty": "l2",
+    "clf__solver": "liblinear",
+    "clf__tol": 0.0008706020878304854
+  },
+  "('RandomForest', 'glass', 'aumentado')": {
+    "clf__ccp_alpha": 0.00034388521115218395,
+    "clf__class_weight": "balanced",
+    "clf__criterion": "gini",
+    "clf__max_depth": 40,
+    "clf__max_features": "log2",
+    "clf__max_samples": 0.8318827995238937,
+    "clf__min_samples_leaf": 2,
+    "clf__min_samples_split": 7,
+    "clf__n_estimators": 253
+  },
+  "('RandomForest', 'glass', 'base')": {
+    "clf__ccp_alpha": 0.00034388521115218395,
+    "clf__class_weight": "balanced",
+    "clf__criterion": "gini",
+    "clf__max_depth": 40,
+    "clf__max_features": "log2",
+    "clf__max_samples": 0.8318827995238937,
+    "clf__min_samples_leaf": 2,
+    "clf__min_samples_split": 7,
+    "clf__n_estimators": 253
+  },
+  "('RandomForest', 'wdbc', 'aumentado')": {
+    "clf__ccp_alpha": 0.00034388521115218395,
+    "clf__class_weight": "balanced",
+    "clf__criterion": "gini",
+    "clf__max_depth": 40,
+    "clf__max_features": "log2",
+    "clf__max_samples": 0.8318827995238937,
+    "clf__min_samples_leaf": 2,
+    "clf__min_samples_split": 7,
+    "clf__n_estimators": 253
+  },
+  "('RandomForest', 'wdbc', 'base')": {
+    "clf__ccp_alpha": 0.005467102793432797,
+    "clf__class_weight": "balanced",
+    "clf__criterion": "gini",
+    "clf__max_depth": 20,
+    "clf__max_features": "log2",
+    "clf__max_samples": 0.87129648817639,
+    "clf__min_samples_leaf": 2,
+    "clf__min_samples_split": 11,
+    "clf__n_estimators": 469
+  },
+  "('RandomForest', 'heart', 'aumentado')": {
+    "clf__ccp_alpha": 0.00034388521115218395,
+    "clf__class_weight": "balanced",
+    "clf__criterion": "gini",
+    "clf__max_depth": 40,
+    "clf__max_features": "log2",
+    "clf__max_samples": 0.8318827995238937,
+    "clf__min_samples_leaf": 2,
+    "clf__min_samples_split": 7,
+    "clf__n_estimators": 253
+  },
+  "('RandomForest', 'heart', 'base')": {
+    "clf__ccp_alpha": 0.00034388521115218395,
+    "clf__class_weight": "balanced",
+    "clf__criterion": "gini",
+    "clf__max_depth": 40,
+    "clf__max_features": "log2",
+    "clf__max_samples": 0.8318827995238937,
+    "clf__min_samples_leaf": 2,
+    "clf__min_samples_split": 7,
+    "clf__n_estimators": 253
+  },
+  "('SVM', 'glass', 'aumentado')": {
+    "clf__C": 21.42302175774105,
+    "clf__class_weight": "balanced",
+    "clf__gamma": 0.0003727925903376988,
+    "clf__kernel": "linear",
+    "clf__shrinking": false
+  },
+  "('SVM', 'glass', 'base')": {
+    "clf__C": 0.9643857615941438,
+    "clf__class_weight": "balanced",
+    "clf__gamma": 0.0004207053950287938,
+    "clf__kernel": "linear",
+    "clf__shrinking": true
+  },
+  "('SVM', 'wdbc', 'aumentado')": {
+    "clf__C": 0.9163741808778786,
+    "clf__class_weight": null,
+    "clf__gamma": 0.27527173929429377,
+    "clf__kernel": "linear",
+    "clf__shrinking": true
+  },
+  "('SVM', 'wdbc', 'base')": {
+    "clf__C": 0.9163741808778786,
+    "clf__class_weight": null,
+    "clf__gamma": 0.27527173929429377,
+    "clf__kernel": "linear",
+    "clf__shrinking": true
+  },
+  "('SVM', 'heart', 'aumentado')": {
+    "clf__C": 0.9643857615941438,
+    "clf__class_weight": "balanced",
+    "clf__gamma": 0.0004207053950287938,
+    "clf__kernel": "linear",
+    "clf__shrinking": true
+  },
+  "('SVM', 'heart', 'base')": {
+    "clf__C": 21.42302175774105,
+    "clf__class_weight": "balanced",
+    "clf__gamma": 0.0003727925903376988,
+    "clf__kernel": "linear",
+    "clf__shrinking": false
+  }
+}

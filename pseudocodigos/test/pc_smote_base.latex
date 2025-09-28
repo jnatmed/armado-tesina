@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{geometry}
+
+
+\usepackage{algorithmicx}
+
+\usepackage[most]{tcolorbox} % marco bonito, breakable
+% afinado para que quepa mejor:
+\algrenewcommand\algorithmicindent{1.0em} % menos sangría
+
+
+\begin{document}
+
+% --- PC-SMOTE BINARIO (en tcolorbox, sin float) ---
+\begin{tcolorbox}[enhanced,breakable,boxrule=0.6pt,arc=2mm,
+                  colback=white,left=6pt,right=6pt,top=6pt,bottom=6pt]
+\textbf{Algoritmo 1. PC-SMOTE (versión binaria)}
+\medskip
+
+\begin{algorithmic}[1]
+\footnotesize
+\State \textbf{Entrada:} $X\in\mathbb{R}^{n\times d}$, $y\in\{0,1\}$ (1 = minoritaria), $k$, $p_{\mathrm{dist}}$, $p_{\mathrm{ent}}$ (opcional), $p_{\mathrm{den}}$ (opcional), $r$ (radio de densidad), \textit{criterio\_pureza} = entropía o proporción, \textit{modo\_espacial} $\in\{2d,3d\}$, \textit{max\_sint} (opcional).
+\State \textbf{Salida:} $X',y'$ (sintéticas etiquetadas como $1$).
+\State Convertir $X$ e $y$ a arreglos; inicializar métricas internas.
+\State Separar $X_{\min}\gets X[y=1]$, $X_{\mathrm{maj}}\gets X[y=0]$. \textbf{Si} $|X_{\min}|<k+1$ \textbf{entonces} \Return $(X,y)$.
+\State Ajustar $k$NN global sobre $X$; para cada $x_i\in X_{\min}$ obtener vecinos $\mathcal{N}^{\mathrm{all}}_i$ (excluyendo $x_i$) y calcular el \textbf{riesgo} local
+\[
+  r_i \gets \frac{1}{k}\sum_{x_j\in\mathcal{N}^{\mathrm{all}}_i}\mathbb{1}[\,y_j=0\,].
+\]
+\State Ajustar $k$NN sobre $X_{\min}$; obtener $\mathcal{N}^{\min}_i$ y la \textbf{densidad} por intersección de esferas
+\[
+  den_i \gets \frac{1}{k}\sum_{x_j\in\mathcal{N}^{\min}_i}\mathbb{1}\!\big(\,\|x_i-x_j\|\le 2r\,\big),
+\]
+usando sólo las tres primeras coordenadas si \textit{modo\_espacial} = 3d; en caso contrario, el vector completo.
+\State \textbf{Pureza:} si el criterio es entropía, calcular
+\[
+  H_i=\operatorname{entropy}\!\big(\operatorname{freq}(y_{\mathcal{N}^{\mathrm{all}}_i})\big),
+\]
+y si $p_{\mathrm{ent}}$ está definido, fijar \(\tau_{\mathrm{ent}}=\operatorname{percentil}(H,p_{\mathrm{ent}})\); definir \(m^{\mathrm{pureza}}_i=\mathbb{1}[\,H_i\le\tau_{\mathrm{ent}}\,]\).
+Si el criterio es proporción, calcular \(\pi_i=\tfrac{1}{k}\sum_{x_j\in\mathcal{N}^{\mathrm{all}}_i}\mathbb{1}[\,y_j=1\,]\) y definir \(m^{\mathrm{pureza}}_i=\mathbb{1}[\,0.4\le\pi_i\le0.6\,]\).
+\State \textbf{Densidad:} si $p_{\mathrm{den}}$ está definido, fijar \(\tau_{\mathrm{den}}=\operatorname{percentil}(den,p_{\mathrm{den}})\) y \(m^{\mathrm{dens}}_i=\mathbb{1}[\,den_i\ge\tau_{\mathrm{den}}\,]\); en caso contrario, \(m^{\mathrm{dens}}_i=\mathbb{1}[\,den_i>0\,]\).
+\State \textbf{Filtrado:} \(m_i=m^{\mathrm{pureza}}_i\land m^{\mathrm{dens}}_i\); \(C=\{\,x_i\in X_{\min}: m_i=1\,\}\). \textbf{Si} $|C|<k+1$ \Return $(X,y)$.
+\State \textbf{Cantidad de sintéticas:} \(n_{\mathrm{sint}}=\) \textit{max\_sint} si fue provisto; en caso contrario \( |X_{\mathrm{maj}}|-|X_{\min}| \). \textbf{Si} \(n_{\mathrm{sint}}\le 0\) \Return $(X,y)$.
+\For{$t=1$ \textbf{to} $n_{\mathrm{sint}}$}
+  \State Muestrear \(x_i\sim C\); recuperar \(r_i\) y \(\mathcal{N}^{\mathrm{all}}_i\).
+  \State Calcular distancias \(D_{ij}=\|x_i-x_j\|\) para \(x_j\in\mathcal{N}^{\mathrm{all}}_i\) y \(\theta_i=\operatorname{percentil}(D_i,p_{\mathrm{dist}})\).
+  \State Definir \(V_i=\{\,x_j\in\mathcal{N}^{\mathrm{all}}_i: D_{ij}\le\theta_i\,\}\). \textbf{Si} \(|V_i|=0\), \textbf{continue}.
+  \State Muestrear \(z\in V_i\).
+  \If{$0.4 \le r_i < 0.5$}
+     \State \(\delta \gets \mathrm{Uniform}(0.6,0.8)\)
+  \ElsIf{$0.5 \le r_i \le 0.6$}
+     \State \(\delta \gets \mathrm{Uniform}(0.3,0.5)\)
+  \Else
+     \State \(\delta \gets \mathrm{Uniform}(0.4,0.6)\)
+  \EndIf
+  \State Generar \(\tilde{x}=x_i+\delta\,(z-x_i)\) y apilar a \(X\) con etiqueta \(1\).
+\EndFor
+\State \Return $(X',y')$ con todas las sintéticas concatenadas al final.
+\end{algorithmic}
+\end{tcolorbox}
+
+
+\end{document}

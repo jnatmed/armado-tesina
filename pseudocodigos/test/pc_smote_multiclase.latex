@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{geometry}
+\usepackage{adjustbox}
+
+\usepackage{algorithmicx}
+
+\usepackage{tcolorbox} % marco bonito, breakable
+% afinado para que quepa mejor:
+\algrenewcommand\algorithmicindent{1.0em} % menos sangría
+
+\begin{document}
+
+% --- PC-SMOTE MULTICLASE (en tcolorbox, sin float) ---
+\begin{tcolorbox}[enhanced,breakable,boxrule=0.6pt,arc=2mm,
+  colback=white,left=4pt,right=4pt,top=6pt,bottom=6pt]
+\textbf{Algoritmo 2. PC-SMOTE multiclase (one-vs-rest con factor de equilibrio y topes)}
+\medskip
+
+\begin{adjustbox}{max width=\linewidth}
+\begin{minipage}{\linewidth}
+\begin{algorithmic}[1]
+\footnotesize
+\State \textbf{Entrada:} $X$, $y\in\{1,\dots,K\}$, parámetros del binario; \textit{factor\_equilibrio}\,$\in(0,1]$; \textit{max\_total\_multiplier} (opcional); \textit{max\_sint\_por\_clase} (opcional).
+\State \textbf{Salida:} $X^{*},y^{*}$.
+\State Inicializar $X^{*}\gets X$, $y^{*}\gets y$; contar $n_c=|\{y=c\}|$ y $n_{\max}=\max_c n_c$; fijar $t_c=\lfloor \textit{factor\_equilibrio}\cdot n_{\max}\rfloor$.
+\For{cada clase $c=1,\dots,K$}
+  \State Definir $y^{(c)}=\mathbb{1}[y=c]$, $a_c=\sum y^{(c)}$, $f_c=\max(0,t_c-a_c)$. \textbf{Si} $f_c=0$, \textbf{continue}.
+  \State \textbf{Tope por clase:} si \textit{max\_sint\_por\_clase} existe, $f_c\leftarrow\min(f_c,\textit{max\_sint\_por\_clase})$.
+  \State \textbf{Tope global:} si \textit{max\_total\_multiplier} existe, $N_{\max}=\lfloor \textit{max\_total\_multiplier}\cdot |y|\rfloor$, $m_{\mathrm{glob}}=N_{\max}-|y^{*}|$; si $m_{\mathrm{glob}}\le 0$ \textbf{continue}; en caso contrario $f_c\leftarrow\min(f_c,m_{\mathrm{glob}})$.
+  \State Instanciar PC-SMOTE binario y ejecutar $(\hat{X},\hat{y})\gets \mathrm{PCSMOTE\_binario.fit\_resample}(X,y^{(c)},\textit{max\_sint}{=}f_c)$.
+  \State Calcular $n_{\mathrm{new}}=|\hat{X}|-|X|$. \textbf{Si} $n_{\mathrm{new}}=0$, \textbf{continue}.
+  \State Tomar las últimas $n_{\mathrm{new}}$ filas $\hat{X}_{\mathrm{new}}$ y etiquetarlas con $c$; concatenar a $X^{*},y^{*}$.
+\EndFor
+\State \Return $(X^{*},y^{*})$.
+\end{algorithmic}
+\end{minipage}
+\end{adjustbox}
+\end{tcolorbox}
+
+
+
+
+\end{document}
