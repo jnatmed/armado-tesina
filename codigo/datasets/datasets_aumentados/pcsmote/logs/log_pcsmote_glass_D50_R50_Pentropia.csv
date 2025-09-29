@@ -1,7 +1,0 @@
-dataset,clase,train_original,objetivo_balance,estado,motivo_sin_sinteticas,muestras_sinteticas_generadas,total_original,total_resampled,ratio_original,ratio_resampled,n_candidatas,n_filtradas,riesgo_medio,riesgo_std,densidad_media,vecinos_validos_promedio,umbral_densidad,umbral_entropia,percentil_densidad,percentil_riesgo,criterio_pureza,tecnica_sobremuestreo,factor_equilibrio,random_state,modo_espacial,timestamp
-glass,1,56,48,no se sobremuestrea,sin_faltante(actual>=objetivo),0,171,171,0.327485,0.327485,,,,,,,,,50.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:20.213901
-glass,2,61,48,no se sobremuestrea,sin_faltante(actual>=objetivo),0,171,171,0.356725,0.356725,,,,,,,,,50.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:20.213901
-glass,3,14,48,sobremuestreada,ok,34,171,205,0.081871,0.234146,14.0,8.0,0.9,0.09999999999999998,0.7142857142857142,3.0,1.0,0.7219280948873623,50.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:20.236255
-glass,5,10,48,sobremuestreada,ok,38,171,243,0.05848,0.197531,10.0,7.0,0.6857142857142857,0.318157963590287,0.08,3.0,0.0,0.9086949695628421,50.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:20.256254
-glass,6,7,48,sobremuestreada,insuficientes_filtradas,0,171,243,0.040936,0.028807,7.0,4.0,0.44999999999999996,0.16583123951776998,0.34285714285714286,3.0,0.4,0.9709505944546688,50.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:20.264720
-glass,7,23,48,sobremuestreada,ok,25,171,268,0.134503,0.179104,23.0,15.0,0.0,0.0,0.6869565217391305,3.0,1.0,0.0,50.0,50.0,entropia,PCSMOTE,0.8,42,2d,2025-08-20T00:20:20.272963
