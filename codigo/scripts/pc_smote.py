@@ -28,7 +28,7 @@ class PCSMOTE:
                  factor_equilibrio=0.8, verbose=True,
                  max_total_multiplier=None,
                  max_sinteticas_por_clase=None,
-                 guardar_distancias=False):
+                 guardar_distancias=True):  # ← por defecto True
         # Hiperparámetros
         self.k = int(k_neighbors)
         self._seed_init = random_state
@@ -59,6 +59,7 @@ class PCSMOTE:
     # --------------------- Utilidades ---------------------
 
     def reset_logs(self):
+        """Resetea logs por CLASE, por MUESTRA y metadatos."""
         self.logs_por_clase = []
         self.logs_por_muestra = []
         self.meta_experimento = {}
@@ -85,11 +86,33 @@ class PCSMOTE:
             print("⚠️ No hay log POR MUESTRA para exportar.")
             return
         df = pd.DataFrame(self.logs_por_muestra)
+
+        # Forzar orden estable de columnas (si existen)
+        cols_order = [
+            "dataset","idx_global","clase_objetivo","is_filtrada","k",
+            "percentil_dist","percentil_densidad","percentil_entropia",
+            "criterio_pureza","modo_espacial","radio_densidad",
+            "riesgo","densidad","entropia","proporcion_min",
+            "pasa_pureza","pasa_densidad","umbral_entropia","umbral_densidad",
+            "vecinos_all","clase_vecinos_all","dist_all",
+            "vecinos_min","dist_vecinos_min",
+            "vecinos_validos_por_percentil","thr_dist_percentil",
+            "synthetics_from_this_seed","last_delta","last_neighbor_z","timestamp"
+        ]
+        df = df.reindex(columns=[c for c in cols_order if c in df.columns])
+
         # Serializar listas en JSON para columnas complejas
-        cols_json = ("vecinos_all", "dist_all", "vecinos_min", "dist_min")
+        cols_json = (
+            "vecinos_all", "clase_vecinos_all", "dist_all",
+            "vecinos_min", "dist_vecinos_min"
+        )
         for col in cols_json:
             if col in df.columns:
-                df[col] = df[col].apply(lambda v: json.dumps(v) if isinstance(v, (list, tuple, np.ndarray)) else v)
+                df[col] = df[col].apply(
+                    lambda v: json.dumps(v, ensure_ascii=False)
+                    if isinstance(v, (list, tuple, np.ndarray))
+                    else v
+                )
         df.to_csv(path_salida, index=False)
         print(f"📁 Log por muestra guardado en: {path_salida}")
 
@@ -135,43 +158,62 @@ class PCSMOTE:
 
     # --------------------- Logger por muestra ---------------------
 
+    @staticmethod
+    def _to_cls_scalar(v):
+        """Convierte etiqueta a tipo serializable estable (int si es entero; si no, str)."""
+        try:
+            arr = np.array(v)
+            if np.issubdtype(arr.dtype, np.integer):
+                return int(arr.item() if arr.shape == () else v)
+        except Exception:
+            pass
+        try:
+            return v.item()
+        except Exception:
+            return str(v)
+
     def _log_muestra(
         self,
         i,                      # índice en X_min
         X, X_min,               # matrices originales y minoritaria
+        y,                      # etiquetas globales (para clases de vecinos)
         idxs_min_global,        # mapeo X_min[i] -> índice global en X
         comb,                   # máscara de filtrado por muestra
         riesgo, densidades,     # arrays
         entropias, proporciones_min,  # arrays o None
         pureza_mask, densidad_mask,   # máscaras booleanas
         umb_ent, umb_den,       # umbrales (float o None)
-        vecinos_all_global,     # matriz [n_min, k] con índices globales en X
-        vecinos_min_global,     # matriz [n_min, k] con índices globales minoritarios
+        vecinos_all_global,     # [n_min, k] índices globales en X
+        vecinos_min_global,     # [n_min, k] índices globales minoritarios
         vecinos_validos_counts, # array de conteos válidos por percentil_dist
         dist_thr_por_muestra,   # array thresholds por muestra
-        gen_from_counts,        # dict: idx_global -> sintéticas generadas desde esa semilla
+        gen_from_counts,        # dict: idx_global -> sintéticas desde esa semilla
         last_delta_by_seed,     # dict: idx_global -> último delta
         last_neighbor_by_seed   # dict: idx_global -> último vecino z (idx global)
     ):
         seed_idx_global = int(idxs_min_global[i])
 
-        # Listas de vecinos (globales)
+        # Vecinos (globales)
         v_all = list(map(int, vecinos_all_global[i].tolist()))
         v_min = list(map(int, vecinos_min_global[i].tolist()))
+        # Clases de vecinos_all
+        cls_all = [self._to_cls_scalar(y[idx]) for idx in v_all]
 
-        # Distancias (opcionales, pueden generar CSV grande)
+        # Distancias (opcionales)
         if self.guardar_distancias:
             xi = X_min[i]
             d_all = self._dist(X[v_all], xi).tolist() if len(v_all) else []
-            # vecinos_min_global contiene índices globales; tomar sus filas de X
             d_min = self._dist(X[v_min], xi).tolist() if len(v_min) else []
+            d_vecinos_min = d_min[:]  # alias explícito pedido
         else:
             d_all = None
             d_min = None
+            d_vecinos_min = None
 
         rec = {
             "dataset": self.nombre_dataset,
             "idx_global": seed_idx_global,
+            "clase_objetivo": None,  # ← por defecto; se completa en multiclase
             "is_filtrada": bool(comb[i]),
             "k": self.k,
             "percentil_dist": self.percentil_dist,
@@ -190,9 +232,10 @@ class PCSMOTE:
             "umbral_densidad": umb_den,
             # Vecinos y distancias
             "vecinos_all": v_all,
+            "clase_vecinos_all": cls_all,
             "dist_all": d_all,
             "vecinos_min": v_min,
-            "dist_min": d_min,
+            "dist_vecinos_min": d_vecinos_min,
             # Diagnóstico percentil de distancia
             "vecinos_validos_por_percentil": int(vecinos_validos_counts[i]),
             "thr_dist_percentil": float(dist_thr_por_muestra[i]),
@@ -283,7 +326,7 @@ class PCSMOTE:
 
         # Combinación
         comb = pureza_mask & densidad_mask
-        filtered_indices_local = np.where(comb)[0]                       # en X_min
+        filtered_indices_local = np.where(comb)[0]                         # en X_min
         filtered_indices_global = idxs_min_global[filtered_indices_local]  # en X
 
         # Métricas agregadas
@@ -312,11 +355,11 @@ class PCSMOTE:
         last_delta_by_seed = {}
         last_neighbor_by_seed = {}
 
-        # Salidas tempranas (registran por muestra y devuelven X,y)
+        # Salidas tempranas
         if len(filtered_indices_local) < self.k + 1:
             for i in range(len(X_min)):
                 self._log_muestra(
-                    i, X, X_min, idxs_min_global,
+                    i, X, X_min, y, idxs_min_global,
                     comb, riesgo, densidades,
                     entropias, proporciones_min,
                     pureza_mask, densidad_mask,
@@ -333,7 +376,7 @@ class PCSMOTE:
         if n_sint == 0:
             for i in range(len(X_min)):
                 self._log_muestra(
-                    i, X, X_min, idxs_min_global,
+                    i, X, X_min, y, idxs_min_global,
                     comb, riesgo, densidades,
                     entropias, proporciones_min,
                     pureza_mask, densidad_mask,
@@ -383,7 +426,7 @@ class PCSMOTE:
         if not muestras_sinteticas:
             for i in range(len(X_min)):
                 self._log_muestra(
-                    i, X, X_min, idxs_min_global,
+                    i, X, X_min, y, idxs_min_global,
                     comb, riesgo, densidades,
                     entropias, proporciones_min,
                     pureza_mask, densidad_mask,
@@ -404,7 +447,7 @@ class PCSMOTE:
         # Registrar por muestra (con contadores completos)
         for i in range(len(X_min)):
             self._log_muestra(
-                i, X, X_min, idxs_min_global,
+                i, X, X_min, y, idxs_min_global,
                 comb, riesgo, densidades,
                 entropias, proporciones_min,
                 pureza_mask, densidad_mask,
@@ -423,7 +466,8 @@ class PCSMOTE:
         """
         Extiende a multiclase sobremuestreando cada clase contra la mayor,
         con factor_equilibrio. Aplica topes y concatena logs POR MUESTRA
-        del run binario de cada clase (etiquetando 'clase_objetivo').
+        del run binario de cada clase (etiquetando 'clase_objetivo' y
+        reordenándolo inmediatamente después de 'idx_global').
         """
         X = np.asarray(X)
         y = np.asarray(y)
@@ -525,10 +569,18 @@ class PCSMOTE:
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
 
-                # Copiar LOG POR MUESTRA con clase objetivo real
+                # Copiar LOG POR MUESTRA agregando clase_objetivo y reordenando
                 for rec in sampler_tmp.logs_por_muestra:
                     rec_copia = dict(rec)
-                    rec_copia["clase_objetivo"] = clase
+                    rec_copia["clase_objetivo"] = clase  # completar
+
+                    # Reordenar: colocar clase_objetivo inmediatamente después de idx_global
+                    keys = list(rec_copia.keys())
+                    if "idx_global" in keys and "clase_objetivo" in keys:
+                        k_cls = keys.pop(keys.index("clase_objetivo"))
+                        keys.insert(keys.index("idx_global") + 1, k_cls)
+                        rec_copia = {k: rec_copia[k] for k in keys}
+
                     self.logs_por_muestra.append(rec_copia)
 
                 # Diagnóstico de motivo
@@ -554,6 +606,7 @@ class PCSMOTE:
                 else:
                     motivo = "ok"
             else:
+                # 🔧 Fix de typo: "sobremuestreada"
                 motivo = "sin_faltante(actual>=objetivo)" if estado != "sobremuestreada" else "tope=0"
 
             # Log POR CLASE (resumen)
