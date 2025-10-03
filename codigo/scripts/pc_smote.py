@@ -30,8 +30,8 @@ class PCSMOTE:
                  max_sinteticas_por_clase=None,
                  guardar_distancias=True):  # ← por defecto True
         # Hiperparámetros
-        self.k = int(k_neighbors)
-        self._seed_init = random_state
+        self.k = int(k_neighbors) # cantodad de k vecinos mas cercanos a examinar
+        self._seed_init = random_state # semilla fijada para reproductividad y mantener consistencias entre corridas
         self.random_state = check_random_state(random_state)
         self.radio_densidad = float(radio_densidad)
         self.percentil_dist = float(percentil_dist)
@@ -141,7 +141,12 @@ class PCSMOTE:
             intersecciones = 0
             for j in vecinos_local[i]:
                 xj = X_min[j]
-                d = np.linalg.norm(xi[:3] - xj[:3]) if self.modo_espacial == '3d' else np.linalg.norm(xi - xj)
+                # revisar calculo de distancia. Es distancia ?
+                # mejor una calculo d distancia comun. 
+                # d = np.linalg.norm(xi[:3] - xj[:3]) if self.modo_espacial == '3d' else np.linalg.norm(xi - xj)
+                d = np.linalg.norm(xi - xj) 
+                # q intrercciones no sea mas grande q vecinos locales
+                # como son las distancias ? en los X_min y saco una regla empirica
                 if d <= 2.0 * radio:
                     intersecciones += 1
             densidades.append(intersecciones / max(1, len(vecinos_local[i])))
@@ -295,6 +300,10 @@ class PCSMOTE:
         # mapear a global
         vecinos_min_global = np.array([[int(idxs_min_global[j]) for j in fila] for fila in vecinos_min_local], dtype=int)
 
+        # los vecinos locales de cada muestra minoritaria los envio en 
+        # vecinos_min_local
+        # junto con X_min
+        # de manera que 
         densidades = self.calcular_densidad_interseccion(X_min, vecinos_min_local, self.radio_densidad)
 
         # Pureza
@@ -373,6 +382,7 @@ class PCSMOTE:
 
         n_sint = max_sinteticas if max_sinteticas is not None else (len(X_maj) - len(X_min))
         n_sint = int(max(0, n_sint))
+        # sino se produjeron sinteticas, entonces logueo y salgo
         if n_sint == 0:
             for i in range(len(X_min)):
                 self._log_muestra(
