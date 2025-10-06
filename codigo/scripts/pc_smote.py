@@ -20,6 +20,8 @@ class PCSMOTE:
       • fit_resample: binario (y ∈ {0,1}, 1 = minoritaria).
       • fit_resample_multiclass: itera clase por clase contra la mayor.
     """
+    umbral_distancia = None # umbral global (float)
+
 
     def __init__(self, k_neighbors=5, random_state=None,
                  radio_densidad=1.0, percentil_dist=75,
@@ -132,11 +134,143 @@ class PCSMOTE:
             return np.linalg.norm(A[:, :3] - b[:3], axis=1)
         return np.linalg.norm(A - b, axis=1)
 
+    def getUmbralDistancia(self):
+        return 0.0 if self.umbral_distancia is None else float(self.umbral_distancia)
+
+    def distancia_x_mahalanobis(self, X_min, vecinos_min_local, percentil=25.0):
+        """
+        Calcula un umbral GLOBAL de distancia usando Mahalanobis LOCAL por vecindario.
+        Guarda el resultado en self.umbral_distancia (float).
+        La idea es saber que tan cerca estan los vecinos en alta dimension
+        Con features correlacionadas o desbalance de escalas, la euclídea puede engañar; 
+        Mahalanobis reescala por la covarianza local y captura mejor la geometría del vecindario.        
+        """
+        X_min = np.asarray(X_min)                       # Asegura que X_min sea un arreglo NumPy
+
+        n_min, n_feat = X_min.shape                     # (n_min: cantidad de minoritarias, n_feat: nº de características) = X_min.shape
+        todas = []                                      # Acumulará todas las distancias de Mahalanobis (de todos los xi)
+
+        """
+        En cada iteración se toma la muestra minoritaria x_i, se recuperan sus k vecinos
+        minoritarios y se organizan en una matriz; x_i se convierte a fila para operar
+        vectorizadamente; se estima la covarianza local S de esos vecinos y se regulariza
+        sumando λI para estabilizar la inversión; se calcula una pseudo-inversa estable
+        de S_reg y, con ella, se obtienen las distancias de Mahalanobis de cada vecino
+        a x_i, que se agregan a un acumulador global. Si ocurre algún problema numérico,
+        se usa un fallback a distancias euclídeas y también se acumulan. Al finalizar
+        todas las iteraciones, ese conjunto de distancias servirá para fijar un umbral
+        global por percentil que defina la “cercanía” en la métrica.
+        """
+        for i in range(n_min):                          # Itera por cada semilla minoritaria xi
+            idx_nbrs = vecinos_min_local[i]             # Índices locales de los k vecinos minoritarios de xi
+            if len(idx_nbrs) == 0:                      # Si una xi no tiene vecinos, salta
+                continue
+
+            # ---- Datos de los vecinos ----
+            # nbrs = neighbors = vecinos    
+            nbrs = X_min[idx_nbrs]                      # Matriz (k, n_feat) con los vecinos de xi
+            
+            xi = X_min[i].reshape(1, -1)                # Xi como fila (1, n_feat) para restar vectorizado
+
+            try:
+                # ---- Covarianza local de los vecinos ----
+                if nbrs.shape[0] == 1:                  # Con un solo vecino la covarianza no es válida
+                    S = np.eye(n_feat, dtype=float)     # Usa identidad como covarianza (fallback estable)
+                else:
+                    S = np.cov(nbrs, rowvar=False)      # Covarianza columna-variable (n_feat x n_feat)
+                    if np.ndim(S) == 0:                 # Si sale degenerada (escala), usa identidad
+                        S = np.eye(n_feat, dtype=float)
+
+                # ---- Regularización (ridge) para evitar singularidades ----
+                """
+                - 1e-6, es un ε (epsilon) pequeño 
+                - trace(S) = suma de las varianzas (la traza de la covarianza).
+                - n_feat = p, el número de features (dimensión).
+                - trace(S)/p = promedio de varianzas (la “escala” típica)
+                - max(1, n_feat) es un guardarraíl para no dividir por 0 en casos patológicos.
+                En la práctica n_feat ≥ 1, pero este max asegura que si por error llegara n_feat = 0, dividas por 1 y no reviente
+                """
+                lam = 1e-6 * (np.trace(S) / max(1, n_feat)) # λ (lambda) proporcional a la escala de S (estable numéricamente)
+
+                """
+                - S: la matriz de covarianza estimada en el vecindario de Dimensión p x p (siendo p = n_feat).
+                  Diagonal = varianzas de cada feature; fuera de diagonal = covarianzas entre features.
+                - lam = λ (lambda): el parámetro de regularización (un escalar pequeño y positivo).
+                        Se suma en la diagonal para estabilizar / invertir = S + λI.
+                        En tu código: lam = 1e-6 * (trace(S)/p) (escala la magnitud de 
+                        S y usa un ε pequeño).
+                - I: la matriz identidad de tamaño p x p (unos en la diagonal, ceros fuera).
+                     En NumPy: np.eye(p).                        
+                Ejemplo:
+                    S = np.array([[1.0, 0.2, 0.3],
+                                [0.2, 2.0, 0.1],
+                                [0.3, 0.1, 3.0]])
+                    S.shape      # (3, 3)
+                    S.shape[0]  # 3  -> filas (p)
+                    S.shape[1]  # 3  -> columnas (p)                     
+                    np.eye(S.shape[0], dtype=float) = np.eye(3) = np.array([[1., 0., 0.],
+                                                                          [0., 1., 0.],
+                                                                          [0., 0., 1.]])
+                """
+                S_reg = S + lam * np.eye(S.shape[0], dtype=float)  # S regularizada: S + λI
+
+                """
+                ---- Inversa estable (pseudo-inversa con tolerancia) ----
+                   np.linalg.pinv(A, rcond=...) calcula la pseudo-inversa de Moore–Penrose vía SVD:
+                   A = U Σ V^T  ⇒  pinv(A) = V Σ^+ U^T
+                   donde Σ^+ invierte solo los σ_i “grandes” y pone 0 a los σ_i pequeños.
+                   rcond: (relative condition) umbral relativo para truncar valores singulares:
+                   - Si σ_i ≤ rcond * σ_max  ⇒  ese σ_i se considera ~0 (no se invierte) → mayor estabilidad.
+                   - Valores típicos: 1e-15 … 1e-8; 1e-12 es un corte conservador y suele funcionar bien.
+                   S_inv: pseudo-inversa de S_reg; se usa en Mahalanobis: (x − μ)^T · S_inv · (x − μ).
+                """
+                # ---- Inversa estable (pseudo-inversa con tolerancia) ----
+                S_inv = np.linalg.pinv(S_reg, rcond=1e-12)  # Pseudo-inversa robusta ante S mal condicionada
+
+                # ---- Distancias de Mahalanobis de cada vecino respecto a xi ----
+                diffs = nbrs - xi                       # Diferencias (k, n_feat)
+                # d_M(xj, xi) = sqrt( (xj-xi)^T S_inv (xj-xi) ) para cada vecino
+                d_maha = np.sqrt(np.einsum('ij,jk,ik->i', diffs, S_inv, diffs))  # Vector de k distancias
+
+                if d_maha.size:                         # Si hay distancias válidas
+                    todas.append(d_maha)                # Acumula para el percentil global
+
+            except Exception as e:
+                # Fallback local: si falla Mahalanobis (cov/inversa/einsum), usar Euclídea
+                try:
+                    d_euc = np.linalg.norm(nbrs - xi, axis=1)
+                    if d_euc.size:
+                        todas.append(d_euc)
+                    if getattr(self, "verbose", False):
+                        print(f"[PCSMOTE][warn] Mahalanobis falló en i={i}. Fallback a euclídea. Detalle: {e}")
+                except Exception as e2:
+                    if getattr(self, "verbose", False):
+                        print(f"[PCSMOTE][warn] Euclídea también falló en i={i}. Se omite muestra. Detalle: {e2}")
+                    continue
+
+        if len(todas) == 0:                             # Si no se pudo calcular nada (sin vecinos en todo el set)
+            self.umbral_distancia = 0.0                 # Umbral neutro (no contará “cercanos”)
+            return
+
+        try:
+            todas = np.concatenate(todas)               # Aplana todas las distancias (n_min*k,)
+            # Percentil global (p.ej. 25): define qué tan “cerca” es ser vecino en todo el conjunto
+            self.umbral_distancia = float(np.percentile(todas, percentil))  # Guarda umbral en el atributo de la clase
+        except Exception as e:
+            # Fallback global: si falla el percentil por algún motivo, usar 0.0
+            if getattr(self, "verbose", False):
+                print(f"[PCSMOTE][warn] Percentil global falló. Umbral=0.0. Detalle: {e}")
+            self.umbral_distancia = 0.0
+
+
+
     def calcular_densidad_interseccion(self, X_min, vecinos_local, radio):
         """
         Densidad por intersección de esferas de radio 'radio', usando índices locales de X_min.
         """
         densidades = []
+        umbral_distancia = self.getUmbralDistancia()  # umbral global (float)        
+
         for i, xi in enumerate(X_min):
             intersecciones = 0
             for j in vecinos_local[i]:
@@ -147,7 +281,7 @@ class PCSMOTE:
                 d = np.linalg.norm(xi - xj) 
                 # q intrercciones no sea mas grande q vecinos locales
                 # como son las distancias ? en los X_min y saco una regla empirica
-                if d <= 2.0 * radio:
+                if d <= umbral_distancia:
                     intersecciones += 1
             densidades.append(intersecciones / max(1, len(vecinos_local[i])))
         return np.array(densidades, dtype=float)
@@ -304,6 +438,13 @@ class PCSMOTE:
         # vecinos_min_local
         # junto con X_min
         # de manera que 
+        # Calcula y guarda el umbral global de distancia (Mahalanobis local)
+        self.distancia_x_mahalanobis(
+            X_min=X_min,
+            vecinos_min_local=vecinos_min_local,
+            percentil=self.percentil_dist  # o un percentil específico si preferís
+        )
+
         densidades = self.calcular_densidad_interseccion(X_min, vecinos_min_local, self.radio_densidad)
 
         # Pureza
