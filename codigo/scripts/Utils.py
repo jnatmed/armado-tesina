@@ -11,10 +11,7 @@ class Utils:
         self.logs_por_muestra = []
         self.meta_experimento = {}
         self._meta = {}
-        self._S_inv_by_i = None        
-        # reset diagnósticos
-        self._diag_maha = None
-        self._diag_umbral_maha_global = None
+        # diagnósticos (solo los que quedan vigentes con LSD)
         self._diag_densidad = None
 
     def exportar_log_csv(self, path_salida):
@@ -38,8 +35,6 @@ class Utils:
             "vecinos_all", "clase_vecinos_all", "dist_all",
             "vecinos_min", "dist_vecinos_min"
         )
-        if "maha_dists" in getattr(df, "columns", []):
-            cols_json = cols_json + ("maha_dists",)
 
         for col in cols_json:
             if col in df.columns:
@@ -67,9 +62,6 @@ class Utils:
             "vecinos_all", "clase_vecinos_all", "dist_all",
             "vecinos_min", "dist_vecinos_min"
         )
-        # opcional: si en algún momento agregás 'maha_dists' al log por muestra:
-        if "maha_dists" in getattr(df, "columns", []):
-            cols_json = cols_json + ("maha_dists",)
 
         for col in cols_json:
             if col in df.columns:
@@ -81,27 +73,12 @@ class Utils:
         df.to_csv(path_salida, index=False)
         print(f"📁 Log por muestra guardado en: {path_salida}")
 
-    # Exportador opcional de diagnósticos de Mahalanobis (por semilla)
-    def exportar_diag_maha_csv(self, path_salida):
-        if not self._diag_maha:
-            print("⚠️ No hay diagnósticos de Mahalanobis para exportar.")
-            return
-        rows = []
-        for i, d in enumerate(self._diag_maha):
-            if d is None:
-                continue
-            row = {"idx_local": i}
-            row.update(d)
-            rows.append(row)
-        pd.DataFrame(rows).to_csv(path_salida, index=False)
-        print(f"📁 Diagnóstico Mahalanobis guardado en: {path_salida}")
-
     # --------------------- Cálculos auxiliares ---------------------
     def _dist(self, A, b):
-        """Distancia euclídea 2D/3D según modo_espacial."""
-        if self.modo_espacial == '3d':
-            return np.linalg.norm(A[:, :3] - b[:3], axis=1) # solo primeras 3 dimensiones
-        return np.linalg.norm(A - b, axis=1) # todas las dimensiones
+        """Distancia euclídea (usa las primeras 3 dims si modo_espacial='3d')."""
+        if getattr(self, "modo_espacial", "2d") == '3d':
+            return np.linalg.norm(A[:, :3] - b[:3], axis=1)  # solo primeras 3 dimensiones
+        return np.linalg.norm(A - b, axis=1)  # todas las dimensiones
 
     # --------------------- Logger por muestra ---------------------
     @staticmethod
@@ -157,54 +134,36 @@ class Utils:
         # Clases de vecinos_all
         cls_all = [self._to_cls_scalar(y[idx]) for idx in v_all]
 
-        # Distancias (opcionales)
-        if self.guardar_distancias:
+        # Distancias (opcionales, euclídeas para depuración)
+        if getattr(self, "guardar_distancias", False):
             xi = X_min[i]
             d_all = self._dist(X[v_all], xi).tolist() if len(v_all) else []
             d_min = self._dist(X[v_min], xi).tolist() if len(v_min) else []
-            d_vecinos_min = d_min[:]  # alias explícito pedido
+            d_vecinos_min = d_min[:]  # alias explícito
         else:
             d_all = None
             d_min = None
             d_vecinos_min = None
 
-        # Claves dinámicas seguras
-        k_dist, v_dist = self._kv_with_pct("percentil_dist", self.percentil_dist, self.getUmbralDistancia())
-        k_den,  v_den  = self._kv_with_pct("percentil_densidad", self.percentil_densidad, umb_den)
-        k_ent,  v_ent  = self._kv_with_pct("percentil_entropia", self.percentil_entropia, umb_ent)
+        # Claves dinámicas con percentiles configurados
+        k_dist, v_dist = self._kv_with_pct("percentil_dist", getattr(self, "percentil_dist", None), getattr(self, "getUmbralDistancia", lambda: None)())
+        k_den,  v_den  = self._kv_with_pct("percentil_densidad", getattr(self, "percentil_densidad", None), umb_den)
+        k_ent,  v_ent  = self._kv_with_pct("percentil_entropia", getattr(self, "percentil_entropia", None), umb_ent)
 
-        # Diagnóstico compacto por semilla (Mahalanobis)
-        diag = None
-        if isinstance(getattr(self, "_diag_maha", None), list) and i < len(self._diag_maha):
-            diag = self._diag_maha[i] or {}
-        diag_compacto = {
-            "maha_ok": bool(diag.get("ok")) if isinstance(diag, dict) else None,
-            "maha_fallback": bool(diag.get("fallback")) if isinstance(diag, dict) else None,
-            "maha_traceS": diag.get("traceS") if isinstance(diag, dict) else None,
-            "maha_lam": diag.get("lam") if isinstance(diag, dict) else None,
-            "maha_rank_Sreg": diag.get("rank_Sreg") if isinstance(diag, dict) else None,
-            "maha_cond_Sreg": diag.get("cond_Sreg") if isinstance(diag, dict) else None,
-            "maha_min": diag.get("d_maha_min") if isinstance(diag, dict) else None,
-            "maha_med": diag.get("d_maha_med") if isinstance(diag, dict) else None,
-            "maha_max": diag.get("d_maha_max") if isinstance(diag, dict) else None,
-            "maha_mean": diag.get("d_maha_mean") if isinstance(diag, dict) else None,
-            # "maha_dists": diag.get("d_maha_list") if isinstance(diag, dict) else None,  # ← opcional
-        }
-
-        # === Mantiene orden original ===
+        # Registro por muestra
         rec = {
-            "dataset": self.nombre_dataset,
+            "dataset": getattr(self, "nombre_dataset", "unknown"),
             "idx_global": seed_idx_global,
             "clase_objetivo": None,
             "is_filtrada": bool(comb[i]),
-            "k": self.k,
+            "k": getattr(self, "k", None),
 
-            # Sección de percentiles (orden original respetado)
+            # Percentiles usados
             k_dist: v_dist,
             k_den:  v_den,
             k_ent:  v_ent,
 
-            "criterio_pureza": self.criterio_pureza,
+            "criterio_pureza": getattr(self, "criterio_pureza", None),
             "riesgo": float(riesgo[i]),
             "densidad": float(densidades[i]),
             "entropia": None if entropias is None else float(entropias[i]),
@@ -212,14 +171,14 @@ class Utils:
             "pasa_pureza": bool(pureza_mask[i]),
             "pasa_densidad": bool(densidad_mask[i]),
 
-            # Vecinos y distancias
+            # Vecinos y distancias (para auditoría)
             "vecinos_all": v_all,
             "clase_vecinos_all": cls_all,
-            "dist_all": d_all,
+            "dist_all": d_all,                 # euclídeas (debug)
             "vecinos_min": v_min,
-            "dist_vecinos_min": d_vecinos_min,
+            "dist_vecinos_min": d_vecinos_min, # euclídeas (debug)
 
-            # Diagnóstico percentil local
+            # Diagnóstico del threshold local por percentil
             "vecinos_validos_por_percentil": int(vecinos_validos_counts[i]),
             "thr_dist_percentil": float(dist_thr_por_muestra[i]),
 
@@ -227,10 +186,8 @@ class Utils:
             "synthetics_from_this_seed": int(gen_from_counts.get(seed_idx_global, 0)),
             "last_delta": last_delta_by_seed.get(seed_idx_global, None),
             "last_neighbor_z": last_neighbor_by_seed.get(seed_idx_global, None),
-            "timestamp": pd.Timestamp.now().isoformat(),
-        }     # p.ej.: "percentil_entropia_none": None
 
-        # anexar diagnóstico compacto sin romper el orden principal (queda al final)
-        rec.update(diag_compacto)
+            "timestamp": pd.Timestamp.now().isoformat(),
+        }
 
         self.logs_por_muestra.append(rec)
