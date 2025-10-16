@@ -20,6 +20,9 @@ import json                                      # para exportación JSON
 import time                                      # para medición de tiempos 
 
 from Utils import Utils  # hereda utilidades comunes (reset/export/_dist/_log_muestra/etc.)
+# pcs_smote.py
+from cache import PCSMOTECache
+from gestor_cache import PCSMOTEGestorCache
 
 """ 
 ----- PC-SMOTE ----- 
@@ -78,6 +81,21 @@ class PCSMOTE(Utils):
         self.verbose = bool(verbose)
         self.guardar_distancias = bool(guardar_distancias)
         self.metric_vecindario = metric_vecindario
+
+        # ---- Gestión de caché ----
+        # Sirve para traer o guardar parametros que 
+        # se vuelven a utilizar entre corridas
+        # que no vale la pena o mejor dicho es costoso volver
+        # a calcular
+        self.cache = PCSMOTECache() 
+
+        # Crear el gestor intermedio usando los parámetros actuales
+        self.gestor_cache = PCSMOTEGestorCache(
+            cache=self.cache,
+            k=self.k,
+            metrica_vecindario=self.metric_vecindario,
+            percentil_dist=self.percentil_dist,
+        )
 
         # ---- LSD (Local Scaling Distance) ----
         self._sigma_X = None            # sigma por punto en X (distancia al k-ésimo vecino)
@@ -146,7 +164,7 @@ class PCSMOTE(Utils):
     # ------------------------------------------
     #   Umbral global/local por LSD
     # ------------------------------------------
-    def distancia_x_lsd(self, X_min, vecinos_min_local, percentil=75.0, k_sigma=None):
+    def calcularUmbralDensidades(self, X_min, vecinos_min_local, percentil=75.0, k_sigma=None):
         """
         Calcula UMBRAL GLOBAL usando Local Scaling Distance (LSD) y también
         fija un umbral LOCAL por semilla (percentil sobre sus k vecinos minoritarios).
@@ -164,9 +182,6 @@ class PCSMOTE(Utils):
 
         # k para el radio local (self-scaling). Por defecto, se usa self.k
         k_sigma = int(self.k if k_sigma is None else k_sigma)
-
-        # Sigmas SOLO sobre X_min para fijar umbrales (densidad intra-clase)
-        self._sigma_Xmin = self._compute_sigmas(X_min, k_sigma=k_sigma)
 
         todas = []
         self._umbral_lsd_by_i = np.full(n_min, np.nan, dtype=float)
@@ -220,14 +235,11 @@ class PCSMOTE(Utils):
         self._diag_densidad = {"semillas_con_hits": 0, "total_hits": 0}
 
         for i, xi in enumerate(X_min):
+
             intersecciones = 0
 
-            # umbral LOCAL si existe, si no global
-            u_i = None
-            if hasattr(self, "_umbral_lsd_by_i") and i < len(self._umbral_lsd_by_i):
-                u_i = self._umbral_lsd_by_i[i]
-            if u_i is None or np.isnan(u_i):
-                u_i = self.getUmbralDistancia()
+            # umbral LOCAL 
+            u_i = self._umbral_lsd_by_i[i]
 
             # LSD: necesitamos sigma_i y sigma_j (ambos en X_min)
             if self._sigma_Xmin is None or len(self._sigma_Xmin) != len(X_min):
@@ -321,45 +333,28 @@ class PCSMOTE(Utils):
             # Retorno sin cambios
             return X.copy(), y.copy()
 
-        # ------------------------------------------------------------------
-        # (2) Cálculo de distancias LSD y vecindarios iniciales
-        # ------------------------------------------------------------------
-        nn_min_pre = NearestNeighbors(n_neighbors=self.k + 1).fit(X_min)
-        vecinos_min_local_pre = nn_min_pre.kneighbors(X_min, return_distance=False)[:, 1:]
-
-        # (2-a) Cálculo de umbrales global y locales por semilla
-        self.distancia_x_lsd(
-            X_min=X_min,
-            vecinos_min_local=vecinos_min_local_pre,
-            percentil=self.percentil_dist,
-            k_sigma=self.k # hasta cuantos vecinos quiero que abarque la distancia de sigma 
+        """
+        ------------------------------------------------------------------
+        (2) Distancias LSD y vecindarios (con caché y gestor_cache)
+        ------------------------------------------------------------------
+        Si es la primera ejecucion con estos parámetros, calcula y guarda.
+        Si ya se corrió antes, trae los resultados guardados y evita cálculos.
+        Se le envia la propia instancia de pcsmote, para utilizarla 
+        como adaptador, para que pueda llamar a los métodos auxiliares y 
+        obtener los resultados por primera vez o traerlos de la caché.
+        Previamente en el construct de pcsmote ya se inicializo gestor_cache con
+        el objeto cache para que pueda acceder a los datos persistidos. 
+        """
+        (vecinos_all_global,
+        vecinos_min_local,
+        vecinos_min_global,
+        self._sigma_X,
+        self._sigma_Xmin) = self.gestor_cache.obtener(
+            X=X,
+            y=y,
+            nombre_dataset=self.nombre_dataset,
+            adaptador=self
         )
-
-        # (2-b) Cálculo de sigmas sobre TODO el dataset (X)
-        self._sigma_X = self._compute_sigmas(X, k_sigma=max(1, min(self.k, len(X) - 1)))
-
-        # (2-c) _sigma_Xmin ya fue calculado en self.distancia_x_lsd()
-        sigma_Xmin = self._sigma_Xmin
-
-        # Cálculo de vecindarios globales y locales definitivos (LSD)
-        # Seteo arrays vacíos para llenarlos en el loop
-        vecinos_all_global = np.empty((len(X_min), self.k), dtype=int)
-        vecinos_min_local  = np.empty((len(X_min), self.k), dtype=int)
-
-        for i, xi in enumerate(X_min):
-            # Distancias LSD desde la semilla i a TODOS los puntos y a sus vecinos minoritarios
-            d_all = self._dists_lsd_seed(xi, X,     sigma_Xmin[i], self._sigma_X)
-            d_min = self._dists_lsd_seed(xi, X_min, sigma_Xmin[i], sigma_Xmin)
-
-            d_all[idxs_min_global[i]] = np.inf # np.inf = valor infinito, osea muy bajo
-            d_min[i] = np.inf # np.inf = valor infinito, osea muy bajo
-
-            # argpartition para obtener los índices de los k vecinos más cercanos
-            # toma los mas cercanos sin importar el orden
-            vecinos_all_global[i] = np.argpartition(d_all, self.k)[:self.k]
-            vecinos_min_local[i]  = np.argpartition(d_min, self.k)[:self.k]
-
-        vecinos_min_global = idxs_min_global[vecinos_min_local.astype(int)]
 
         # ------------------------------------------------------------------
         # (3) Cálculo de métricas locales: riesgo, densidad y pureza
@@ -370,9 +365,10 @@ class PCSMOTE(Utils):
         ], dtype=float)
 
         # (3-b) Densidad local por intersección de esferas (LSD)
+        # ¿ Que tan denso es el vecindario de xi ?
         densidades = self.calcular_densidad_interseccion(X_min, vecinos_min_local)
         # Resultado => ejemplo: densidades = [0.05, 0.20, 0.35, 0.50, 0.80, 0.95]
-        # porcentajes de intersección por semilla
+        # porcentajes de intersección por semilla   
 
         # (3-c) Pureza del vecindario
         pureza_mask = None
@@ -418,6 +414,7 @@ class PCSMOTE(Utils):
 
         # luego comb se pasa por np.where que lo que hace es
         # devolver los indices de los elementos que cumplen con el criterio
+        # Sera candidatos a generar sinteticos
         filtered_indices_local = np.where(comb)[0]
 
         # indices globales de las semillas filtradas
