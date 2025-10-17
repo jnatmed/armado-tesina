@@ -1,0 +1,23 @@
+{
+  "dataset": "glass",
+  "shape": [
+    23
+  ],
+  "k": 7,
+  "metric_vecindario": "lsd",
+  "version": 2,
+  "n_min": 23,
+  "pos_fp": "beeef1755bcb",
+  "storage_format": "v2/npy",
+  "lsd_dists": {
+    "shape": [
+      23,
+      7
+    ],
+    "dtype": "float32",
+    "storage": "v2/npy"
+  },
+  "artifact": "densidades",
+  "metric_tag": "lsd_v1",
+  "dtype": "float64"
+}

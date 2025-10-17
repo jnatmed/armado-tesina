@@ -87,7 +87,10 @@ class PCSMOTE(Utils):
         # se vuelven a utilizar entre corridas
         # que no vale la pena o mejor dicho es costoso volver
         # a calcular
-        self.cache = PCSMOTECache() 
+        
+        # Activamos el formato v2 (.npy + meta.json con mmap_mode='r')
+        # y limpieza automática del .npz antiguo si existiera.
+        self.cache = PCSMOTECache(prefer_npy=True, cleanup_legacy_npz=True)
 
         # Crear el gestor intermedio usando los parámetros actuales
         self.gestor_cache = PCSMOTEGestorCache(
@@ -356,6 +359,21 @@ class PCSMOTE(Utils):
             adaptador=self
         )
 
+        extra_meta = {"n_min": int(len(idxs_min_global)),
+                        "pos_fp": PCSMOTECache.fp_array(idxs_min_global)}
+        # Calcular o recuperar distancias LSD de las semillas
+        lsd_dists_all = self.gestor_cache.get_or_compute_lsd_dists(
+            X=X,
+            X_min=X_min,
+            sigma_X=self._sigma_X,
+            sigma_Xmin=self._sigma_Xmin,
+            k=self.k,
+            vecinos_all_global=vecinos_all_global,
+            adaptador=self,
+            nombre_dataset=self.nombre_dataset,
+            extra_meta=extra_meta,
+        )
+
         # ------------------------------------------------------------------
         # (3) Cálculo de métricas locales: riesgo, densidad y pureza
         # ------------------------------------------------------------------
@@ -366,7 +384,20 @@ class PCSMOTE(Utils):
 
         # (3-b) Densidad local por intersección de esferas (LSD)
         # ¿ Que tan denso es el vecindario de xi ?
-        densidades = self.calcular_densidad_interseccion(X_min, vecinos_min_local)
+        # densidades = self.calcular_densidad_interseccion(X_min, vecinos_min_local)
+
+        densidades = self.gestor_cache.get_or_compute_densidades_v2(
+            X_min=X_min,
+            vecinos_local=vecinos_min_local,
+            sigma_Xmin=self._sigma_Xmin,
+            umbrales_lsd_by_i=self._umbral_lsd_by_i,
+            k=self.k,
+            nombre_dataset=self.nombre_dataset,
+            metric_tag="lsd_v1",
+            adaptador=self,
+            extra_meta=extra_meta
+        )
+
         # Resultado => ejemplo: densidades = [0.05, 0.20, 0.35, 0.50, 0.80, 0.95]
         # porcentajes de intersección por semilla   
 
@@ -432,24 +463,22 @@ class PCSMOTE(Utils):
         # ------------------------------------------------------------------
         # (5) Diagnóstico: vecinos válidos y umbral por percentil LSD
         # ------------------------------------------------------------------
-        vecinos_validos_counts = np.zeros(len(X_min), dtype=int)
-        dist_thr_por_muestra = np.full(len(X_min), np.nan)
+        # lsd_dists_all tiene shape (n_min, k) alineado con vecinos_all_global
 
-        for i in range(len(X_min)):
-            idxs_vec_all = vecinos_all_global[i]
-            xi = X_min[i]
-            sigma_i = float(self._sigma_Xmin[i]) if (self._sigma_Xmin is not None and i < len(self._sigma_Xmin)) else 1.0
-            sigmas_ref = self._sigma_X[idxs_vec_all] if self._sigma_X is not None else np.ones(len(idxs_vec_all))
-            dists = self._dists_lsd_seed(xi, X[idxs_vec_all], sigma_i, sigmas_ref)
-            thr = np.percentile(dists, self.percentil_dist)
-            dist_thr_por_muestra[i] = float(thr)
-            vecinos_validos_counts[i] = int(np.sum(dists <= thr))
+        # Calcula el umbral de distancia por muestra (percentil LSD)
+        dist_thr_por_muestra = np.percentile(lsd_dists_all, self.percentil_dist, axis=1).astype(float)
 
+        # Determina cuántos vecinos están dentro del umbral por muestra
+        vecinos_validos_counts = np.sum(lsd_dists_all <= dist_thr_por_muestra[:, None], axis=1).astype(int)
+
+        # Guarda promedio para diagnóstico general
         self._meta["vecinos_validos_promedio"] = float(np.mean(vecinos_validos_counts))
 
+        # Estructuras auxiliares para registro y seguimiento
         gen_from_counts = defaultdict(int)
         last_delta_by_seed = {}
         last_neighbor_by_seed = {}
+
 
         # ------------------------------------------------------------------
         # (6) Verificaciones previas a la generación
@@ -499,7 +528,8 @@ class PCSMOTE(Utils):
             idxs_vec_all = vecinos_all_filtrado[idx_local_filt]
             sigma_i = float(self._sigma_Xmin[i_local_orig]) if (self._sigma_Xmin is not None and i_local_orig < len(self._sigma_Xmin)) else 1.0
             sigmas_ref = self._sigma_X[idxs_vec_all] if self._sigma_X is not None else np.ones(len(idxs_vec_all))
-            dists = self._dists_lsd_seed(xi, X[idxs_vec_all], sigma_i, sigmas_ref)
+
+            dists = np.asarray(lsd_dists_all[i_local_orig])
 
             thr = np.percentile(dists, self.percentil_dist)
             vecinos_validos = idxs_vec_all[dists <= thr]

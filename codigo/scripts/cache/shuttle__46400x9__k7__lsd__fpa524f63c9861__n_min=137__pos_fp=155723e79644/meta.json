@@ -1,0 +1,23 @@
+{
+  "dataset": "shuttle",
+  "shape": [
+    137
+  ],
+  "k": 7,
+  "metric_vecindario": "lsd",
+  "version": 2,
+  "n_min": 137,
+  "pos_fp": "155723e79644",
+  "storage_format": "v2/npy",
+  "lsd_dists": {
+    "shape": [
+      137,
+      7
+    ],
+    "dtype": "float32",
+    "storage": "v2/npy"
+  },
+  "artifact": "densidades",
+  "metric_tag": "lsd_v1",
+  "dtype": "float64"
+}
