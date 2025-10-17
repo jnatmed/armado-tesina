@@ -2,6 +2,11 @@
 import numpy as np
 import pandas as pd
 import json
+import os
+import hashlib
+import datetime
+from typing import Optional, Dict, Any
+
 
 class Utils:
     # --------------------- Utilidades ---------------------
@@ -146,7 +151,11 @@ class Utils:
             d_vecinos_min = None
 
         # Claves dinámicas con percentiles configurados
-        k_dist, v_dist = self._kv_with_pct("percentil_dist", getattr(self, "percentil_dist", None), getattr(self, "getUmbralDistancia", lambda: None)())
+        k_dist, v_dist = self._kv_with_pct(
+            "percentil_dist",
+            getattr(self, "percentil_dist", None),
+            getattr(self, "getUmbralDistancia", lambda: None)()
+        )
         k_den,  v_den  = self._kv_with_pct("percentil_densidad", getattr(self, "percentil_densidad", None), umb_den)
         k_ent,  v_ent  = self._kv_with_pct("percentil_entropia", getattr(self, "percentil_entropia", None), umb_ent)
 
@@ -192,7 +201,6 @@ class Utils:
 
         self.logs_por_muestra.append(rec)
 
-
     def _registrar_logs_sin_sinteticas(
         self,
         X, y, X_min, idxs_min_global,
@@ -232,7 +240,7 @@ class Utils:
                 d_all = None
                 d_min = None
 
-            # Claves dinámicas de percentiles (se reutiliza helper)
+            # Claves dinámicas de percentiles
             k_dist, v_dist = self._kv_with_pct(
                 "percentil_dist",
                 getattr(self, "percentil_dist", None),
@@ -281,3 +289,191 @@ class Utils:
             }
             self.logs_por_muestra.append(rec)
 
+    # --------------------- Helpers de caché / hashing (compartidos) ---------------------
+    @staticmethod
+    def sha1_bytes(b: bytes) -> str:
+        h = hashlib.sha1()
+        h.update(b)
+        return h.hexdigest()
+
+    @staticmethod
+    def sha1_text(s: str) -> str:
+        return Utils.sha1_bytes(s.encode("utf-8"))
+
+    @staticmethod
+    def hash_ndarray(arr) -> Optional[str]:
+        if arr is None:
+            return None
+        a = np.asarray(arr)
+        h = hashlib.sha1()
+        h.update(str(a.shape).encode("utf-8"))
+        h.update(str(a.dtype).encode("utf-8"))
+        h.update(a.tobytes(order="C"))
+        return h.hexdigest()
+
+    @staticmethod
+    def now_iso() -> str:
+        return datetime.datetime.now().isoformat(timespec="seconds")
+
+    @staticmethod
+    def ensure_dir(path: str) -> None:
+        os.makedirs(path, exist_ok=True)
+
+    @staticmethod
+    def make_key_v2(
+        X_ref: np.ndarray,
+        dataset: str,
+        k: int,
+        metric: str,
+        extra: Optional[Dict[str, Any]] = None,
+        base_dir: str = ".pcsmote_cache_v2"
+    ) -> str:
+        """
+        Genera una clave de carpeta determinística a partir de los metadatos del artefacto.
+        Crea el directorio destino si no existe y devuelve la ruta final.
+        """
+        X_ref = np.asarray(X_ref)
+        meta = {
+            "dataset": dataset,
+            "k": int(k),
+            "metric": metric,
+            "shape": tuple(X_ref.shape),
+            "dtype": str(X_ref.dtype),
+            "extra": extra or {}
+        }
+        key = Utils.sha1_text(json.dumps(meta, sort_keys=True))
+        path = os.path.join(base_dir, key)
+        Utils.ensure_dir(path)
+        return path
+
+    @staticmethod
+    def load_npy_if_exists(key: str, fname: str) -> Optional[np.ndarray]:
+        """
+        Carga un .npy si existe. 'key' puede ser ruta de carpeta o hash.
+        """
+        path = os.path.join(key, fname) if os.path.isdir(key) else os.path.join(".pcsmote_cache_v2", key, fname)
+        if os.path.exists(path):
+            return np.load(path, allow_pickle=False)
+        return None
+
+    @staticmethod
+    def atomic_save_npy_if_exists(
+        key: str,
+        fname: str,
+        arr: np.ndarray,
+        meta: Optional[Dict[str, Any]] = None
+    ) -> str:
+        """
+        Guarda un único .npy en la carpeta 'key' de forma segura. Si ya existe, no sobreescribe.
+        Si 'meta' se provee, también escribe/actualiza meta.json (merge superficial).
+        Devuelve la ruta final del archivo guardado o existente.
+        """
+        dirpath = key if os.path.isdir(key) else os.path.join(".pcsmote_cache_v2", key)
+        Utils.ensure_dir(dirpath)
+        fpath = os.path.join(dirpath, fname)
+
+        if not os.path.exists(fpath):
+            tmp = fpath + ".tmp"
+            np.save(tmp, np.asarray(arr))
+            os.replace(tmp, fpath)
+
+        if meta:
+            meta_path = os.path.join(dirpath, "meta.json")
+            old = {}
+            if os.path.exists(meta_path):
+                try:
+                    with open(meta_path, "r", encoding="utf-8") as f:
+                        old = json.load(f)
+                except Exception:
+                    old = {}
+            old.update(meta)
+            tmp_meta = meta_path + ".tmp"
+            with open(tmp_meta, "w", encoding="utf-8") as f:
+                json.dump(old, f, ensure_ascii=False, indent=2)
+            os.replace(tmp_meta, meta_path)
+
+        return fpath
+
+    @staticmethod
+    def atomic_save_npy_and_meta(key: str, files: dict[str, np.ndarray], meta: dict):
+        """
+        Guarda varios .npy + meta.json de forma atómica.
+        IMPORTANTE: usa file objects para evitar que np.save agregue '.npy' automáticamente
+        a archivos temporales (p.ej. 'foo.npy.tmp' -> 'foo.npy.tmp.npy').
+        """
+        # Resolver carpeta destino (key puede ser ruta absoluta o hash)
+        dirpath = key if os.path.isdir(key) else os.path.join(".pcsmote_cache_v2", key)
+        os.makedirs(dirpath, exist_ok=True)
+
+        # 1) Escribir cada .npy a archivo temporal y hacer replace atómico
+        for fname, arr in files.items():
+            final_path = os.path.join(dirpath, fname)           # ej: densidades.npy
+            tmp_path   = final_path + ".tmp"                    # ej: densidades.npy.tmp
+
+            # limpiar temporales huérfanos previos
+            try:
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+            except Exception:
+                pass
+
+            # escribir NPY en el archivo temporal SIN que numpy agregue '.npy'
+            with open(tmp_path, "wb") as f:
+                np.save(f, np.asarray(arr), allow_pickle=False)
+
+            # reemplazo atómico (Windows/Linux)
+            os.replace(tmp_path, final_path)
+
+        # 2) Guardar meta.json de forma atómica
+        meta_path = os.path.join(dirpath, "meta.json")
+        tmp_meta  = meta_path + ".tmp"
+        try:
+            if os.path.exists(tmp_meta):
+                os.remove(tmp_meta)
+        except Exception:
+            pass
+
+        with open(tmp_meta, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+
+        os.replace(tmp_meta, meta_path)
+
+
+    # ----------- Extras utilitarios no destructivos (opcionales) -----------
+    @staticmethod
+    def read_meta_json(key: str) -> Optional[Dict[str, Any]]:
+        """Lee meta.json si existe y lo devuelve como dict."""
+        dirpath = key if os.path.isdir(key) else os.path.join(".pcsmote_cache_v2", key)
+        meta_path = os.path.join(dirpath, "meta.json")
+        if os.path.exists(meta_path):
+            try:
+                with open(meta_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return None
+        return None
+
+    @staticmethod
+    def update_meta_json(key: str, updates: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Merge superficial de metadatos existentes con 'updates'.
+        Devuelve el dict final escrito.
+        """
+        dirpath = key if os.path.isdir(key) else os.path.join(".pcsmote_cache_v2", key)
+        Utils.ensure_dir(dirpath)
+        meta_path = os.path.join(dirpath, "meta.json")
+
+        meta = {}
+        if os.path.exists(meta_path):
+            try:
+                with open(meta_path, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+            except Exception:
+                meta = {}
+
+        meta.update(updates or {})
+        tmp_meta = meta_path + ".tmp"
+        with open(tmp_meta, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+        os.replace(tmp_meta, meta_path)
+        return meta

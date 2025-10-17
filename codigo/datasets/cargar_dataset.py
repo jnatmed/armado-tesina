@@ -5,58 +5,64 @@ from collections import Counter
 from cargar_eurosat import cargar_dataset_eurosat  
 
 def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
-                   sep=' ', header=None, binarizar=True, tipo='tabular'):
+                   sep=' ', header=None, binarizar=True, tipo='tabular',
+                   impute='median',                 # 'median' o 'drop'
+                   na_values=('?', 'NA', 'None')):  # tokens a tratar como NaN
+    """
+    Carga datasets de tipo 'tabular' o 'imagen'.
+    - Tabular: convierte features a numérico, maneja NA (imputación o drop) y retorna (X, y, None).
+    - Imagen: delega a cargar_dataset_eurosat(path).
+    Si binarizar=True, transforma y en {0,1} usando clase_minoria; si False, deja y multiclase.
+    """
     if tipo == 'imagen':
-        # Carga especial para datasets de imágenes como EuroSAT
         X, y, clases = cargar_dataset_eurosat(path)
         return X, y, clases
 
-    # Carga tabular por defecto
-    df = pd.read_csv(path, header=header, sep=sep)
-    df = df[~df.isin(['?', 'NA', 'None']).any(axis=1)] # elimina filas con strings inválidos ('?', 'NA', 'None')
-
-
     if col_target is None or col_features is None:
-        raise ValueError("Debés especificar las columnas de características y la columna target.")
+        raise ValueError("Debés especificar las columnas de características (col_features) y la columna target (col_target).")
 
-    # ⚠️ Validación: columnas no numéricas en col_features
-    tipos_invalidos = df[col_features].select_dtypes(include=['object']).columns
-    if len(tipos_invalidos) > 0:
-        print(f"⚠️ Advertencia: columnas no numéricas detectadas: {list(tipos_invalidos)}")
+    # 1) Leer declarando NA explícitos (evita que 'ca'/'thal' queden como object en Cleveland Heart)
+    df = pd.read_csv(path, header=header, sep=sep, na_values=list(na_values), engine='python')
 
+    # 2) Seleccionar features y target
+    #    (funciona con nombres de columna o índices enteros)
     df_features = df[col_features].apply(pd.to_numeric, errors='coerce')
     df_target = df[[col_target]] if isinstance(col_target, str) else df[col_target]
 
-    df_clean = pd.concat([df_features, df_target], axis=1).dropna()
+    # 3) Imputación o drop de NA
+    if impute == 'drop':
+        mask_valid = df_features.notna().all(axis=1) & df_target.notna().all(axis=1)
+        df_features = df_features.loc[mask_valid]
+        df_target = df_target.loc[mask_valid]
+    elif impute == 'median':
+        med = df_features.median(numeric_only=True)
+        df_features = df_features.fillna(med)
+        # target no debería tener NA; si los hay, se dropean esas filas
+        df_target = df_target.dropna(axis=0)
+        df_features = df_features.loc[df_target.index]
+    else:
+        raise ValueError("impute debe ser 'median' o 'drop'.")
 
-    X = df_clean[col_features].to_numpy(dtype=np.float64)
-    y = df_clean[col_target].values.ravel()
+    # 4) Advertencia si, tras convertir, quedó alguna columna no numérica (no debería)
+    tipos_invalidos = df_features.select_dtypes(include=['object']).columns
+    if len(tipos_invalidos) > 0:
+        print(f"⚠️ Advertencia: columnas no numéricas detectadas tras conversión: {list(tipos_invalidos)}")
 
-    # Verificación final antes de retornar
-    if not np.issubdtype(X.dtype, np.number):
-        raise TypeError("❌ X contiene columnas no numéricas incluso después del preprocesamiento.")
+    # 5) Arrays finales
+    X = df_features.to_numpy(dtype=np.float32)
+    y = df_target.values.ravel()
 
+    # 6) Validaciones
     if not np.isfinite(X).all():
-        raise ValueError("❌ X contiene valores NaN o infinitos.")
-    
-    # Binarizar solo si se solicita
+        raise ValueError("❌ X contiene NaN o infinitos luego del preprocesamiento.")
+
+    # 7) Binarización opcional (para runs binarios directos). Para multiclase, dejá binarizar=False.
     if binarizar:
         if clase_minoria is None:
-            raise ValueError("Debe indicarse la clase minoritaria si se va a binarizar.")
-        y = np.where(y == clase_minoria, 1, 0)
+            raise ValueError("Debe indicarse la clase_minoria si se va a binarizar.")
+        y = np.where(y == clase_minoria, 1, 0).astype(int)
 
-    # Verificación final antes de retornar
-    try:
-        X = np.asarray(X, dtype=np.float64)
-    except Exception as e:
-        print("❌ Error forzando conversión a float64:", e)
-        print("🕵️‍♂️ Primeras 5 filas de X:")
-        print(X[:5])
-        print("🧬 Tipos detectados en X:")
-        print([type(val) for val in X[0]])
-        raise e
-    
-    return X, y, None  # None en lugar de 'clases' explícitas
+    return X, y, None  # 'clases' no se usa en tabular
 
 
 def graficar_distribucion_clases(y, nombre_dataset, clases_labels=None, guardar_en=None):
@@ -74,7 +80,6 @@ def graficar_distribucion_clases(y, nombre_dataset, clases_labels=None, guardar_
     plt.title(f"Distribución de clases - {nombre_dataset}")
     plt.xticks(rotation=45)
     plt.tight_layout()
-    
     if guardar_en:
         plt.savefig(guardar_en, dpi=300)
     plt.close()
