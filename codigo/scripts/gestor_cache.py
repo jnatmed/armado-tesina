@@ -326,57 +326,51 @@ class PCSMOTEGestorCache:
         umbrales_lsd_by_i: np.ndarray,
         k: int,
         nombre_dataset: str,
-        metric_tag: str,           # ej.: "lsd_v1" (solo informativo)
-        adaptador,                 # self de PCSMOTE
+        metric_tag: str,
+        adaptador,
         extra_meta: Optional[dict] = None,
     ) -> np.ndarray:
         import os, json
         from pathlib import Path
         import numpy as np
 
-        # Normalización básica
         X_min = np.asarray(X_min)
         vecinos_local = np.asarray(vecinos_local, dtype=int)
         umbrales_lsd_by_i = np.asarray(umbrales_lsd_by_i, dtype=float)
         extra_meta = extra_meta or {}
 
-        # Sin caché → calcular directo
         if self.cache is None:
             return adaptador.calcular_densidad_interseccion(X_min, vecinos_local)
 
-        # ⚠️ USAR SIEMPRE LA MISMA CARPETA QUE SIGMAS/VECINOS:
-        # tomamos X global que guardamos en 'obtener'
+        # Usar la misma clave/carpeta que el resto de artefactos (sigmas/vecinos)
         X_global = getattr(adaptador, "_X_cache_ref", None)
         if X_global is None:
-            # fallback (no debería pasar, pero mantenemos robustez)
             X_global = X_min
-
-        # Clave EXACTA a la de vecindarios/sigmas: metric="lsd"
+            
         key = self.cache.make_key(
             X=X_global,
             dataset=nombre_dataset,
             k=int(k),
             metric="lsd",
-            extra=extra_meta,   # típico: {"n_min":..., "pos_fp":...}
+            extra=extra_meta,
         )
 
-        # Misma carpeta v2
         dirpath: Path = self.cache._dir_for(key)
         dirpath.mkdir(parents=True, exist_ok=True)
         npy_path = dirpath / "densidades.npy"
         meta_path = dirpath / "meta.json"
 
-        # Cargar si ya existe
+        # Si ya existe, leer y devolver sin tocar meta
         if npy_path.exists():
             try:
                 return np.load(npy_path, allow_pickle=False)
             except Exception:
-                pass  # si algo falla, recalculamos
+                pass  # si falla, se recalcula
 
         # Calcular densidades
         densidades = adaptador.calcular_densidad_interseccion(X_min, vecinos_local)
 
-        # Meta (merge si existía)
+        # --- MERGE DE META SIN PISAR CAMPOS GLOBALES ---
         meta = {}
         if meta_path.exists():
             try:
@@ -384,24 +378,33 @@ class PCSMOTEGestorCache:
             except Exception:
                 meta = {}
 
-        meta.update({
-            "version": 2,
-            "artifact": "densidades",
-            "dataset": nombre_dataset or "unknown",
-            "metric_tag": str(metric_tag),   # informativo
-            "k": int(k),
-            "shape": tuple(densidades.shape),
-            "dtype": str(densidades.dtype),
-            **extra_meta,                    # conserva n_min y pos_fp
-        })
+        # Garantizar encabezado global coherente
+        meta.setdefault("dataset", nombre_dataset or "unknown")
+        meta.setdefault("shape", tuple(np.asarray(X_global).shape))          # (n, d) de X
+        meta.setdefault("k", int(k))
+        meta.setdefault("metric_vecindario", "lsd")
+        # usar la misma versión que maneja PCSMOTECache (NO pisar si ya está)
+        meta.setdefault("version", int(getattr(self.cache, "version", 1)))
+        meta.setdefault("storage_format", "v2/npy")
 
-        # Escritura atómica (Windows/Linux)
-        tmp_npy  = dirpath / "densidades.tmp"   # sin .npy!
+        # Sección específica del artefacto 'densidades' (ANIDADA)
+        meta["densidades"] = {
+            "shape": list(np.asarray(densidades).shape),
+            "dtype": str(np.asarray(densidades).dtype),
+            "metric_tag": str(metric_tag),
+            "storage": "v2/npy",
+        }
+        # conservar extra_meta útil
+        for kx, vx in (extra_meta or {}).items():
+            meta.setdefault(kx, vx)
+
+        # Escritura atómica
+        tmp_npy  = dirpath / "densidades.tmp"
         with open(tmp_npy, "wb") as f:
             np.save(f, np.asarray(densidades), allow_pickle=False)
         os.replace(tmp_npy, npy_path)
 
-        tmp_meta = dirpath / "meta.json.tmp"
+        tmp_meta = meta_path.with_suffix(".json.tmp")
         tmp_meta.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
         os.replace(tmp_meta, meta_path)
 

@@ -1,11 +1,12 @@
 {
   "dataset": "heart",
   "shape": [
-    44
+    242,
+    13
   ],
   "k": 7,
   "metric_vecindario": "lsd",
-  "version": 2,
+  "version": 1,
   "n_min": 44,
   "pos_fp": "f860dc9f7214",
   "storage_format": "v2/npy",
@@ -17,7 +18,12 @@
     "dtype": "float32",
     "storage": "v2/npy"
   },
-  "artifact": "densidades",
-  "metric_tag": "lsd_v1",
-  "dtype": "float64"
+  "densidades": {
+    "shape": [
+      44
+    ],
+    "dtype": "float64",
+    "metric_tag": "lsd_v1",
+    "storage": "v2/npy"
+  }
 }
