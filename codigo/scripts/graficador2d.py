@@ -32,14 +32,26 @@ class Graficador2D:
                  reductor: str = "auto",
                  escalar: bool = True,
                  semilla: Optional[int] = None,
+                 percentil_densidad: Optional[int] = None,
+                 percentil_riesgo: Optional[int] = None,
+                 criterio_pureza: Optional[str] = None,
+                 nombre_dataset: Optional[str] = None,
                  **kwargs_reductor: Any) -> None:
+
         self.nombre_reductor = reductor.lower()
         self.escalar = bool(escalar)
         self.semilla = semilla
         self.kwargs_reductor = kwargs_reductor
 
+        # --- para el título ---
+        self.percentil_densidad = percentil_densidad
+        self.percentil_riesgo = percentil_riesgo
+        self.criterio_pureza = criterio_pureza
+        self.nombre_dataset = nombre_dataset
+
+        # --- inicializaciones internas que faltaban ---
         self._escalador: Optional[StandardScaler] = None
-        self._reductor = None  # PCA/UMAP/"TSNE_ESPECIAL"/None
+        self._reductor = None            # PCA/UMAP/"TSNE_ESPECIAL"/None
         self._d_original: Optional[int] = None
 
     # ---------- Embedding / proyección ----------
@@ -120,24 +132,21 @@ class Graficador2D:
         return self.transformar(X)
 
     def incrustar_par(self, X: np.ndarray, X_res: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Devuelve (Z, Z_res) en 2D con proyección CONSISTENTE.
-        • PCA/UMAP/Identidad: fit en X, transform en X y X_res.
-        • t-SNE: fit sobre concat([X, X_res]) y luego separa.
-        """
         X = np.asarray(X); X_res = np.asarray(X_res)
+
+        # Ajustar SIEMPRE primero sobre X (esto setea self._reductor)
+        self.ajustar(X)
+
         if self._reductor == "TSNE_ESPECIAL":
-            Xs = self._ajustar_posible_escalado(X)
+            Xs = self._transformar_posible_escalado(X)
             Xs_res = self._transformar_posible_escalado(X_res)
             ambos = np.vstack([Xs, Xs_res])
-
             tsne = TSNE(n_components=2, random_state=self.semilla, **self.kwargs_reductor)
             ambos_2d = tsne.fit_transform(ambos)
             Z, Z_res = ambos_2d[:len(X)], ambos_2d[len(X):]
             return Z, Z_res
 
         # PCA/UMAP/Identidad
-        self.ajustar(X)
         Z = self.transformar(X)
         Z_res = self.transformar(X_res)
         return Z, Z_res
@@ -194,20 +203,43 @@ class Graficador2D:
             colores += Graficador2D._paleta_base(faltan)
         return {c: colores[i] for i, c in enumerate(clases_orden_global)}
 
+    def _unicos_en_orden(self, seq) -> list:
+        """Devuelve los elementos únicos preservando el primer orden de aparición."""
+        vistos, out = set(), []
+        for v in seq:
+            if v not in vistos:
+                vistos.add(v); out.append(v)
+        return out
+
+    def _construir_mapa_colores(self, clases: list, paleta: Optional[list[str]] = None) -> dict:
+        """
+        Asigna colores estables a cada clase.
+        - Si pasás `paleta` (lista de hex o nombres), se cicla.
+        - Si no, usa la paleta de Matplotlib 'tab10'/'tab20' según cantidad.
+        """
+        import itertools, matplotlib.pyplot as plt
+        if paleta and len(paleta) > 0:
+            ciclo = itertools.cycle(paleta)
+        else:
+            cmap = plt.get_cmap('tab20' if len(clases) > 10 else 'tab10')
+            ciclo = (cmap(i % cmap.N) for i in range(len(clases)))
+        return {c: next(ciclo) for c in clases}
+
+
     # ---------- Graficación ----------
     def trazar_original_vs_aumentado(self,
-                                     X: np.ndarray, y: np.ndarray,
-                                     X_res: np.ndarray, y_res: np.ndarray,
-                                     titulo: str = "Original vs. Aumentado",
-                                     nombres_clase: Optional[Dict[Any, str] | list | tuple] = None,
-                                     tam_punto: int = 22,
-                                     alpha: float = 0.85,
-                                     tam_fig: Tuple[int, int] = (12, 5),
-                                     paleta: Optional[list[str]] = None) -> None:
+                                    X: np.ndarray, y: np.ndarray,
+                                    X_res: np.ndarray, y_res: np.ndarray,
+                                    titulo: str = "Original vs. Aumentado",
+                                    nombres_clase: Optional[Dict[Any, str] | list | tuple] = None,
+                                    tam_punto: int = 22,
+                                    alpha: float = 0.85,
+                                    tam_fig: Tuple[int, int] = (12, 5),
+                                    paleta: Optional[list[str]] = None) -> None:
         """
         Dibuja dos paneles usando la MISMA proyección y los MISMOS colores por clase.
         - La leyenda sigue el orden de aparición en 'y'; luego agrega las clases
-          que aparezcan sólo en 'y_res'.
+        que aparezcan sólo en 'y_res'.
         - 'nombres_clase' puede ser dict o lista/tupla (índice = etiqueta).
         """
         X = np.asarray(X); y = np.asarray(y)
@@ -219,7 +251,7 @@ class Graficador2D:
         # Orden global de clases (estable para ambos paneles)
         orden_y = self._unicos_en_orden(y)
         orden_yres = self._unicos_en_orden([c for c in y_res if c not in set(orden_y)])
-        clases_global = orden_y + orden_yres
+        clases_global = orden_y + orden_yres  # <- usar en ambos paneles
 
         # Mapa clase→color estable
         color_map = self._construir_mapa_colores(clases_global, paleta=paleta)
@@ -227,7 +259,7 @@ class Graficador2D:
         fig, axes = plt.subplots(1, 2, figsize=tam_fig, constrained_layout=True)
         ax1, ax2 = axes
 
-        # Panel original (usar SIEMPRE el mismo orden para que las leyendas coincidan)
+        # Panel original
         for c in clases_global:
             m = (y == c)
             if not np.any(m):
@@ -239,7 +271,7 @@ class Graficador2D:
         ax1.set_xlabel("Componente 1"); ax1.set_ylabel("Componente 2")
         ax1.legend(loc="best", frameon=True)
 
-        # Panel aumentado
+        # Panel aumentado (MISMO orden y color que el panel izquierdo)
         for c in clases_global:
             m = (y_res == c)
             if not np.any(m):
@@ -251,5 +283,14 @@ class Graficador2D:
         ax2.set_xlabel("Componente 1"); ax2.set_ylabel("Componente 2")
         ax2.legend(loc="best", frameon=True)
 
-        fig.suptitle(titulo)
+        # ===== Título en dos líneas =====
+        dens = getattr(self, "percentil_densidad", None)
+        ries = getattr(self, "percentil_riesgo", None)  # setealo desde afuera
+        pureza = getattr(self, "criterio_pureza", None)
+        dataset = getattr(self, "nombre_dataset", "Dataset")
+
+        linea_superior = f"{dataset} — Densidad: {dens} | Riesgo: {ries} | Pureza: {pureza}"
+        linea_inferior = f"{titulo} (PCSMOTE)"
+        fig.suptitle(f"{linea_superior}\n{linea_inferior}", fontsize=12, fontweight="bold")
+
         plt.show()

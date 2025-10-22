@@ -6,6 +6,10 @@ import os
 import hashlib
 import datetime
 from typing import Optional, Dict, Any
+# Para el formato condicional en Excel
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import PatternFill
+from openpyxl.formatting.rule import FormulaRule
 
 
 class Utils:
@@ -27,20 +31,23 @@ class Utils:
         pd.DataFrame(self.logs_por_clase).to_csv(path_salida, index=False)
         print(f"📁 Log por clase guardado en: {path_salida}")
 
-    def exportar_log_muestras_excel(self, path_salida):
-        """Exporta el log POR MUESTRA a un archivo Excel (.xlsx)."""
+    def exportar_log_muestras_excel(self, path_salida,
+                                    resaltar_no_filtradas: bool = True,
+                                    indices_resaltar=None):
+        """
+        Exporta el log POR MUESTRA a un Excel y aplica formato condicional:
+        - Filas con is_filtrada == False → fondo rojo suave.
+        - Opcional: también resalta por lista de idx_global (indices_resaltar).
+        """
         if not self.logs_por_muestra:
             print("⚠️ No hay log POR MUESTRA para exportar.")
             return
 
         df = pd.DataFrame(self.logs_por_muestra)
 
-        # Serializar listas o arrays a JSON para evitar errores en Excel
-        cols_json = (
-            "vecinos_all", "clase_vecinos_all", "dist_all",
-            "vecinos_min", "dist_vecinos_min"
-        )
-
+        # Serializar listas/arrays para que Excel no se enoje
+        cols_json = ("vecinos_all", "clase_vecinos_all", "dist_all",
+                    "vecinos_min", "dist_vecinos_min")
         for col in cols_json:
             if col in df.columns:
                 df[col] = df[col].apply(
@@ -49,10 +56,67 @@ class Utils:
                     else v
                 )
 
-        # Guardar en formato Excel
-        with pd.ExcelWriter(path_salida, engine="openpyxl") as writer:
-            df.to_excel(writer, sheet_name="Log_Muestras", index=False)
+        # Si el usuario pasó índices a resaltar, agrego una columna auxiliar booleana
+        marcar_por_idx = None
+        if indices_resaltar is not None and "idx_global" in df.columns:
+            s = set(indices_resaltar)
+            marcar_por_idx = df["idx_global"].isin(s)
 
+        with pd.ExcelWriter(path_salida, engine="openpyxl") as writer:
+            hoja = "Log_Muestras"
+            df.to_excel(writer, sheet_name=hoja, index=False)
+
+            ws = writer.sheets[hoja]
+
+            # Rango total de datos (sin encabezado)
+            n_rows = len(df)
+            n_cols = len(df.columns)
+            if n_rows == 0 or n_cols == 0:
+                print(f"📘 Log por muestra guardado en: {path_salida}")
+                return
+
+            first_row = 2                                 # datos empiezan en fila 2
+            last_row  = first_row + n_rows - 1
+            last_col_letter = get_column_letter(n_cols)
+
+            # -------- Regla 1: is_filtrada == False → rojo --------
+            if resaltar_no_filtradas and "is_filtrada" in df.columns:
+                col_idx = df.columns.get_loc("is_filtrada") + 1  # 1-based
+                col_letter = get_column_letter(col_idx)
+
+                # Formato rojo suave
+                red_fill = PatternFill(start_color="FFF2D7D9", end_color="FFF2D7D9", fill_type="solid")
+
+                # Fórmula relativa por fila: =$D2=FALSE  (si D es la col de is_filtrada)
+                formula = f"=${col_letter}{first_row}=FALSE"
+                ws.conditional_formatting.add(
+                    f"A{first_row}:{last_col_letter}{last_row}",
+                    FormulaRule(formula=[formula], fill=red_fill)
+                )
+
+            # -------- Regla 2 (opcional): resaltar por idx_global --------
+            if marcar_por_idx is not None and marcar_por_idx.any():
+                # Creo una columna auxiliar (no visible al usuario)
+                aux_name = "__marcar_por_idx__"
+                df_aux = df.copy()
+                df_aux[aux_name] = marcar_por_idx.values
+
+                # Sobrescribo con la columna auxiliar, manteniendo orden
+                ws.delete_cols(n_cols + 1) if n_cols + 1 <= ws.max_column else None
+                # vuelvo a escribir SOLO la columna auxiliar al final
+                ws.cell(row=1, column=n_cols + 1, value=aux_name)
+                for r, v in enumerate(df_aux[aux_name].values, start=2):
+                    ws.cell(row=r, column=n_cols + 1, value=bool(v))
+
+                aux_col_letter = get_column_letter(n_cols + 1)
+                yellow_fill = PatternFill(start_color="FFFFFFCC", end_color="FFFFFFCC", fill_type="solid")
+                formula2 = f"=${aux_col_letter}{first_row}=TRUE"
+                ws.conditional_formatting.add(
+                    f"A{first_row}:{last_col_letter}{last_row}",
+                    FormulaRule(formula=[formula2], fill=yellow_fill)
+                )
+
+            # Listo
         print(f"📘 Log por muestra guardado en: {path_salida}")
 
     def exportar_log_muestras_csv(self, path_salida):

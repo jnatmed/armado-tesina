@@ -75,13 +75,21 @@ class PCSMOTECache:
 
 
     # ---------- clave corta y válida (carpeta hasheada) ----------
+    """
+    Este metodo genera una clave legible para facilitar debugging y evitar colisiones
+    accidentales. La clave incluye:
+      - dataset, shape, k, metric, fingerprint y 'extra'
+    """
     def make_key(self,
                 X: np.ndarray,
                 dataset: str,
                 k: int,
                 metric: str,
                 extra: Optional[Dict[str, Any]] = None) -> str:
+        # Genera una clave legible para la caché
         shape = f"{X.shape[0]}x{X.shape[1]}"
+        # fingerprint es un metodo que genera un hash corto de X
+        # como bien dice una huella digital
         fp = self._fingerprint(X)
         parts = [dataset or "unknown", shape, f"k{k}", str(metric), f"fp{fp}"]
         if extra:
