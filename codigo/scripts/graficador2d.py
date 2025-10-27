@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Optional, Dict, Any, Tuple, Iterable
 import numpy as np
 import matplotlib.pyplot as plt
-import itertools
 
 try:
     import umap  # opcional
@@ -13,7 +12,7 @@ except Exception:
 
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-from sklearn.preprocessing import StandardScaler
+from matplotlib import colors as mcolors
 
 
 class Graficador2D:
@@ -22,15 +21,14 @@ class Graficador2D:
       - Panel izquierdo: datos originales (X, y)
       - Panel derecho:   datos aumentados (X_res, y_res)
 
-    Conservar colores por clase:
-      • Se construye un mapa clase→color usando el conjunto global de clases (y ∪ y_res).
-      • La leyenda se ordena por el orden de aparición en y, y luego se agregan las
-        que sólo aparezcan en y_res.
+    Consistencia:
+      • UNA sola base de proyección para ambos conjuntos.
+      • Por defecto ajusta la proyección sobre X (fit_on="original").
+      • Podés indicar fit_on="both" vía **kwargs_reductor para ajustar sobre [X; X_res].
     """
 
     def __init__(self,
                  reductor: str = "auto",
-                 escalar: bool = True,
                  semilla: Optional[int] = None,
                  percentil_densidad: Optional[int] = None,
                  percentil_riesgo: Optional[int] = None,
@@ -38,9 +36,11 @@ class Graficador2D:
                  nombre_dataset: Optional[str] = None,
                  **kwargs_reductor: Any) -> None:
 
-        self.nombre_reductor = reductor.lower()
-        self.escalar = bool(escalar)
+        self.nombre_reductor = reductor.lower() if isinstance(reductor, str) else "auto"
         self.semilla = semilla
+
+        # fit_on via kwargs para no romper llamadas existentes
+        self.fit_on = kwargs_reductor.pop("fit_on", "original")  # "original" | "both"
         self.kwargs_reductor = kwargs_reductor
 
         # --- para el título ---
@@ -49,9 +49,8 @@ class Graficador2D:
         self.criterio_pureza = criterio_pureza
         self.nombre_dataset = nombre_dataset
 
-        # --- inicializaciones internas que faltaban ---
-        self._escalador: Optional[StandardScaler] = None
-        self._reductor = None            # PCA/UMAP/"TSNE_ESPECIAL"/None
+        # --- estado interno ---
+        self._reductor = None            # PCA / UMAP / "TSNE_ESPECIAL" / None
         self._d_original: Optional[int] = None
 
     # ---------- Embedding / proyección ----------
@@ -78,17 +77,6 @@ class Graficador2D:
 
         raise ValueError(f"Reductor no soportado: {self.nombre_reductor}")
 
-    def _ajustar_posible_escalado(self, X: np.ndarray) -> np.ndarray:
-        if not self.escalar:
-            return X
-        self._escalador = StandardScaler()
-        return self._escalador.fit_transform(X)
-
-    def _transformar_posible_escalado(self, X: np.ndarray) -> np.ndarray:
-        if not self.escalar or self._escalador is None:
-            return X
-        return self._escalador.transform(X)
-
     def ajustar(self, X: np.ndarray) -> "Graficador2D":
         """Ajusta (fit) el reductor sobre X. Si d<=2 y 'auto', se usa identidad."""
         X = np.asarray(X)
@@ -97,20 +85,15 @@ class Graficador2D:
 
         if d <= 2 and (self.nombre_reductor in ("auto",) or self.nombre_reductor is None):
             self._reductor = None
-            self._escalador = StandardScaler() if self.escalar else None
-            if self._escalador is not None:
-                self._escalador.fit(X)
             return self
 
         self._reductor = self._elegir_reductor(d)
 
         if self._reductor == "TSNE_ESPECIAL":
             # t-SNE se ajustará luego sobre X y X_res combinados (ver incrustar_par)
-            self._ajustar_posible_escalado(X)
             return self
 
-        Xs = self._ajustar_posible_escalado(X)
-        self._reductor.fit(Xs)
+        self._reductor.fit(X)
         return self
 
     def transformar(self, X: np.ndarray) -> np.ndarray:
@@ -123,8 +106,7 @@ class Graficador2D:
         if self._reductor == "TSNE_ESPECIAL":
             raise RuntimeError("t-SNE no soporta transform() estable. Usá 'incrustar_par(X, X_res)'.")
 
-        Xs = self._transformar_posible_escalado(X)
-        return self._reductor.transform(Xs)
+        return self._reductor.transform(X)
 
     def ajustar_transformar(self, X: np.ndarray) -> np.ndarray:
         """Ajusta y transforma X en una sola llamada."""
@@ -132,21 +114,27 @@ class Graficador2D:
         return self.transformar(X)
 
     def incrustar_par(self, X: np.ndarray, X_res: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Retorna (Z, Z_res) en 2D usando UNA base de proyección.
+        - fit_on="original": ajusta con X y transforma X y X_res.
+        - fit_on="both": ajusta con [X; X_res] (PCA/UMAP) y proyecta ambos en esa base.
+        - t-SNE: ajusta siempre sobre [X; X_res] por limitaciones del método.
+        """
         X = np.asarray(X); X_res = np.asarray(X_res)
 
-        # Ajustar SIEMPRE primero sobre X (esto setea self._reductor)
-        self.ajustar(X)
-
-        if self._reductor == "TSNE_ESPECIAL":
-            Xs = self._transformar_posible_escalado(X)
-            Xs_res = self._transformar_posible_escalado(X_res)
-            ambos = np.vstack([Xs, Xs_res])
+        if self.nombre_reductor == "tsne":
+            ambos = np.vstack([X, X_res])
             tsne = TSNE(n_components=2, random_state=self.semilla, **self.kwargs_reductor)
             ambos_2d = tsne.fit_transform(ambos)
-            Z, Z_res = ambos_2d[:len(X)], ambos_2d[len(X):]
-            return Z, Z_res
+            return ambos_2d[:len(X)], ambos_2d[len(X):]
 
         # PCA/UMAP/Identidad
+        if self.fit_on == "both":
+            X_fit = np.vstack([X, X_res])
+            self.ajustar(X_fit)
+        else:
+            self.ajustar(X)
+
         Z = self.transformar(X)
         Z_res = self.transformar(X_res)
         return Z, Z_res
@@ -154,6 +142,7 @@ class Graficador2D:
     # ---------- Utils de clases/leyenda/colores ----------
     @staticmethod
     def _unicos_en_orden(seq: Iterable) -> list:
+        """Devuelve los elementos únicos preservando el primer orden de aparición."""
         vistos, out = set(), []
         for v in seq:
             if v not in vistos:
@@ -186,11 +175,10 @@ class Graficador2D:
             base = ["C0", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9"]
         if n <= len(base):
             return base[:n]
-        # extender de forma determinista
-        extra = plt.cm.tab20(np.linspace(0, 1, 20)).tolist()
-        extra_hex = [plt.colors.to_hex(c) if hasattr(plt, "colors") else None for c in extra]
-        extra_hex = [c if c is not None else base[i % len(base)] for i, c in enumerate(extra_hex)]
-        ciclo = list(itertools.islice(itertools.cycle(extra_hex), n - len(base)))
+        # Extender de forma determinista usando tab20 → hex
+        tab20 = plt.cm.tab20(np.linspace(0, 1, 20))
+        extra_hex = [mcolors.to_hex(c) for c in tab20]
+        ciclo = [extra_hex[i % len(extra_hex)] for i in range(n - len(base))]
         return base + ciclo
 
     @staticmethod
@@ -198,60 +186,36 @@ class Graficador2D:
         n = len(clases_orden_global)
         colores = paleta[:] if paleta else Graficador2D._paleta_base(n)
         if len(colores) < n:
-            # extender si la paleta provista es corta
             faltan = n - len(colores)
             colores += Graficador2D._paleta_base(faltan)
         return {c: colores[i] for i, c in enumerate(clases_orden_global)}
 
-    def _unicos_en_orden(self, seq) -> list:
-        """Devuelve los elementos únicos preservando el primer orden de aparición."""
-        vistos, out = set(), []
-        for v in seq:
-            if v not in vistos:
-                vistos.add(v); out.append(v)
-        return out
-
-    def _construir_mapa_colores(self, clases: list, paleta: Optional[list[str]] = None) -> dict:
-        """
-        Asigna colores estables a cada clase.
-        - Si pasás `paleta` (lista de hex o nombres), se cicla.
-        - Si no, usa la paleta de Matplotlib 'tab10'/'tab20' según cantidad.
-        """
-        import itertools, matplotlib.pyplot as plt
-        if paleta and len(paleta) > 0:
-            ciclo = itertools.cycle(paleta)
-        else:
-            cmap = plt.get_cmap('tab20' if len(clases) > 10 else 'tab10')
-            ciclo = (cmap(i % cmap.N) for i in range(len(clases)))
-        return {c: next(ciclo) for c in clases}
-
-
     # ---------- Graficación ----------
     def trazar_original_vs_aumentado(self,
-                                    X: np.ndarray, y: np.ndarray,
-                                    X_res: np.ndarray, y_res: np.ndarray,
-                                    titulo: str = "Original vs. Aumentado",
-                                    nombres_clase: Optional[Dict[Any, str] | list | tuple] = None,
-                                    tam_punto: int = 22,
-                                    alpha: float = 0.85,
-                                    tam_fig: Tuple[int, int] = (12, 5),
-                                    paleta: Optional[list[str]] = None) -> None:
+                                     X: np.ndarray, y: np.ndarray,
+                                     X_res: np.ndarray, y_res: np.ndarray,
+                                     titulo: str = "Original vs. Aumentado",
+                                     nombres_clase: Optional[Dict[Any, str] | list | tuple] = None,
+                                     tam_punto: int = 22,
+                                     alpha: float = 0.85,
+                                     tam_fig: Tuple[int, int] = (12, 5),
+                                     paleta: Optional[list[str]] = None) -> None:
         """
         Dibuja dos paneles usando la MISMA proyección y los MISMOS colores por clase.
         - La leyenda sigue el orden de aparición en 'y'; luego agrega las clases
-        que aparezcan sólo en 'y_res'.
+          que aparezcan sólo en 'y_res'.
         - 'nombres_clase' puede ser dict o lista/tupla (índice = etiqueta).
         """
         X = np.asarray(X); y = np.asarray(y)
         X_res = np.asarray(X_res); y_res = np.asarray(y_res)
 
-        # Proyección consistente
+        # Proyección consistente (fit_on controla base de ajuste)
         Z, Z_res = self.incrustar_par(X, X_res)
 
         # Orden global de clases (estable para ambos paneles)
         orden_y = self._unicos_en_orden(y)
-        orden_yres = self._unicos_en_orden([c for c in y_res if c not in set(orden_y)])
-        clases_global = orden_y + orden_yres  # <- usar en ambos paneles
+        orden_yres = [c for c in self._unicos_en_orden(y_res) if c not in set(orden_y)]
+        clases_global = orden_y + orden_yres
 
         # Mapa clase→color estable
         color_map = self._construir_mapa_colores(clases_global, paleta=paleta)
@@ -271,7 +235,7 @@ class Graficador2D:
         ax1.set_xlabel("Componente 1"); ax1.set_ylabel("Componente 2")
         ax1.legend(loc="best", frameon=True)
 
-        # Panel aumentado (MISMO orden y color que el panel izquierdo)
+        # Panel aumentado
         for c in clases_global:
             m = (y_res == c)
             if not np.any(m):
@@ -283,9 +247,9 @@ class Graficador2D:
         ax2.set_xlabel("Componente 1"); ax2.set_ylabel("Componente 2")
         ax2.legend(loc="best", frameon=True)
 
-        # ===== Título en dos líneas =====
+        # Título informativo
         dens = getattr(self, "percentil_densidad", None)
-        ries = getattr(self, "percentil_riesgo", None)  # setealo desde afuera
+        ries = getattr(self, "percentil_riesgo", None)
         pureza = getattr(self, "criterio_pureza", None)
         dataset = getattr(self, "nombre_dataset", "Dataset")
 
