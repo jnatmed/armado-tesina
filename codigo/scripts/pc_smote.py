@@ -10,77 +10,57 @@
 * traza: (no se usa en LSD) suma de la diagonal de una matriz cuadrada.
 """ 
 
-from sklearn.neighbors import NearestNeighbors  # para búsqueda de k vecinos más cercanos 
-from sklearn.utils import check_random_state     # para manejo de semilla y reproductibilidad 
-from scipy.stats import entropy                  # para cálculo de entropía 
-from collections import Counter, defaultdict     # para conteos y diccionarios con valores por defecto 
-import numpy as np                               # para cálculos numéricos 
-import pandas as pd                              # para manejo de dataframes y exportación CSV 
-import json                                      # para exportación JSON 
-import time                                      # para medición de tiempos 
+# pcs_smote.py (refactor sin LSD ni caché; con DistanceMetric)
 
-from Utils import Utils  # hereda utilidades comunes (reset/export/_dist/_log_muestra/etc.)
-# pcs_smote.py
-from cache import PCSMOTECache
-from gestor_cache import PCSMOTEGestorCache
+from sklearn.neighbors import NearestNeighbors
+from sklearn.utils import check_random_state
+from sklearn.metrics import DistanceMetric
+from scipy.stats import entropy
+from collections import Counter, defaultdict
+import numpy as np
+import pandas as pd
+import time
 
-""" 
------ PC-SMOTE ----- 
-Técnica de sobremuestreo para datasets desbalanceados. Incorpora criterios de pureza y densidad
-y permite configurar los umbrales correspondientes.
+from Utils import Utils  # reset/export/_log_muestra/etc.
 
-En ALTA DIMENSION, utilizamos **Local Scaling Distance (LSD)**:
-    d_LS(x_i, x_j) = ||x_i - x_j||_2 / sqrt(sigma_i * sigma_j)
-donde sigma_i es la distancia euclídea de x_i a su k_sigma-ésimo vecino (self-scaling).
-Esto evita inversión de covarianzas, mantiene contraste local y mejora estabilidad.
-"""
 
 class PCSMOTE(Utils):
     """
-    PC-SMOTE con:
-      - Topes de crecimiento (global y por clase).
-      - Log por CLASE (resumen) y log POR MUESTRA (detalle).
-      - Exportaciones CSV/JSON.
-      - Opción para guardar distancias a vecinos.
+    PC-SMOTE (refactor):
+      - Usa métricas de distancia de scikit-learn (DistanceMetric/NearestNeighbors).
+      - Densidad por intersección de esferas en el subespacio minoritario.
+      - Filtro por pureza (entropía o proporción), riesgo local y densidad.
+      - Logs por clase y por muestra, sin caché ni LSD.
 
-    Notas:
-      • fit_resample: binario (y ∈ {0,1}, 1 = minoritaria).
-      • fit_resample_multiclass: itera clase por clase contra la mayor.
+    Convenciones:
+      • Binario en fit_resample: y ∈ {0,1}, 1 = clase minoritaria.
+      • Multiclase vía one-vs-max en fit_resample_multiclass.
     """
-    umbral_distancia = None  # umbral global (float)
 
-    # ---- Configuración de métrica de vecindario (solo LSD) ----
-    metric_vecindario: str = "lsd"
-
-    # Rango de delta por categoría (lo/hi)
-    # lo y hi se refieren a los límites inferior y superior del rango
-    # los rangos se definen para cada categoría de riesgo
-    DELTA_RANGES = np.array([
-        [0.4, 0.6],  # 0: otros
-        [0.6, 0.8],  # 1: moderado
-        [0.3, 0.5],  # 2: crítico
-    ], dtype=float)
-
+    # Rango de delta (fijo “intermedio”, antes dependía de categoria_por_Nmaj)
+    DELTA_RANGE_INTERMEDIO = (0.4, 0.6)
 
     def __init__(self,
                  k_neighbors=7,
                  random_state=None,
-                 radio_densidad=1.0,
-                 percentil_dist=75,              # percentil para umbral de distancia (LSD)
-                 percentil_entropia=None,        # percentil para umbral de entropía (si criterio_pureza='entropia')
-                 percentil_densidad=None,        # percentil para umbral de densidad (si se usa)
-                 criterio_pureza='entropia',     # 'entropia' o 'proporcion'
-                 modo_espacial='2d',             # mantenido por retrocompatibilidad
+                 radio_densidad=1.0,          # se mantiene por compatibilidad (no se usa explícito)
+                 percentil_dist=75,           # percentil para umbrales locales
+                 percentil_entropia=None,     # si criterio_pureza='entropia'
+                 percentil_densidad=None,     # umbral por percentil sobre densidades
+                 criterio_pureza='entropia',  # 'entropia' o 'proporcion'
+                 modo_espacial='2d',          # compat.
                  factor_equilibrio=0.8,
                  verbose=True,
                  max_total_multiplier=None,
                  max_sinteticas_por_clase=None,
-                 guardar_distancias=True,
-                 metric_vecindario="lsd"):  
-        # Hiperparámetros
-        self.k = int(k_neighbors) # cantidad de vecinos más cercanos de la misma clase
-        self._seed_init = random_state # semilla inicial
+                 guardar_distancias=True,     # compat.
+                 metric='euclidean'           # NUEVO: métrica de distancia ('euclidean', 'manhattan', etc.)
+                 ):
+        # Hiperparámetros esenciales
+        self.k = int(k_neighbors)
+        self._seed_init = random_state
         self.random_state = check_random_state(random_state)
+
         self.radio_densidad = float(radio_densidad)
         self.percentil_dist = float(percentil_dist)
         self.percentil_entropia = None if percentil_entropia is None else float(percentil_entropia)
@@ -90,200 +70,83 @@ class PCSMOTE(Utils):
         self.factor_equilibrio = float(factor_equilibrio)
         self.verbose = bool(verbose)
         self.guardar_distancias = bool(guardar_distancias)
-        self.metric_vecindario = metric_vecindario
 
-        # ---- Gestión de caché ----
-        # Sirve para traer o guardar parametros que 
-        # se vuelven a utilizar entre corridas
-        # que no vale la pena o mejor dicho es costoso volver
-        # a calcular
-        
-        # Activamos el formato v2 (.npy + meta.json con mmap_mode='r')
-        # y limpieza automática del .npz antiguo si existiera.
-        self.cache = PCSMOTECache(prefer_npy=True, cleanup_legacy_npz=True)
-
-        # Crear el gestor intermedio usando los parámetros actuales
-        self.gestor_cache = PCSMOTEGestorCache(
-            cache=self.cache,
-            k=self.k,
-            metrica_vecindario=self.metric_vecindario,
-            percentil_dist=self.percentil_dist,
-        )
-
-        # ---- LSD (Local Scaling Distance) ----
-        self._sigma_X = None            # sigma por punto en X (distancia al k-ésimo vecino)
-        self._sigma_Xmin = None         # sigma por punto en X_min
-        self._umbral_lsd_by_i = None    # umbral LOCAL LSD por semilla
+        # Métrica
+        self.metric = str(metric)
+        self._dist_metric = DistanceMetric.get_metric(self.metric)
 
         # Topes
         self.max_total_multiplier = None if max_total_multiplier is None else float(max_total_multiplier)
         self.max_sinteticas_por_clase = None if max_sinteticas_por_clase is None else int(max_sinteticas_por_clase)
 
-        # Logging
-        self.logs_por_clase = []      # resumen por clase
-        self.logs_por_muestra = []    # detalle por muestra
+        # Logging y metadatos
+        self.logs_por_clase = []
+        self.logs_por_muestra = []
         self.meta_experimento = {}
-        self._meta = {}               # métricas del último fit_resample
+        self._meta = {}
 
-        # Nombre del dataset (opcional)
+        # Nombre de dataset (si el flujo externo lo setea)
         self.nombre_dataset = getattr(self, "nombre_dataset", "unknown")
 
-        # Diagnósticos de densidad
+        # Diagnóstico opcional
         self._diag_densidad = None
 
     # -------------------------------
-    #          LSD helpers
+    #  Densidad por intersección
     # -------------------------------
-    def _compute_sigmas(self, X: np.ndarray, k_sigma: int) -> np.ndarray:
+    def calcular_densidad_interseccion(self, X_min, vecinos_local, dists_min_local):
         """
-        Devuelve sigma[i] = distancia euclídea desde X[i] a su k_sigma-ésimo vecino.
-        Si k_sigma < 1 o hay pocos puntos, usa fallback estable.
-        """
-        X = np.asarray(X)
-        n = len(X)
-        if n <= 1:
-            return np.ones(n, dtype=float)
+        Densidad por intersección entre semillas MINORITARIAS:
+          - Para cada semilla i, define un radio local u_i como el percentil
+            `percentil_dist` de las distancias a sus k vecinos minoritarios.
+          - Cuenta qué fracción de esos vecinos cae a distancia <= u_i
+            usando DistanceMetric.get_metric(self.metric).
 
-        k_sigma = max(1, min(k_sigma, n - 1))  # evita pedir más vecinos que puntos-1
-        nn = NearestNeighbors(n_neighbors=k_sigma + 1).fit(X)
-        dists, _ = nn.kneighbors(X, return_distance=True)
-        # dists[:, 0] = 0 (self), tomamos el k_sigma-ésimo
-        sigmas = dists[:, k_sigma].astype(float)
-        # evita ceros exactos
-        sigmas[sigmas <= 1e-12] = 1e-12
-        return sigmas
+        Parámetros
+        ----------
+        X_min : np.ndarray, shape (n_min, d)
+        vecinos_local : np.ndarray[int], shape (n_min, k)
+            Índices de vecinos en el índice local de X_min (excluye self).
+        dists_min_local : np.ndarray[float], shape (n_min, k)
+            Distancias (con la métrica elegida) de cada semilla a sus k vecinos minoritarios.
 
-    def _dists_lsd_seed(self, xi: np.ndarray, Xref: np.ndarray,
-                        sigma_i: float, sigmas_ref: np.ndarray) -> np.ndarray:
-        """
-        d_LS(xi, xj) = ||xi - xj||_2 / sqrt(sigma_i * sigma_j)
-        """
-        diffs = Xref - xi.reshape(1, -1)
-        euc = np.linalg.norm(diffs, axis=1)
-        denom = np.sqrt(sigma_i * sigmas_ref)
-        denom[denom <= 1e-18] = 1e-18
-        return euc / denom
-
-    def _loggable_random_state(self):
-        if isinstance(self._seed_init, (int, np.integer)):
-            return int(self._seed_init)
-        if self._seed_init is None:
-            return None
-        return str(self._seed_init)
-
-    def getUmbralDistancia(self):
-        return 0.0 if self.umbral_distancia is None else float(self.umbral_distancia)
-
-    # ------------------------------------------
-    #   Umbral global/local por LSD
-    # ------------------------------------------
-    def calcularUmbralDensidades(self, X_min, vecinos_min_local, percentil=75.0, k_sigma=None):
-        """
-        Calcula UMBRAL GLOBAL usando Local Scaling Distance (LSD) y también
-        fija un umbral LOCAL por semilla (percentil sobre sus k vecinos minoritarios).
-        Guarda:
-          - self.umbral_distancia (global)
-          - self._umbral_lsd_by_i (local por semilla)
-          - self._sigma_Xmin (para densidad en minoritaria)
+        Retorna
+        -------
+        np.ndarray[float], shape (n_min,)
+            Densidad (proporción de intersecciones) por semilla.
         """
         X_min = np.asarray(X_min)
         n_min = len(X_min)
         if n_min == 0:
-            self.umbral_distancia = 0.0
-            self._umbral_lsd_by_i = np.array([], dtype=float)
-            return
+            return np.array([], dtype=float)
 
-        # k para el radio local (self-scaling). Por defecto, se usa self.k
-        k_sigma = int(self.k if k_sigma is None else k_sigma)
-
-        todas = []
-        self._umbral_lsd_by_i = np.full(n_min, np.nan, dtype=float)
-
-        """
-        Recorro cada semilla i en X_min, calculo distancias LSD a sus vecinos
-        minoritarios y fijo umbral local por semilla.
-        """
-        for i in range(n_min):
-            idx_nbrs = vecinos_min_local[i]
-            if len(idx_nbrs) == 0:
-                continue # si no tiene vecinos, no hay umbral local pasar al siguiente
-            
-            # idx_nbrs son índices de los vecinos LOCALES en X_min
-            nbrs = X_min[idx_nbrs] # vecinos minoritarios de la semilla i
-            sigma_i = float(self._sigma_Xmin[i])
-            sigmas_vec = self._sigma_Xmin[idx_nbrs]
-
-            """
-            Distancias LSD desde la semilla i a sus vecinos minoritarios.
-            tengo que enviarle los 2 sigmas (de la semilla y de los vecinos)
-            y dentro de _dists_lsd_seed() se hace el cálculo.
-            """
-            d_lsd = self._dists_lsd_seed(X_min[i], nbrs, sigma_i, sigmas_vec)
-
-            # Si hay distancias entonces las almaceno
-            if d_lsd.size:
-                todas.append(d_lsd)
-                # Paso importante, guardo umbral LOCAL por semilla
-                self._umbral_lsd_by_i[i] = float(np.percentile(d_lsd, percentil))
-
-        if len(todas) == 0:
-            self.umbral_distancia = 0.0
-        else:
-            try:
-                todas = np.concatenate(todas)
-                self.umbral_distancia = float(np.percentile(todas, percentil))
-            except Exception:
-                self.umbral_distancia = 0.0
-
-    # ------------------------------------------
-    #   Densidad por intersección (con LSD)
-    # ------------------------------------------
-    def calcular_densidad_interseccion(self, X_min, vecinos_local):
-        """
-        Densidad por intersección de esferas usando LSD y el umbral local u_i (o global si no hay local).
-        """
-        densidades = []
-
-        # contadores opcionales para diagnóstico
+        densidades = np.zeros(n_min, dtype=float)
         self._diag_densidad = {"semillas_con_hits": 0, "total_hits": 0}
 
-        for i, xi in enumerate(X_min):
+        for i in range(n_min):
+            nbr_idx_local = vecinos_local[i]
+            if len(nbr_idx_local) == 0:
+                densidades[i] = 0.0
+                continue
 
-            intersecciones = 0
+            # Umbral local por percentil sobre distancias a vecinos minoritarios
+            d_i = dists_min_local[i]  # shape (k,)
+            u_i = float(np.percentile(d_i, self.percentil_dist))
 
-            # umbral LOCAL 
-            u_i = self._umbral_lsd_by_i[i]
+            # Distancias reales (recalculo con DistanceMetric para cumplir requisito)
+            xi = X_min[i].reshape(1, -1)
+            xj = X_min[nbr_idx_local]  # (k, d)
+            dij = self._dist_metric.pairwise(xi, xj).ravel()  # (k,)
 
-            # LSD: necesitamos sigma_i y sigma_j (ambos en X_min)
-            if self._sigma_Xmin is None or len(self._sigma_Xmin) != len(X_min):
-                sigma_i = 1.0
-                sigmas_local = np.ones(len(X_min), dtype=float)
-            else:
-                sigma_i = float(self._sigma_Xmin[i])
-                sigmas_local = self._sigma_Xmin
-
-            for j in vecinos_local[i]:
-                xj = X_min[j]
-                d = float(self._dists_lsd_seed(
-                    xi, xj.reshape(1, -1),
-                    sigma_i,
-                    np.array([sigmas_local[j]], dtype=float)
-                )[0])
-                if d <= u_i:
-                    intersecciones += 1
+            intersecciones = int(np.sum(dij <= u_i))
 
             if intersecciones > 0:
                 self._diag_densidad["semillas_con_hits"] += 1
                 self._diag_densidad["total_hits"] += intersecciones
 
-            # guarda en densidades la proporción de intersecciones por semilla
-            # (intersecciones / cantidad de vecinos minoritarios)
-            # max(1, ...) para evitar división por cero
-            densidades.append(intersecciones / max(1, len(vecinos_local[i])))
+            densidades[i] = intersecciones / max(1, len(nbr_idx_local))
 
-
-        # en el array devuelvo porcentaje de densidades por semilla
-        return np.array(densidades, dtype=float)
+        return densidades
 
     def calcular_entropia(self, vecinos_all_global, y):
         """Entropía de clases en el vecindario (base 2)."""
@@ -294,47 +157,33 @@ class PCSMOTE(Utils):
             entropias.append(float(entropy(p, base=2)))
         return np.array(entropias, dtype=float)
 
-    # Mapeo de categoría de riesgo por conteo de vecinos mayoritarios
-    def categoria_por_Nmaj(self, n: int, K) -> int:
-        """
-        2: zona crítica (0.5K..0.6K)  → atenuación máxima
-        1: riesgo moderado (0.4K..<0.5K) → expansión moderada
-        0: otros (bajo o muy alto) → intermedio
-        """
-        b04 = int(0.4 * K)
-        b05 = int(0.5 * K)
-        b06 = int(0.6 * K)
+    def _loggable_random_state(self):
+        if isinstance(self._seed_init, (int, np.integer)):
+            return int(self._seed_init)
+        if self._seed_init is None:
+            return None
+        return str(self._seed_init)
 
-        if b05 <= n <= b06:
-            return 2
-        if b04 <= n < b05:
-            return 1
-        return 0
-
-    # ------------------------------------------
-    #                FIT / RESAMPLE
-    # ------------------------------------------
+    # -------------------------------
+    #        FIT / RESAMPLE
+    # -------------------------------
     def fit_resample(self, X, y, max_sinteticas=None):
         """
-        Ejecuta el proceso completo de sobremuestreo binario (y ∈ {0,1}) 
-        basado en LSD, riesgo, densidad y pureza.
+        Sobremuestreo binario (y ∈ {0,1}, 1 = minoritaria) usando:
+          - Vecindarios construidos con NearestNeighbors(metric=self.metric).
+          - Umbral local por percentil de distancias.
+          - Densidad por intersección en subespacio minoritario.
+          - Filtro por pureza (entropía o proporción).
+          - Interpolación con delta ~ U[0.4, 0.6].
 
-        Devuelve:
-            (X_resampled, y_resampled)
-        
-        Efectos:
-            - Calcula distancias LSD globales/locales (con caché).
-            - Selecciona semillas candidatas según riesgo, densidad y pureza.
-            - Genera muestras sintéticas por interpolación adaptativa.
-            - Registra métricas agregadas en self._meta y logs por muestra.
+        Retorna
+        -------
+        X_resampled, y_resampled
         """
         t0 = time.perf_counter()
         X = np.asarray(X)
         y = np.asarray(y)
 
-        # ------------------------------------------------------------------
-        # (1) Inicialización de metadatos y separación de clases
-        # ------------------------------------------------------------------
         self._meta = {
             "umbral_densidad": None,
             "umbral_entropia": None,
@@ -353,7 +202,7 @@ class PCSMOTE(Utils):
         X_min = X[idxs_min_global]
         X_maj = X[idxs_maj_global]
 
-        # Si no hay minoritaria suficiente para k+1 vecinos, retorno sin cambios
+        # Necesitamos al menos k+1 (contando self) para poder excluir self y quedarnos con k
         if len(X_min) < self.k + 1:
             self._meta.update({
                 "n_candidatas": int(len(X_min)),
@@ -362,58 +211,47 @@ class PCSMOTE(Utils):
             })
             return X.copy(), y.copy()
 
-        # ------------------------------------------------------------------
-        # (2) Distancias LSD y vecindarios (con caché vía gestor_cache)
-        # ------------------------------------------------------------------
-        (vecinos_all_global,
-        vecinos_min_local,
-        vecinos_min_global,
-        self._sigma_X,
-        self._sigma_Xmin) = self.gestor_cache.obtener(
-            X=X,
-            y=y,
-            nombre_dataset=self.nombre_dataset,
-            adaptador=self
-        )
+        K = int(self.k)
 
-        extra_meta = {"n_min": int(len(idxs_min_global)),
-                    "pos_fp": PCSMOTECache.fp_array(idxs_min_global)}
+        # -------------------------------------------
+        # Vecindarios con la métrica elegida
+        # -------------------------------------------
+        # Global (vecinos mixtos) — consultado SOLO para semillas minoritarias
+        nn_global = NearestNeighbors(n_neighbors=K + 1, metric=self.metric).fit(X)
+        d_all, i_all = nn_global.kneighbors(X_min, return_distance=True)   # incluye self en la 1ª col
+        d_all = d_all[:, 1:]   # (n_min, K)
+        i_all = i_all[:, 1:]   # (n_min, K) índices globales (en X)
 
-        # Distancias LSD de todas las semillas hacia sus k vecinos (alineado con vecinos_all_global)
-        lsd_dists_all = self.gestor_cache.get_or_compute_lsd_dists(
-            X=X,
-            X_min=X_min,
-            sigma_X=self._sigma_X,
-            sigma_Xmin=self._sigma_Xmin,
-            k=self.k,
-            vecinos_all_global=vecinos_all_global,
-            adaptador=self,
-            nombre_dataset=self.nombre_dataset,
-            extra_meta=extra_meta,
-        )
+        # Minoritaria local (vecinos de la MISMA clase)
+        nn_min = NearestNeighbors(n_neighbors=K + 1, metric=self.metric).fit(X_min)
+        d_min, i_min_local = nn_min.kneighbors(X_min, return_distance=True)
+        d_min = d_min[:, 1:]               # (n_min, K)
+        i_min_local = i_min_local[:, 1:]   # (n_min, K) índices locales (en X_min)
 
-        # ------------------------------------------------------------------
-        # (3) Métricas locales: riesgo, densidad y pureza
-        # ------------------------------------------------------------------
-        # (3-a) Riesgo local: proporción de vecinos mayoritarios por semilla
+        vecinos_all_global = i_all                   # (n_min, K) — índices en X
+        vecinos_min_local = i_min_local              # (n_min, K) — índices en X_min
+
+        # Vecinos minoritarios en índices globales (para logging/coherencia con flujo anterior)
+        vecinos_min_global = np.array([
+            idxs_min_global[row] for row in vecinos_min_local
+        ], dtype=object)
+
+        # -------------------------------------------
+        # Métricas locales
+        # -------------------------------------------
+        # Riesgo: proporción de vecinos mayoritarios (sobre K vecinos globales)
         riesgo = np.array([
-            np.sum(y[idxs] == 0) / self.k for idxs in vecinos_all_global
+            np.sum(y[idxs] == 0) / K for idxs in vecinos_all_global
         ], dtype=float)
 
-        # (3-b) Densidad local por intersección de esferas (LSD) — desde caché/cómputo
-        densidades = self.gestor_cache.get_or_compute_densidades_v2(
+        # Densidad por intersección en minoritaria (usa DistanceMetric internamente)
+        densidades = self.calcular_densidad_interseccion(
             X_min=X_min,
             vecinos_local=vecinos_min_local,
-            sigma_Xmin=self._sigma_Xmin,
-            umbrales_lsd_by_i=self._umbral_lsd_by_i,
-            k=self.k,
-            nombre_dataset=self.nombre_dataset,
-            metric_tag="lsd_v1",
-            adaptador=self,
-            extra_meta=extra_meta
+            dists_min_local=d_min
         )
 
-        # (3-c) Pureza del vecindario
+        # Pureza (entropía o proporción minoritaria entre los K vecinos globales)
         pureza_mask = None
         umb_ent = None
         entropias = None
@@ -426,16 +264,14 @@ class PCSMOTE(Utils):
             self._meta["umbral_entropia"] = umb_ent
         elif self.criterio_pureza == 'proporcion':
             proporciones_min = np.array([
-                np.sum(y[idxs] == 1) / self.k for idxs in vecinos_all_global
+                np.sum(y[idxs] == 1) / K for idxs in vecinos_all_global
             ], dtype=float)
-            # Ventana 40–60% minoritaria (borde “mezclado”)
+            # ventana 40–60% minoritaria
             pureza_mask = (proporciones_min >= 0.4) & (proporciones_min <= 0.6)
         else:
             raise ValueError(f"Criterio de pureza no reconocido: {self.criterio_pureza}")
 
-        # ------------------------------------------------------------------
-        # (4) Filtrado por densidad y pureza
-        # ------------------------------------------------------------------
+        # Filtro por densidad
         if self.percentil_densidad is not None:
             umb_den = float(np.percentile(densidades, self.percentil_densidad))
             densidad_mask = densidades >= umb_den
@@ -444,10 +280,10 @@ class PCSMOTE(Utils):
             umb_den = None
             densidad_mask = densidades > 0.0
 
-        # Intersección de criterios → índices locales (respecto de X_min)
+        # Intersección de criterios
         comb = pureza_mask & densidad_mask
-        filtered_indices_local = np.where(comb)[0]
-        filtered_indices_global = idxs_min_global[filtered_indices_local]
+        filtered_indices_local = np.where(comb)[0]                 # en X_min
+        filtered_indices_global = idxs_min_global[filtered_indices_local]  # en X
 
         # Métricas agregadas
         self._meta.update({
@@ -458,19 +294,16 @@ class PCSMOTE(Utils):
             "densidad_media": float(np.mean(densidades)) if densidades.size else None
         })
 
-        # ------------------------------------------------------------------
-        # (5) Diagnóstico: vecinos válidos y umbral por percentil LSD (precálculo)
-        # ------------------------------------------------------------------
-        # Percentil de distancias por muestra (todas las semillas)
-        dist_thr_por_muestra = np.percentile(lsd_dists_all, self.percentil_dist, axis=1).astype(float)
-        # Conteo de vecinos bajo el umbral por muestra
-        vecinos_validos_counts = np.sum(lsd_dists_all <= dist_thr_por_muestra[:, None], axis=1).astype(int)
-        self._meta["vecinos_validos_promedio"] = float(np.mean(vecinos_validos_counts))
+        # -------------------------------------------
+        # Diagnóstico de vecinos válidos
+        # (percentil sobre distancias a K vecinos globales)
+        # -------------------------------------------
+        dist_thr_por_muestra = np.percentile(d_all, self.percentil_dist, axis=1).astype(float)
+        vecinos_validos_counts = np.sum(d_all <= dist_thr_por_muestra[:, None], axis=1).astype(int)
+        self._meta["vecinos_validos_promedio"] = float(np.mean(vecinos_validos_counts)) if len(vecinos_validos_counts) else 0.0
 
-        # ------------------------------------------------------------------
-        # (6) Verificaciones previas y n_sint
-        # ------------------------------------------------------------------
-        if len(filtered_indices_local) < self.k + 1:
+        # Cortes por insuficiencia
+        if len(filtered_indices_local) < (K + 1):
             self._registrar_logs_sin_sinteticas(
                 X, y, X_min, idxs_min_global,
                 comb, riesgo, densidades, entropias, proporciones_min,
@@ -495,49 +328,40 @@ class PCSMOTE(Utils):
             self._meta["elapsed_ms"] = (time.perf_counter() - t0) * 1000
             return X.copy(), y.copy()
 
-        # ------------------------------------------------------------------
-        # (5b) Precálculos útiles (constantes de K y recortes por semilla)
-        # ------------------------------------------------------------------
-        K = int(self.k)
-
-        # Recortes a nivel de semillas filtradas (para indexar en O(1) dentro del loop)
+        # -------------------------------------------
+        # Precálculos recortados a semillas filtradas
+        # -------------------------------------------
         X_min_filtrado = X_min[filtered_indices_local]
-        vecinos_all_filtrado = vecinos_all_global[filtered_indices_local]     # (n_filtradas, k)
-        dists_filtradas = lsd_dists_all[filtered_indices_local]               # (n_filtradas, k)
-        thr_filtradas = dist_thr_por_muestra[filtered_indices_local]          # (n_filtradas,)
-        riesgo_filt = riesgo[filtered_indices_local]                          # (n_filtradas,)
-        Nmaj_by_seed = np.rint(riesgo_filt * K).astype(int)                   # (n_filtradas,)
+        vecinos_all_filtrado = vecinos_all_global[filtered_indices_local]   # (n_filtradas, K) índices en X
+        dists_filtradas = d_all[filtered_indices_local]                    # (n_filtradas, K)
+        thr_filtradas = dist_thr_por_muestra[filtered_indices_local]       # (n_filtradas,)
+        # riesgo_filt = riesgo[filtered_indices_local]  # ya no se usa para delta
 
         # Estructuras de logging
         gen_from_counts = defaultdict(int)
         last_delta_by_seed = {}
         last_neighbor_by_seed = {}
 
-        rng = self.random_state  # alias local
+        rng = self.random_state
+        # Rango fijo de delta
+        # por defecto lo es 0.4, hi es 0.6
+        lo, hi = self.DELTA_RANGE_INTERMEDIO
 
-        # ------------------------------------------------------------------
-        # (7) Generación de muestras sintéticas (con precálculos)
-        # ------------------------------------------------------------------
+        # -------------------------------------------
+        # Generación de sintéticas
+        # -------------------------------------------
         muestras_sinteticas = []
 
         for _ in range(n_sint):
-            # Elegimos una semilla filtrada (índice local en el arreglo filtrado)
+            # Elegimos una semilla de las filtradas
             idx_loc = int(rng.randint(len(X_min_filtrado)))
-
             xi = X_min_filtrado[idx_loc]
-            N_maj = int(Nmaj_by_seed[idx_loc])  # precalculado por semilla
 
-            # Selección del rango de delta por mapeo de categoría
-            cat = self.categoria_por_Nmaj(N_maj, K)
-            lo, hi = self.DELTA_RANGES[cat]
-            delta = float(rng.uniform(lo, hi))
-
-            # Vecinos y distancias de la MISMA semilla ya recortados
-            idxs_vec_all = vecinos_all_filtrado[idx_loc]
-            dists = dists_filtradas[idx_loc]
+            # Filtramos vecinos válidos por percentil (globales)
+            idxs_vec_all = vecinos_all_filtrado[idx_loc]  # índices en X
+            dists = dists_filtradas[idx_loc]              # distancias correspondientes
             thr = thr_filtradas[idx_loc]
 
-            # Filtrado de vecinos válidos por percentil LSD precomputado
             vecinos_validos = idxs_vec_all[dists <= thr]
             if len(vecinos_validos) == 0:
                 continue
@@ -545,23 +369,19 @@ class PCSMOTE(Utils):
             z_idx = int(rng.choice(vecinos_validos))
             xz = X[z_idx]
 
-            # (Opcional: si se requiere en variantes) sigma_i / sigmas_ref
-            # i_local_orig = int(filtered_indices_local[idx_loc])
-            # sigma_i = float(self._sigma_Xmin[i_local_orig]) if (self._sigma_Xmin is not None and i_local_orig < len(self._sigma_Xmin)) else 1.0
-            # sigmas_ref = self._sigma_X[idxs_vec_all] if self._sigma_X is not None else np.ones(len(idxs_vec_all))
-
-            # Interpolación adaptativa
+            delta = float(rng.uniform(lo, hi))
+            # formula de interpolación
+            # xi + delta * (xz - xi)
+            # la nueva muestra se acerca más al vecino elegido
             muestras_sinteticas.append(xi + delta * (xz - xi))
 
-            # Logging por semilla (usar índice global de la semilla original)
+            # Logging por semilla (índice global de la semilla original)
             seed_global_idx = int(filtered_indices_global[idx_loc])
             gen_from_counts[seed_global_idx] += 1
             last_delta_by_seed[seed_global_idx] = delta
             last_neighbor_by_seed[seed_global_idx] = z_idx
 
-        # ------------------------------------------------------------------
-        # (8) Concatenación, logging y retorno final
-        # ------------------------------------------------------------------
+        # Conclusión
         if not muestras_sinteticas:
             self._registrar_logs_sin_sinteticas(
                 X, y, X_min, idxs_min_global,
@@ -580,7 +400,7 @@ class PCSMOTE(Utils):
         X_resampled = np.vstack([X, X_sint])
         y_resampled = np.hstack([y, y_sint])
 
-        # Registrar logs por muestra de la minoritaria original
+        # Log por muestra de la minoritaria original
         for i in range(len(X_min)):
             self._log_muestra(
                 i, X, X_min, y, idxs_min_global,
@@ -596,14 +416,12 @@ class PCSMOTE(Utils):
         return X_resampled, y_resampled
 
     # ------------------------------------------
-    #           Multiclase (one-vs-max)
+    #        Multiclase (one-vs-max)
     # ------------------------------------------
     def fit_resample_multiclass(self, X, y):
         """
-        Extiende a multiclase sobremuestreando cada clase contra la mayor,
-        con factor_equilibrio. Aplica topes y concatena logs POR MUESTRA
-        del run binario de cada clase (etiquetando 'clase_objetivo' y
-        reordenándolo inmediatamente después de 'idx_global').
+        Oversampling por clase contra la mayor, respetando factor_equilibrio
+        y topes globales/por clase. Reusa el nuevo binario (sin LSD ni caché).
         """
         X = np.asarray(X)
         y = np.asarray(y)
@@ -616,7 +434,6 @@ class PCSMOTE(Utils):
         conteo_original = Counter(y)
         max_count = max(conteo_original.values())
 
-        # Metadatos del experimento
         self.meta_experimento = {
             "dataset": self.nombre_dataset,
             "k_neighbors": self.k,
@@ -629,6 +446,7 @@ class PCSMOTE(Utils):
             "factor_equilibrio": self.factor_equilibrio,
             "max_total_multiplier": self.max_total_multiplier,
             "max_sinteticas_por_clase": self.max_sinteticas_por_clase,
+            "metric": self.metric,
             "random_state": self._loggable_random_state(),
             "timestamp": pd.Timestamp.now().isoformat()
         }
@@ -689,9 +507,10 @@ class PCSMOTE(Utils):
                     modo_espacial=self.modo_espacial,
                     factor_equilibrio=self.factor_equilibrio,
                     verbose=False,
-                    max_total_multiplier=None,            # no se usa en el run binario aislado
-                    max_sinteticas_por_clase=None,        # idem
-                    guardar_distancias=self.guardar_distancias
+                    max_total_multiplier=None,
+                    max_sinteticas_por_clase=None,
+                    guardar_distancias=self.guardar_distancias,
+                    metric=self.metric
                 )
                 sampler_tmp.nombre_dataset = self.nombre_dataset
 
@@ -705,21 +524,18 @@ class PCSMOTE(Utils):
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
 
-                # Copiar LOG POR MUESTRA agregando clase_objetivo y reordenando
+                # Copiar logs por muestra agregando clase_objetivo
                 for rec in sampler_tmp.logs_por_muestra:
                     rec_copia = dict(rec)
-                    rec_copia["clase_objetivo"] = clase  # completar
-
-                    # Reordenar: colocar clase_objetivo inmediatamente después de idx_global
+                    rec_copia["clase_objetivo"] = clase
                     keys = list(rec_copia.keys())
                     if "idx_global" in keys and "clase_objetivo" in keys:
                         k_cls = keys.pop(keys.index("clase_objetivo"))
                         keys.insert(keys.index("idx_global") + 1, k_cls)
                         rec_copia = {k: rec_copia[k] for k in keys}
-
                     self.logs_por_muestra.append(rec_copia)
 
-                # Diagnóstico de motivo
+                # Motivo
                 if estado == "no se sobremuestrea":
                     motivo = "sin_faltante(actual>=objetivo)"
                 elif estado == "sobremuestreada" and nuevos == 0:
@@ -744,7 +560,7 @@ class PCSMOTE(Utils):
             else:
                 motivo = "sin_faltante(actual>=objetivo)" if estado != "sobremuestreada" else "tope=0"
 
-            # Log POR CLASE (resumen)
+            # Log por clase (resumen)
             self.logs_por_clase.append({
                 "dataset": self.nombre_dataset,
                 "clase": int(clase) if np.issubdtype(np.array(clase).dtype, np.integer) else str(clase),
@@ -763,7 +579,6 @@ class PCSMOTE(Utils):
                 "total_resampled": int(len(y_res)),
                 "ratio_original": round(actual / total_original, 6) if total_original else None,
                 "ratio_resampled": round((actual + nuevos) / len(y_res), 6) if len(y_res) else None,
-                # Diagnóstico del filtro binario
                 "n_candidatas": meta_clase.get("n_candidatas"),
                 "n_filtradas": meta_clase.get("n_filtradas"),
                 "riesgo_medio": meta_clase.get("riesgo_medio"),
@@ -772,7 +587,6 @@ class PCSMOTE(Utils):
                 "vecinos_validos_promedio": meta_clase.get("vecinos_validos_promedio"),
                 "umbral_densidad": meta_clase.get("umbral_densidad"),
                 "umbral_entropia": meta_clase.get("umbral_entropia"),
-                # Parámetros de referencia
                 "percentil_densidad": self.percentil_densidad,
                 "percentil_riesgo": self.percentil_dist,
                 "criterio_pureza": self.criterio_pureza,
@@ -780,6 +594,7 @@ class PCSMOTE(Utils):
                 "factor_equilibrio": self.factor_equilibrio,
                 "random_state": self._loggable_random_state(),
                 "modo_espacial": self.modo_espacial,
+                "metric": self.metric,
                 "timestamp": pd.Timestamp.now().isoformat(),
             })
 
