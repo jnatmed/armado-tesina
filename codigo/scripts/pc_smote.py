@@ -266,7 +266,9 @@ class PCSMOTE(Utils):
                 vecinos_local=vecinos_min_local,
                 dists_min_local=d_min
             )
-
+        # k=7
+        # 1/7
+        # .25 
             pureza_mask = None
             umb_ent = None
             entropias = None

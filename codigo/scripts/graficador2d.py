@@ -129,8 +129,12 @@ class Graficador2D:
             return ambos_2d[:len(X)], ambos_2d[len(X):]
 
         # PCA/UMAP/Identidad
+        # aca lo que hace es ajustar sobre X o sobre ambos
+        # es decir, si fit_on es "both", ajusta sobre la union
+        # la union es apilando verticalmente X y X_res
         if self.fit_on == "both":
             X_fit = np.vstack([X, X_res])
+            # ajusta sobre la union
             self.ajustar(X_fit)
         else:
             self.ajustar(X)
@@ -243,6 +247,7 @@ class Graficador2D:
             ax2.scatter(Z_res[m, 0], Z_res[m, 1], s=tam_punto, alpha=alpha,
                         color=color_map[c],
                         label=self._etiqueta(c, int(m.sum()), nombres_clase))
+            
         ax2.set_title("Aumentado")
         ax2.set_xlabel("Componente 1"); ax2.set_ylabel("Componente 2")
         ax2.legend(loc="best", frameon=True)
