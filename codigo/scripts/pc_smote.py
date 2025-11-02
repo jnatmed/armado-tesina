@@ -65,6 +65,9 @@ class PCSMOTE(Utils):
         # si le paso un int crea un RandomState con esa semilla
         self.random_state = check_random_state(random_state)
 
+        self._X_syn = None
+        self._y_syn = None
+
         # Hiperparámetros de PC-SMOTE
         
         self.percentil_dist = float(percentil_dist)
@@ -99,16 +102,12 @@ class PCSMOTE(Utils):
 
     # ------------ setters y getters ------------- # 
 
-    def setX_syn(self, X_syn):
-        self.X_syn = X_syn
-    def setY_syn(self, y_syn):
-        self.y_syn = y_syn
-    def getX_syn(self):
-        return self.X_syn
-    def getY_syn(self):
-        return self.y_syn
-    def get_sinteticas(self):
-        return [self.getX_syn(), self.getY_syn()]
+    # setters/getters
+    def setX_syn(self, X_syn): self._X_syn = None if X_syn is None else np.asarray(X_syn)
+    def setY_syn(self, y_syn): self._y_syn = None if y_syn is None else np.asarray(y_syn)
+    def getX_syn(self): return self._X_syn
+    def getY_syn(self): return self._y_syn
+    def get_sinteticas(self): return self._X_syn, self._y_syn
 
     # ------------------------------- Densidad por intersección -------------------------------
 
@@ -474,6 +473,10 @@ class PCSMOTE(Utils):
         X = np.asarray(X)
         y = np.asarray(y)
 
+        # --- acumuladores globales de sintéticas ---
+        X_syn_all = []
+        y_syn_all = []
+        
         # Identifico las clases
         clases = np.unique(y)
         # Inicializo resultados
@@ -591,6 +594,15 @@ class PCSMOTE(Utils):
                     X_res = np.vstack([X_res, X_nuevos])
                     y_res = np.hstack([y_res, y_nuevos])
 
+                    # --- acumular sintéticas para graficar ---
+                    X_tmp_syn = sampler_tmp.getX_syn()
+                    y_tmp_syn = sampler_tmp.getY_syn()
+                    if X_tmp_syn is not None and len(X_tmp_syn) > 0:
+                        X_syn_all.append(X_tmp_syn)
+                        # Etiquetar con la CLASE real (no binaria)
+                        y_syn_all.append(np.full(len(X_tmp_syn), clase))
+
+
                 # Copiar logs por muestra agregando clase_objetivo (si los hay)
                 for rec in getattr(sampler_tmp, "logs_por_muestra", []):
                     rec_copia = dict(rec)
@@ -671,5 +683,13 @@ class PCSMOTE(Utils):
                 "metric": self.metric,
                 "timestamp": pd.Timestamp.now().isoformat(),
             })
+
+            # --- NUEVO: setear en el sampler padre lo acumulado ---
+        if len(X_syn_all) > 0:
+            self.setX_syn(np.vstack(X_syn_all))
+            self.setY_syn(np.hstack(y_syn_all))
+        else:
+            self.setX_syn(None)
+            self.setY_syn(None)
 
         return X_res, y_res

@@ -310,58 +310,60 @@ class Graficador2D:
                                         X_clean: np.ndarray, y_clean: np.ndarray,
                                         X_res: np.ndarray,   y_res: np.ndarray,
                                         titulo: str = "Train limpio vs. Train aumentado",
-                                        nombres_clase: Optional[Dict[Any, str] | list | tuple] = None,
+                                        nombres_clase=None,
                                         tam_punto: int = 22,
                                         alpha: float = 0.85,
-                                        tam_fig: Tuple[int, int] = (18, 5),
-                                        paleta: Optional[list[str]] = None) -> None:
-        """
-        Tres paneles con la MISMA proyección:
-        - Izquierda: Original (puntos por clase) + cruces rojas en idx_removed.
-        - Centro:    Limpio (sin outliers).
-        - Derecha:   Aumentado (resultado de PCSMOTE).
+                                        tam_fig=(18, 5),
+                                        paleta=None,
+                                        # --- NUEVO: sintéticas opcionales ---
+                                        X_syn: np.ndarray | None = None,
+                                        y_syn: np.ndarray | None = None) -> None:
+        import numpy as np
+        import matplotlib.pyplot as plt
 
-        'idx_removed' son índices respecto de X_orig/y_orig.
-        """
         # ---- arrays ----
         X_orig = np.asarray(X_orig); y_orig = np.asarray(y_orig)
         X_clean = np.asarray(X_clean); y_clean = np.asarray(y_clean)
         X_res  = np.asarray(X_res);   y_res  = np.asarray(y_res)
         idx_removed = np.asarray(idx_removed, dtype=int)
+        if X_syn is not None:
+            X_syn = np.asarray(X_syn)
+        if y_syn is not None:
+            y_syn = np.asarray(y_syn)
 
-        # ---- PROYECCIÓN ÚNICA: fit solo con X_orig, luego transform ----
+        # ---- PROYECCIÓN ÚNICA: fit solo con X_orig ----
         Z_orig = self.ajustar_transformar(X_orig)
         Z_clean = self.transformar(X_clean)
         Z_res = self.transformar(X_res)
+        Z_syn = None
+        if X_syn is not None and len(X_syn) > 0:
+            Z_syn = self.transformar(X_syn)
 
-        # ---- ORDEN GLOBAL DE CLASES Y COLORES ESTABLES ----
+        # ---- COLORES ESTABLES ----
         orden_o = self._unicos_en_orden(y_orig)
         orden_c = [c for c in self._unicos_en_orden(y_clean) if c not in set(orden_o)]
-        orden_r = [c for c in self._unicos_en_orden(y_res) if c not in set(orden_o)]
+        orden_r = [c for c in self._unicos_en_orden(y_res)   if c not in set(orden_o)]
         clases_global = orden_o + orden_c + orden_r
         color_map = self._construir_mapa_colores(clases_global, paleta=paleta)
 
-        # ---- FIGURA ----
         fig, (axO, axC, axA) = plt.subplots(1, 3, figsize=tam_fig, constrained_layout=True)
 
-        # -------- Panel: ORIGINAL (+ eliminadas) --------
+        # -------- Original --------
         for c in clases_global:
             m = (y_orig == c)
             if np.any(m):
                 axO.scatter(Z_orig[m, 0], Z_orig[m, 1], s=tam_punto, alpha=alpha,
                             color=color_map[c],
                             label=self._etiqueta(c, int(m.sum()), nombres_clase))
-        # Cruces rojas en eliminadas
         if idx_removed.size > 0:
             axO.scatter(Z_orig[idx_removed, 0], Z_orig[idx_removed, 1],
                         s=tam_punto + 30, marker='x', linewidths=1.8,
                         color='red', alpha=0.95, label="Eliminadas")
-
         axO.set_title("Original")
         axO.set_xlabel("Componente 1"); axO.set_ylabel("Componente 2")
         axO.legend(loc="best", frameon=True)
 
-        # -------- Panel: LIMPIO --------
+        # -------- Limpio --------
         for c in clases_global:
             m = (y_clean == c)
             if np.any(m):
@@ -372,19 +374,32 @@ class Graficador2D:
         axC.set_xlabel("Componente 1"); axC.set_ylabel("Componente 2")
         axC.legend(loc="best", frameon=True)
 
-        # -------- Panel: AUMENTADO --------
+        # -------- Aumentado --------
         for c in clases_global:
             m = (y_res == c)
             if np.any(m):
                 axA.scatter(Z_res[m, 0], Z_res[m, 1], s=tam_punto, alpha=alpha,
                             color=color_map[c],
                             label=self._etiqueta(c, int(m.sum()), nombres_clase))
+        # --- NUEVO: triángulos para sintéticas ---
+        if Z_syn is not None and y_syn is not None and len(y_syn) > 0:
+            for c in self._unicos_en_orden(y_syn):
+                m = (y_syn == c)
+                axA.scatter(Z_syn[m, 0], Z_syn[m, 1],
+                            s=tam_punto + 30, marker='^', alpha=0.95,
+                            facecolors='none', edgecolors='red', linewidths=1.2,
+                            label=f"Sintéticas {self._nombre_de_clase(c, nombres_clase)} (n={int(m.sum())})")
+        else:
+            print("⚠️ Graficador2D: faltan X_syn o y_syn para graficar puntos sintéticos.")
+
         axA.set_title("Aumentado")
         axA.set_xlabel("Componente 1"); axA.set_ylabel("Componente 2")
         axA.legend(loc="best", frameon=True)
 
-        # ---- MISMOS LÍMITES EN LOS 3 SUBPLOTS ----
-        allZ = np.vstack([Z_orig, Z_clean, Z_res])
+        # ---- Mismos límites ----
+        bloques = [Z_orig, Z_clean, Z_res]
+        if Z_syn is not None: bloques.append(Z_syn)
+        allZ = np.vstack(bloques)
         pad = 0.05
         xmin, ymin = allZ.min(axis=0)
         xmax, ymax = allZ.max(axis=0)
@@ -392,10 +407,9 @@ class Graficador2D:
         xlim = (xmin - pad * dx, xmax + pad * dx)
         ylim = (ymin - pad * dy, ymax + pad * dy)
         for ax in (axO, axC, axA):
-            ax.set_xlim(*xlim)
-            ax.set_ylim(*ylim)
+            ax.set_xlim(*xlim); ax.set_ylim(*ylim)
 
-        # ---- TÍTULO GLOBAL ----
+        # ---- Título ----
         dens = getattr(self, "percentil_densidad", None)
         ries = getattr(self, "percentil_riesgo", None)
         pureza = getattr(self, "criterio_pureza", None)
