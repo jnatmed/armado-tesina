@@ -1,0 +1,71 @@
+
+🔍 Analizando dataset: SHUTTLE
+🎯 Valores únicos del target: [1, 4, 5, 3, 2, 7, 6]
+📊 Distribución de clases:
+   - 1: 45586 (78.6%)
+   - 4: 8903 (15.35%)
+   - 5: 3267 (5.63%)
+   - 3: 171 (0.29%)
+   - 2: 50 (0.09%)
+   - 7: 13 (0.02%)
+   - 6: 10 (0.02%)
+✅ Clase minoritaria real: 6
+⚠️ Clase configurada como minoritaria: 7
+🚨 POSIBLE ERROR DE CONFIGURACIÓN ❗
+
+🔍 Analizando dataset: WDBC
+🎯 Valores únicos del target: ['B', 'M']
+📊 Distribución de clases:
+   - B: 357 (62.74%)
+   - M: 212 (37.26%)
+✅ Clase minoritaria real: M
+⚠️ Clase configurada como minoritaria: M
+
+🔍 Analizando dataset: GLASS
+🎯 Valores únicos del target: [2, 1, 7, 3, 5, 6]
+📊 Distribución de clases:
+   - 2: 76 (35.51%)
+   - 1: 70 (32.71%)
+   - 7: 29 (13.55%)
+   - 3: 17 (7.94%)
+   - 5: 13 (6.07%)
+   - 6: 9 (4.21%)
+✅ Clase minoritaria real: 6
+⚠️ Clase configurada como minoritaria: 6
+
+🔍 Analizando dataset: HEART
+🎯 Valores únicos del target: [0, 1, 2, 3, 4]
+📊 Distribución de clases:
+   - 0: 164 (54.13%)
+   - 1: 55 (18.15%)
+   - 2: 36 (11.88%)
+   - 3: 35 (11.55%)
+   - 4: 13 (4.29%)
+✅ Clase minoritaria real: 4
+⚠️ Clase configurada como minoritaria: 4
+
+🔍 Analizando dataset: IRIS
+🎯 Valores únicos del target: ['Iris-setosa', 'Iris-versicolor', 'Iris-virginica']
+📊 Distribución de clases:
+   - Iris-setosa: 50 (33.33%)
+   - Iris-versicolor: 50 (33.33%)
+   - Iris-virginica: 50 (33.33%)
+✅ Clase minoritaria real: Iris-setosa
+⚠️ Clase configurada como minoritaria: Iris-virginica
+🚨 POSIBLE ERROR DE CONFIGURACIÓN ❗
+
+🔍 Analizando dataset: EUROSAT
+🎯 Valores únicos del target: [0, 1, 2, 7, 9, 3, 6, 4, 8, 5]
+📊 Distribución de clases:
+   - 0: 3000 (11.11%)
+   - 1: 3000 (11.11%)
+   - 2: 3000 (11.11%)
+   - 7: 3000 (11.11%)
+   - 9: 3000 (11.11%)
+   - 3: 2500 (9.26%)
+   - 6: 2500 (9.26%)
+   - 4: 2500 (9.26%)
+   - 8: 2500 (9.26%)
+   - 5: 2000 (7.41%)
+✅ Clase minoritaria real: 5
+⚠️ Clase configurada como minoritaria: 5

@@ -39,11 +39,20 @@ config_datasets = {
         "sep": ",",
         "header": None
     },
-    "eurosat": {
-        "path": "../datasets/EuroSAT",
-        "clase_minoria": 5,  # clase minoritaria real
-        "tipo": "imagen",
-        "size": (64, 64)
-    }
+    "iris": {
+        "path": "../datasets/iris/iris.data",
+        "clase_minoria": "Iris-virginica",      # suele tener menos instancias que setosa o versicolor
+        "col_features": [0, 1, 2, 3],           # cuatro características numéricas
+        "col_target": 4,                        # última columna con el nombre de la especie
+        "sep": ",",
+        "header": None,
+        "tipo": "tabular"
+    },    
+    # "eurosat": {
+    #     "path": "../datasets/EuroSAT",
+    #     "clase_minoria": 5,  # clase minoritaria real
+    #     "tipo": "imagen",
+    #     "size": (64, 64)
+    # }
     
 }

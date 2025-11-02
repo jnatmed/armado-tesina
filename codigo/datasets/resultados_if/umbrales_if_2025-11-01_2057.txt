@@ -1,0 +1,21 @@
+[shuttle] clase=1 -> P5%=-0.10773147247991996, NORMALIZADO=True
+[shuttle] clase=2 -> P5%=-0.44578435733772737, NORMALIZADO=True
+[shuttle] clase=3 -> P5%=0.0057195215895697316, NORMALIZADO=True
+[shuttle] clase=4 -> P5%=0.12540004165534344, NORMALIZADO=True
+[shuttle] clase=5 -> P5%=0.13800948883402514, NORMALIZADO=True
+[shuttle] clase=6 -> P5%=-0.7791573321609437, NORMALIZADO=True
+[shuttle] clase=7 -> P5%=-0.9211055580577066, NORMALIZADO=True
+[wdbc] clase=B -> P5%=-0.02928533055687039, NORMALIZADO=True
+[wdbc] clase=M -> P5%=-0.26449792675741857, NORMALIZADO=True
+[glass] clase=1 -> P5%=-0.8591311001256408, NORMALIZADO=True
+[glass] clase=2 -> P5%=-0.3186191184472543, NORMALIZADO=True
+[glass] clase=3 -> P5%=-0.9821100561454982, NORMALIZADO=True
+[glass] clase=5 -> P5%=-0.42923323252684753, NORMALIZADO=True
+[glass] clase=6 -> (<10 muestras) sin IF
+[glass] clase=7 -> P5%=-0.8240477265451799, NORMALIZADO=True
+[heart] clase=0 -> P5%=-0.47038870676793665, NORMALIZADO=True
+[heart] clase=1 -> P5%=-0.7419085734182186, NORMALIZADO=True
+[heart] clase=2 -> P5%=-0.8240890410386185, NORMALIZADO=True
+[heart] clase=3 -> P5%=-0.5516161913608116, NORMALIZADO=True
+[heart] clase=4 -> P5%=-0.7272391402180787, NORMALIZADO=True
+❌ Error en histogramas IF para eurosat: Found array with dim 4. IsolationForest expected <= 2.

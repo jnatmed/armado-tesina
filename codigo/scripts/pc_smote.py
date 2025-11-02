@@ -37,6 +37,7 @@ class PCSMOTE(Utils):
     """
 
     DELTA_RANGE_INTERMEDIO = (0.4, 0.6)
+    X_syn, y_syn = None, None # X_syn, y_syn
 
     # al pasar * como primer argumento, fuerzo a que todos los argumentos sean keywords
     # el constructor solo va a aceptar que pcsmote se instancie con keywords
@@ -95,6 +96,19 @@ class PCSMOTE(Utils):
 
         # Diagnóstico opcional
         self._diag_densidad = None
+
+    # ------------ setters y getters ------------- # 
+
+    def setX_syn(self, X_syn):
+        self.X_syn = X_syn
+    def setY_syn(self, y_syn):
+        self.y_syn = y_syn
+    def getX_syn(self):
+        return self.X_syn
+    def getY_syn(self):
+        return self.y_syn
+    def get_sinteticas(self):
+        return [self.getX_syn(), self.getY_syn()]
 
     # ------------------------------- Densidad por intersección -------------------------------
 
@@ -426,6 +440,9 @@ class PCSMOTE(Utils):
             # Consolidación de resultados
             X_sint = np.asarray(muestras_sinteticas, dtype=float)
             y_sint = np.ones(len(X_sint), dtype=int)
+
+            self.setX_syn(X_sint)
+            self.setY_syn(y_sint)
 
             # Concatenación de muestras originales y sintéticas
             X_resampled = np.vstack([X, X_sint])

@@ -1,0 +1,5 @@
+❌ Error en histogramas IF para shuttle: name 'cargar_dataset' is not defined
+❌ Error en histogramas IF para wdbc: name 'cargar_dataset' is not defined
+❌ Error en histogramas IF para glass: name 'cargar_dataset' is not defined
+❌ Error en histogramas IF para heart: name 'cargar_dataset' is not defined
+❌ Error en histogramas IF para eurosat: name 'cargar_dataset' is not defined
