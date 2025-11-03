@@ -50,6 +50,7 @@ class PCSMOTE(Utils):
                  percentil_dist=75,  #3 percentil de distancia para densidad y vecinos válidos
                  percentil_entropia=None, #4 percentil de entropía para filtro de pureza
                  percentil_densidad=None, #5 percentil de densidad para filtro
+                 percentil_riesgo=None,
                  criterio_pureza='entropia',   # 'entropia' | 'proporcion' #6 criterio de pureza
                  factor_equilibrio=1, # 7 factor de equilibrio en multiclase
                  verbose=True, #8 modo verbose, si quiero que se vean los prints, utiles para el debug
@@ -64,6 +65,9 @@ class PCSMOTE(Utils):
         # es decir, si le paso None crea un RandomState aleatorio
         # si le paso un int crea un RandomState con esa semilla
         self.random_state = check_random_state(random_state)
+
+        # Percentil de riesgo 
+        self.percentil_riesgo = None if percentil_riesgo is None else float(percentil_riesgo)
 
         self._X_syn = None
         self._y_syn = None
@@ -270,6 +274,17 @@ class PCSMOTE(Utils):
             # Un riesgo alto indica una muestra más "cerca" de la frontera o en la región mayoritaria.
             riesgo = np.array([np.sum(y[idxs] == 0) / K for idxs in vecinos_all_global], dtype=float)
 
+            # --- Filtro por RIESGO (por percentil) ---
+            if self.percentil_riesgo is not None:
+                umb_riesgo = float(np.percentile(riesgo, self.percentil_riesgo))
+                # Conserva las muestras con riesgo mayor o igual al percentil elegido
+                mask_riesgo = riesgo >= umb_riesgo
+                self._meta["umbral_riesgo_min"] = float(umb_riesgo)
+            else:
+                mask_riesgo = np.ones_like(riesgo, dtype=bool)
+                self._meta["umbral_riesgo_min"] = None
+
+
             # 2. Cálculo de la Densidad
             # Densidad: Mide qué tan "compacta" está la muestra minoritaria con respecto a sus vecinos minoritarios.
             densidades = self.calcular_densidad_interseccion(
@@ -335,7 +350,7 @@ class PCSMOTE(Utils):
 
             # Combinación de filtros (Pureza Y Densidad)
             # comb: Máscara final de las semillas minoritarias válidas para generar muestras sintéticas.
-            comb = pureza_mask & densidad_mask
+            comb = pureza_mask & densidad_mask & mask_riesgo
             filtered_indices_local = np.where(comb)[0]  # Índices locales sobre X_min
             filtered_indices_global = idxs_min_global[filtered_indices_local]  # Índices globales sobre X
 

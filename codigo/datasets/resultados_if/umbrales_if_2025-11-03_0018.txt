@@ -1,0 +1,31 @@
+[shuttle] clase=1 -> P5%=-0.107731, NORMALIZADO=True
+[shuttle] clase=2 -> P5%=-0.445784, NORMALIZADO=True
+[shuttle] clase=3 -> P5%=0.005720, NORMALIZADO=True
+[shuttle] clase=4 -> P5%=0.125400, NORMALIZADO=True
+[shuttle] clase=5 -> P5%=0.138009, NORMALIZADO=True
+[shuttle] clase=6 -> P5%=-0.779157, NORMALIZADO=True
+[shuttle] clase=7 -> P5%=-0.921106, NORMALIZADO=True
+[wdbc] clase=B -> P5%=-0.029285, NORMALIZADO=True
+[wdbc] clase=M -> P5%=-0.264498, NORMALIZADO=True
+[glass] clase=1 -> P5%=-0.859131, NORMALIZADO=True
+[glass] clase=2 -> P5%=-0.318619, NORMALIZADO=True
+[glass] clase=3 -> P5%=-0.982110, NORMALIZADO=True
+[glass] clase=5 -> P5%=-0.429233, NORMALIZADO=True
+[glass] clase=6 -> (<10 muestras) sin IF
+[glass] clase=7 -> P5%=-0.824048, NORMALIZADO=True
+[heart] clase=0 -> P5%=-0.470389, NORMALIZADO=True
+[heart] clase=1 -> P5%=-0.741909, NORMALIZADO=True
+[heart] clase=2 -> P5%=-0.824089, NORMALIZADO=True
+[heart] clase=3 -> P5%=-0.551616, NORMALIZADO=True
+[heart] clase=4 -> P5%=-0.727239, NORMALIZADO=True
+[iris] clase=Iris-setosa -> P5%=-0.776110, NORMALIZADO=True
+[iris] clase=Iris-versicolor -> P5%=-0.606105, NORMALIZADO=True
+[iris] clase=Iris-virginica -> P5%=-0.629483, NORMALIZADO=True
+[ecoli] clase=cp -> P5%=-0.355721, NORMALIZADO=True
+[ecoli] clase=im -> P5%=-0.680388, NORMALIZADO=True
+[ecoli] clase=imL -> (<10 muestras) sin IF
+[ecoli] clase=imS -> (<10 muestras) sin IF
+[ecoli] clase=imU -> P5%=-0.078689, NORMALIZADO=True
+[ecoli] clase=om -> P5%=-0.196007, NORMALIZADO=True
+[ecoli] clase=omL -> (<10 muestras) sin IF
+[ecoli] clase=pp -> P5%=-0.538971, NORMALIZADO=True

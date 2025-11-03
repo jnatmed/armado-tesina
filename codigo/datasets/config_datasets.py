@@ -48,6 +48,14 @@ config_datasets = {
         "header": None,
         "tipo": "tabular"
     },    
+    "ecoli": {
+        "path": "../datasets/ecoli/ecoli.data",
+        "clase_minoria": "imS",  # clase minoritaria real
+        "col_features": list(range(1, 8)),  # columnas 1 a 7 como features
+        "col_target": 8,  # columna 8 es el target
+        "sep": "\s+",
+        "header": None
+    },
     # "eurosat": {
     #     "path": "../datasets/EuroSAT",
     #     "clase_minoria": 5,  # clase minoritaria real
