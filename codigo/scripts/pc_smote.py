@@ -21,7 +21,7 @@ import time
 
 import traceback
 from Utils import Utils  # clase utilitaria
-
+from meta_pcsmote import GeneradorMetaPCSMOTE
 
 class PCSMOTE(Utils):
     """
@@ -72,6 +72,13 @@ class PCSMOTE(Utils):
         self._X_syn = None
         self._y_syn = None
 
+        # --- META aislada por composición ---
+        self._X_res_meta = None
+        self._y_res_meta = None
+
+        # helper de meta (aislado)
+        self._generador_meta = GeneradorMetaPCSMOTE()
+
         # Hiperparámetros de PC-SMOTE
         
         self.percentil_dist = float(percentil_dist)
@@ -112,6 +119,14 @@ class PCSMOTE(Utils):
     def getX_syn(self): return self._X_syn
     def getY_syn(self): return self._y_syn
     def get_sinteticas(self): return self._X_syn, self._y_syn
+    # --------- GETTERS de salida meta (no alteran returns) ---------
+    def get_X_res_meta(self):
+        """Devuelve la última X resampleada con columnas meta anexadas (o None)."""
+        return self._X_res_meta
+
+    def get_y_res_meta(self):
+        """Devuelve la última y resampleada asociada a X_res_meta (o None)."""
+        return self._y_res_meta    
 
     # ------------------------------- Densidad por intersección -------------------------------
 
@@ -197,6 +212,9 @@ class PCSMOTE(Utils):
             Returns:
                 tuple: (X_resampled, y_resampled), el dataset de entrada con las muestras sintéticas agregadas.
             """
+            # preservar formato de entrada para X_res_meta (DataFrame vs ndarray)
+            self._generador_meta.detectar_formato_entrada(X)
+
             t0 = time.perf_counter()
             X = np.asarray(X)
             y = np.asarray(y)
@@ -478,6 +496,15 @@ class PCSMOTE(Utils):
             self._meta["elapsed_ms"] = (time.perf_counter() - t0) * 1000
             self._meta["k_efectivo"] = K
             # RETURN 6 (FINAL): Retorna el dataset remuestreado exitosamente.
+            # construir y guardar X_res_meta/y_res_meta sin alterar el return
+            self._X_res_meta, self._y_res_meta = self._generador_meta.construir_X_y_con_meta(
+                X_res=X_resampled,
+                y_res=y_resampled,
+                K=self.k,
+                metric=self.metric,
+                criterio_pureza=self.criterio_pureza,
+                fn_densidad_interseccion=self.calcular_densidad_interseccion
+            )
             return X_resampled, y_resampled
 
     def fit_resample_multiclass(self, X, y):
@@ -485,6 +512,8 @@ class PCSMOTE(Utils):
         Oversampling por clase (one-vs-max) manteniendo todas las muestras originales.
         Respeta factor_equilibrio y topes. Logs robustos (k_efectivo seguro).
         """
+        self._generador_meta.detectar_formato_entrada(X)
+
         X = np.asarray(X)
         y = np.asarray(y)
 
@@ -707,4 +736,12 @@ class PCSMOTE(Utils):
             self.setX_syn(None)
             self.setY_syn(None)
 
+        self._X_res_meta, self._y_res_meta = self._generador_meta.construir_X_y_con_meta(
+            X_res=X_res,
+            y_res=y_res,
+            K=self.k,
+            metric=self.metric,
+            criterio_pureza=self.criterio_pureza,
+            fn_densidad_interseccion=self.calcular_densidad_interseccion
+        )
         return X_res, y_res
