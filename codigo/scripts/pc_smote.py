@@ -196,6 +196,132 @@ class PCSMOTE(Utils):
             entropias.append(float(entropy(p, base=2)))
         return np.array(entropias, dtype=float)
 
+    """
+    calcula el riesgo de cada vecino (proporcion de vecinos mayoritarios)
+    para determinar aquellos que se encuentran en la frontera o no
+    """
+    def calcular_riesgo(vecinos_all_global, y, K):
+        riesgo = []
+        for lista_vecinos in vecinos_all_global:   # vecinos_all_global es una lista con los índices de los K vecinos de cada muestra
+            etiquetas_vecinos = y[lista_vecinos]   # obtenemos las etiquetas de esos K vecinos
+            cantidad_mayoritarios = np.sum(etiquetas_vecinos == 0)  # contamos cuántos son clase 0 (mayoritaria)
+            proporcion_mayoritarios = cantidad_mayoritarios / K     # calculamos la proporción
+            riesgo.append(proporcion_mayoritarios)                  # guardamos el valor para esa muestra
+
+        # devuelvo una lista con el riesgo de cada muestra
+        # xejemplo : [0.857, 0.714, 0.429, ...]
+        # siendo riesgo del mismo tamaño que vecinos_all_global
+        # cada posicion corresponde al riesgo de la muestra en esa posicion
+        return np.array(riesgo, dtype=float)        
+
+    def aplicar_filtro_por_riesgo(self, vector_riesgo):
+        """
+        Aplica el filtro por riesgo usando un percentil (np.percentile) pero con
+        pasos explícitos y bucles para la máscara.
+
+        Entradas:
+        - vector_riesgo: array-like de floats en [0,1]
+        - self.percentil_riesgo: percentil en [0,100] o None
+
+        Salida:
+        - mascara_riesgo: np.ndarray[bool] del mismo tamaño que vector_riesgo
+
+        Complejidad:
+        - Cálculo de percentil (NumPy): O(n log n) por el ordenamiento interno
+        - Construcción de máscara explícita: O(n)
+        """
+        import numpy as np
+
+        # Normalización de entrada
+        vector_riesgo = np.asarray(vector_riesgo, dtype=float)
+
+        # Caso: vector vacío
+        if vector_riesgo.size == 0:
+            self._meta["umbral_riesgo_min"] = None
+            return np.zeros(0, dtype=bool)
+
+        # Caso: sin percentil configurado -> aceptar todas las muestras
+        if self.percentil_riesgo is None:
+            mascara_riesgo = np.zeros(vector_riesgo.shape[0], dtype=bool)
+            # Bucle explícito para visibilidad
+            indice = 0
+            while indice < vector_riesgo.shape[0]:
+                mascara_riesgo[indice] = True
+                indice += 1
+            self._meta["umbral_riesgo_min"] = None
+            return mascara_riesgo
+
+        # 1) Umbral por percentil (mantenemos np.percentile, como pediste)
+        percentil_configurado = float(self.percentil_riesgo)
+        if percentil_configurado < 0.0:
+            percentil_configurado = 0.0
+        if percentil_configurado > 100.0:
+            percentil_configurado = 100.0
+
+        umbral_riesgo_minimo = float(np.percentile(vector_riesgo, percentil_configurado))
+        self._meta["umbral_riesgo_min"] = umbral_riesgo_minimo
+
+        # 2) Construcción explícita de la máscara
+        """
+        crea un array de NumPy del mismo tamaño que vector_riesgo, lleno de ceros lógicos (False), 
+        que después se va a ir completando con True o False según el riesgo de cada muestra
+        """
+        mascara_riesgo = np.zeros(vector_riesgo.shape[0], dtype=bool)
+
+        for indice, valor_riesgo_actual in enumerate(vector_riesgo):
+            if valor_riesgo_actual >= umbral_riesgo_minimo:
+                mascara_riesgo[indice] = True
+            else:
+                mascara_riesgo[indice] = False
+
+        return mascara_riesgo
+
+    def calcular_proporciones_minoritarios_en_vecindario(self, y, matriz_vecinos_indices, cantidad_vecinos_K):
+        """
+        Calcula la proporción de vecinos minoritarios (etiqueta == 1) para cada muestra.
+        """
+        import numpy as np
+
+        n_muestras = matriz_vecinos_indices.shape[0]
+        proporciones_minoritarios = np.zeros(n_muestras, dtype=float)
+
+        for indice_muestra, vecinos_de_muestra in enumerate(matriz_vecinos_indices):
+            cantidad_minoritarios = 0
+            for indice_vecino in vecinos_de_muestra:
+                if int(y[indice_vecino]) == 1:
+                    cantidad_minoritarios += 1
+
+            proporciones_minoritarios[indice_muestra] = cantidad_minoritarios / float(cantidad_vecinos_K)
+
+        return proporciones_minoritarios
+
+    def construir_mascara_pureza_por_proporcion(self, proporciones_minoritarios, cantidad_vecinos_K):
+        """
+        Crea una máscara booleana para marcar muestras con mezcla de clases
+        (es decir, vecindarios que tienen al menos 1 minoritario y 1 mayoritario).
+        """
+        import numpy as np
+
+        n_muestras = len(proporciones_minoritarios)
+        mascara_pureza_proporcion = np.zeros(n_muestras, dtype=bool)
+
+        epsilon = 1.0 / float(cantidad_vecinos_K)
+        limite_inferior = epsilon
+        limite_superior = 1.0 - epsilon
+
+        if hasattr(self, "_meta"):
+            self._meta["pureza_eps"] = epsilon
+            self._meta["pureza_limite_inferior"] = limite_inferior
+            self._meta["pureza_limite_superior"] = limite_superior
+
+        for indice, proporcion_actual in enumerate(proporciones_minoritarios):
+            mascara_pureza_proporcion[indice] = (
+                limite_inferior <= proporcion_actual <= limite_superior
+            )
+
+        return mascara_pureza_proporcion
+
+
     # -------------------------------------------- FIT / RESAMPLE (BINARIO) --------------------------------------------
 
     def fit_resample(self, X, y, max_sinteticas=None):
@@ -290,18 +416,10 @@ class PCSMOTE(Utils):
             # 1. Cálculo del Riesgo (proporción de vecinos mayoritarios)
             # Riesgo: Proporción de muestras de la clase mayoritaria (y=0) entre los K vecinos globales. 
             # Un riesgo alto indica una muestra más "cerca" de la frontera o en la región mayoritaria.
-            riesgo = np.array([np.sum(y[idxs] == 0) / K for idxs in vecinos_all_global], dtype=float)
+            riesgo = self.calcular_riesgo(vecinos_all_global, y, K)
 
             # --- Filtro por RIESGO (por percentil) ---
-            if self.percentil_riesgo is not None:
-                umb_riesgo = float(np.percentile(riesgo, self.percentil_riesgo))
-                # Conserva las muestras con riesgo mayor o igual al percentil elegido
-                mask_riesgo = riesgo >= umb_riesgo
-                self._meta["umbral_riesgo_min"] = float(umb_riesgo)
-            else:
-                mask_riesgo = np.ones_like(riesgo, dtype=bool)
-                self._meta["umbral_riesgo_min"] = None
-
+            mask_riesgo = self.aplicar_filtro_por_riesgo(riesgo)
 
             # 2. Cálculo de la Densidad
             # Densidad: Mide qué tan "compacta" está la muestra minoritaria con respecto a sus vecinos minoritarios.
@@ -329,12 +447,13 @@ class PCSMOTE(Utils):
                 # pureza_mask: True para las muestras con entropía menor o igual al umbral (más puras o de frontera).
                 pureza_mask = entropias <= (umb_ent if umb_ent is not None else 1.0)
                 self._meta["umbral_entropia"] = umb_ent
+                
             elif self.criterio_pureza == 'proporcion':
-                # proporción de minoritarios en el vecindario global (granularidad de 1/K)
-                proporciones_min = (y[vecinos_all_global] == 1).mean(axis=1).astype(float)
-                # ventana de “frontera” adaptativa: al menos 1 vecino minoritario y 1 mayoritario
-                eps = 1.0 / K
-                pureza_mask = (proporciones_min >= eps) & (proporciones_min <= (1.0 - eps))
+
+                proporciones_min = self.calcular_proporciones_minoritarios_en_vecindario(y, vecinos_all_global, K)
+
+                pureza_mask = self.construir_mascara_pureza_por_proporcion(proporciones_min, K)
+
             else:
                 # criterio desconocido -> no generamos sintéticas, devolvemos tal cual
                 # Salida temprana: Criterio de pureza no reconocido.
