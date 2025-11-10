@@ -1,66 +1,92 @@
 config_datasets = {
-    # Dataset SHUTTLE - Multiclase (7 clases, altamente desbalanceado)
-    # Simula el estado de un sistema de control de un transbordador espacial.
-    # La clase 1 representa el 78% de los datos, mientras que clases como la 6 y 7 tienen muy pocas muestras.
-    # Ideal para evaluar la efectividad de técnicas de sobremuestreo en entornos multiclase severamente desbalanceados.
+    # SHUTTLE (CSV con header correcto)
     "shuttle": {
         "path": "../datasets/statlog+shuttle/shuttle.csv",
-        "clase_minoria": 7,  # Clase más pequeña (~15 instancias)
-        "col_features": [f"feat_{i}" for i in range(9)],  # Columnas nombradas como strings
-        "clases_minor": [2, 6, 7],  # ✅ Clases consideradas como minoritarias        
-        "col_target": 'target',  # Columna "target"
+        "dataset_name": "shuttle",
+        "clase_minoria": 6,                         
+        "clases_minor": [2, 6, 7],
+        "col_features": [
+                "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"
+        ],
+        "col_target": "target",
         "sep": ",",
-        "header": 0
+        "header": 0,
+        "binarizar": False,
+        "tipo": "tabular"
     },
-    # Dataset WDBC (Breast Cancer Wisconsin) - Binario
+
+    # WDBC (sin header en archivo original .data)
     "wdbc": {
         "path": "../datasets/breast+cancer+wisconsin+original/wdbc.data",
-        "clase_minoria": "M",  # ✅ Coincide con la clase minoritaria real
-        "col_features": list(range(2, 32)),  # Columnas 2 a 31 (30 features)
-        "col_target": 1,  # Columna 1 es el target (B/M)
+        "dataset_name": "wdbc",
+        "clase_minoria": "M",
+        "col_target": "diagnosis",
+        "col_features": [
+            "radius_mean","texture_mean","perimeter_mean","area_mean","smoothness_mean",
+            "compactness_mean","concavity_mean","concave_points_mean","symmetry_mean","fractal_dimension_mean",
+            "radius_se","texture_se","perimeter_se","area_se","smoothness_se",
+            "compactness_se","concavity_se","concave_points_se","symmetry_se","fractal_dimension_se",
+            "radius_worst","texture_worst","perimeter_worst","area_worst","smoothness_worst",
+            "compactness_worst","concavity_worst","concave_points_worst","symmetry_worst","fractal_dimension_worst"
+        ],
         "sep": ",",
-        "header": None
+        "header": None,          # ← el esquema pondrá los nombres
+        "binarizar": False,
+        "tipo": "tabular"
     },
-    # Dataset GLASS - Multiclase (6 clases)
+
+    # GLASS (sin header)
     "glass": {
         "path": "../datasets/glass+identification/glass.data",
-        "clase_minoria": 6,  # ✅ Coincide con la clase minoritaria real
-        "col_features": list(range(1, 10)),  # Columnas 1 a 9 como features
-        "col_target": 10,  # Columna 10 es el target
-        "sep": ",",
-        "header": None
-    },
-    # Dataset HEART - Multiclase (5 clases)
-    "heart": {
-        "path": "../datasets/heart+disease/processed.cleveland.data",
-        "clase_minoria": 4,  # clase minoritaria real        
-        "col_features": list(range(0, 13)),
-        "col_target": 13,
-        "sep": ",",
-        "header": None
-    },
-    "iris": {
-        "path": "../datasets/iris/iris.data",
-        "clase_minoria": "Iris-virginica",      # suele tener menos instancias que setosa o versicolor
-        "col_features": [0, 1, 2, 3],           # cuatro características numéricas
-        "col_target": 4,                        # última columna con el nombre de la especie
+        "dataset_name": "glass",
+        "clase_minoria": 6,
+        "col_target": "Type",
+        "col_features": ["RI","Na","Mg","Al","Si","K","Ca","Ba","Fe"],
         "sep": ",",
         "header": None,
+        "binarizar": False,
         "tipo": "tabular"
-    },    
+    },
+
+    # HEART (Cleveland, sin header)
+    "heart": {
+        "path": "../datasets/heart+disease/processed.cleveland.data",
+        "dataset_name": "heart",
+        "clase_minoria": 4,
+        "col_target": "target",
+        "col_features": [
+            "age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang",
+            "oldpeak","slope","ca","thal"
+        ],
+        "sep": ",",
+        "header": None,
+        "binarizar": False,
+        "tipo": "tabular"
+    },
+
+    # IRIS (sin header). Dataset balanceado → no definas minoritaria para EDA
+    "iris": {
+        "path": "../datasets/iris/iris.data",
+        "dataset_name": "iris",
+        "clase_minoria": None,   # ✅ quitar para evitar “posible error” artificial
+        "col_target": "class",
+        "col_features": ["sepal_length","sepal_width","petal_length","petal_width"],
+        "sep": ",",
+        "header": None,
+        "binarizar": False,
+        "tipo": "tabular"
+    },
+
+    # ECOLI (delimitado por espacios, sin header)
     "ecoli": {
         "path": "../datasets/ecoli/ecoli.data",
-        "clase_minoria": "imS",  # clase minoritaria real
-        "col_features": list(range(1, 8)),  # columnas 1 a 7 como features
-        "col_target": 8,  # columna 8 es el target
-        "sep": "\s+",
-        "header": None
+        "dataset_name": "ecoli",
+        "clase_minoria": "imL",  # ✅ corregido (era "imS")
+        "col_target": "class",
+        "col_features": ["mcg","gvh","lip","chg","aac","alm1","alm2"],
+        "sep": r"\s+",
+        "header": None,
+        "binarizar": False,
+        "tipo": "tabular"
     },
-    # "eurosat": {
-    #     "path": "../datasets/EuroSAT",
-    #     "clase_minoria": 5,  # clase minoritaria real
-    #     "tipo": "imagen",
-    #     "size": (64, 64)
-    # }
-    
 }

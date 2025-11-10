@@ -4,32 +4,51 @@ import matplotlib.pyplot as plt
 from collections import Counter
 from cargar_eurosat import cargar_dataset_eurosat  
 
+from esquemas_conocidos import ESQUEMAS_CONOCIDOS
+
 def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
                    sep=' ', header=None, binarizar=True, tipo='tabular',
-                   impute='median',                 # 'median' o 'drop'
-                   na_values=('?', 'NA', 'None')):  # tokens a tratar como NaN
+                   impute='median', na_values=('?', 'NA', 'None'),
+                   dataset_name=None, names=None):
     """
-    Carga datasets de tipo 'tabular' o 'imagen'.
-    - Tabular: convierte features a numérico, maneja NA (imputación o drop) y retorna (X, y, None).
-    - Imagen: delega a cargar_dataset_eurosat(path).
-    Si binarizar=True, transforma y en {0,1} usando clase_minoria; si False, deja y multiclase.
+    ... (docstring igual) ...
+    - dataset_name: clave para aplicar ESQUEMAS_CONOCIDOS si header=None.
+    - names: lista explícita de nombres para read_csv (override).
     """
     if tipo == 'imagen':
         X, y, clases = cargar_dataset_eurosat(path)
         return X, y, clases
 
     if col_target is None or col_features is None:
-        raise ValueError("Debés especificar las columnas de características (col_features) y la columna target (col_target).")
+        raise ValueError("Debés especificar col_features y col_target.")
 
-    # 1) Leer declarando NA explícitos (evita que 'ca'/'thal' queden como object en Cleveland Heart)
-    df = pd.read_csv(path, header=header, sep=sep, na_values=list(na_values), engine='python')
+    # ---- Selección de 'names' para read_csv ----
+    usar_names = None
+    if names is not None:
+        usar_names = list(names)
+    elif header is None and dataset_name is not None:
+        if dataset_name in ESQUEMAS_CONOCIDOS:
+            usar_names = ESQUEMAS_CONOCIDOS[dataset_name]
 
-    # 2) Seleccionar features y target
-    #    (funciona con nombres de columna o índices enteros)
+    # Si pasamos 'names', debe ser coherente con columnas del archivo
+    if usar_names is not None:
+        df = pd.read_csv(path, header=None, names=usar_names, sep=sep,
+                         na_values=list(na_values), engine='python')
+    else:
+        df = pd.read_csv(path, header=header, sep=sep,
+                         na_values=list(na_values), engine='python')
+
+    # ---- (OPCIONAL) Autodetección si header=None y cantidad coincide ----
+    if header is None and usar_names is None and dataset_name in ESQUEMAS_CONOCIDOS:
+        esquema = ESQUEMAS_CONOCIDOS[dataset_name]
+        if len(esquema) == df.shape[1]:
+            df.columns = esquema  # mapeo automático
+
+    # Selección features y target (por nombre o índice)
     df_features = df[col_features].apply(pd.to_numeric, errors='coerce')
     df_target = df[[col_target]] if isinstance(col_target, str) else df[col_target]
 
-    # 3) Imputación o drop de NA
+    # Imputación / drop
     if impute == 'drop':
         mask_valid = df_features.notna().all(axis=1) & df_target.notna().all(axis=1)
         df_features = df_features.loc[mask_valid]
@@ -37,32 +56,32 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
     elif impute == 'median':
         med = df_features.median(numeric_only=True)
         df_features = df_features.fillna(med)
-        # target no debería tener NA; si los hay, se dropean esas filas
         df_target = df_target.dropna(axis=0)
         df_features = df_features.loc[df_target.index]
     else:
         raise ValueError("impute debe ser 'median' o 'drop'.")
 
-    # 4) Advertencia si, tras convertir, quedó alguna columna no numérica (no debería)
-    tipos_invalidos = df_features.select_dtypes(include=['object']).columns
-    if len(tipos_invalidos) > 0:
-        print(f"⚠️ Advertencia: columnas no numéricas detectadas tras conversión: {list(tipos_invalidos)}")
-
-    # 5) Arrays finales
-    X = df_features.to_numpy(dtype=np.float32)
+    df_features = df_features.astype('float32')
     y = df_target.values.ravel()
 
-    # 6) Validaciones
-    if not np.isfinite(X).all():
+    if not np.isfinite(df_features.to_numpy()).all():
         raise ValueError("❌ X contiene NaN o infinitos luego del preprocesamiento.")
 
-    # 7) Binarización opcional (para runs binarios directos). Para multiclase, dejá binarizar=False.
     if binarizar:
         if clase_minoria is None:
-            raise ValueError("Debe indicarse la clase_minoria si se va a binarizar.")
+            raise ValueError("Debe indicarse clase_minoria si se va a binarizar.")
         y = np.where(y == clase_minoria, 1, 0).astype(int)
+        clases = np.array([0, 1])
+    else:
+        clases = pd.Series(y).unique()
 
-    return X, y, None  # 'clases' no se usa en tabular
+    if isinstance(col_features[0], str):
+        df_features.columns = col_features
+
+    # 👉 devolvemos DataFrame con NOMBRES reales
+    return df_features, y, clases
+
+
 
 
 def graficar_distribucion_clases(y, nombre_dataset, clases_labels=None, guardar_en=None):
