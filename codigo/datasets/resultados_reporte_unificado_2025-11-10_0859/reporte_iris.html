@@ -1,0 +1,63 @@
+<html><head><meta charset='utf-8'><title>Reporte iris</title>
+<style>body{font-family:Arial,Helvetica,sans-serif;max-width:1100px;margin:24px auto;padding:0 12px;}h1{margin-bottom:6px;}h2{margin-top:28px;}table{border-collapse:collapse;width:100%;}table,th,td{border:1px solid #ddd;}th,td{padding:8px;text-align:left;}code{background:#f5f5f5;padding:2px 4px;border-radius:4px;}</style>
+</head><body>
+<h1>Reporte de análisis — iris</h1>
+<h2>Distribución de clases</h2>
+<table><thead><tr><th>Clase</th><th>Conteo</th><th>Proporción (%)</th></tr></thead><tbody>
+<tr><td>Iris-setosa</td><td>50</td><td>33.33</td></tr>
+<tr><td>Iris-versicolor</td><td>50</td><td>33.33</td></tr>
+<tr><td>Iris-virginica</td><td>50</td><td>33.33</td></tr>
+</tbody></table>
+<h2>Métricas clave del dataset</h2>
+<table><tbody>
+<tr><th>cantidad_muestras</th><td>150</td></tr>
+<tr><th>cantidad_atributos</th><td>4</td></tr>
+<tr><th>cantidad_clases</th><td>3</td></tr>
+<tr><th>clase_minima_real</th><td>Iris-setosa</td></tr>
+<tr><th>clase_mayoritaria_real</th><td>Iris-setosa</td></tr>
+<tr><th>n_min</th><td>50</td></tr>
+<tr><th>n_max</th><td>50</td></tr>
+<tr><th>ratio_desequilibrio_max</th><td>1.0</td></tr>
+<tr><th>entropia_clases</th><td>1.0986122886651097</td></tr>
+<tr><th>tamano_efectivo_clases</th><td>2.999999999991</td></tr>
+<tr><th>porcentaje_faltantes</th><td>0.0</td></tr>
+<tr><th>porcentaje_duplicados</th><td>2.0</td></tr>
+<tr><th>asimetria_mediana</th><td>0.10390468411434138</td></tr>
+<tr><th>curtosis_mediana</th><td>-0.9544068721772071</td></tr>
+<tr><th>porcentaje_variables_con_normalidad_no_rechazada</th><td>25.0</td></tr>
+<tr><th>correlacion_absoluta_maxima</th><td>0.9627570943307199</td></tr>
+<tr><th>porcentaje_pares_correlacion_mayor_0_9</th><td>16.666666666666664</td></tr>
+<tr><th>rango_mediano_variables</th><td>3.0</td></tr>
+<tr><th>rango_maximo_variables</th><td>5.900000095367432</td></tr>
+<tr><th>sugerencia_escalado</th><td>MinMaxScaler</td></tr>
+</tbody></table>
+<h2>PCA — Varianza explicada</h2>
+<p>PC1: <b>0.925</b> · PC1+PC2: <b>0.978</b> · PC1+PC2+PC3: <b>0.995</b></p>
+<table><thead><tr><th>Componente</th><th>Varianza explicada</th></tr></thead><tbody>
+<tr><td>PC1</td><td>0.924616</td></tr>
+<tr><td>PC2</td><td>0.053016</td></tr>
+<tr><td>PC3</td><td>0.017185</td></tr>
+<tr><td>PC4</td><td>0.005183</td></tr>
+</tbody></table>
+<h2>Figuras</h2>
+<h3>Distribución de clases</h3>
+<img src='figuras\iris\iris_clases.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: sepal_length</h3>
+<img src='figuras\iris\iris_hist_sepal_length.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: sepal_length</h3>
+<img src='figuras\iris\iris_box_sepal_length.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: sepal_width</h3>
+<img src='figuras\iris\iris_hist_sepal_width.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: sepal_width</h3>
+<img src='figuras\iris\iris_box_sepal_width.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: petal_length</h3>
+<img src='figuras\iris\iris_hist_petal_length.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: petal_length</h3>
+<img src='figuras\iris\iris_box_petal_length.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: petal_width</h3>
+<img src='figuras\iris\iris_hist_petal_width.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: petal_width</h3>
+<img src='figuras\iris\iris_box_petal_width.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Matriz de correlaciones</h3>
+<img src='figuras\iris\iris_correlaciones.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+</body></html>

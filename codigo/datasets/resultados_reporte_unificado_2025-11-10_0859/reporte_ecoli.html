@@ -1,0 +1,81 @@
+<html><head><meta charset='utf-8'><title>Reporte ecoli</title>
+<style>body{font-family:Arial,Helvetica,sans-serif;max-width:1100px;margin:24px auto;padding:0 12px;}h1{margin-bottom:6px;}h2{margin-top:28px;}table{border-collapse:collapse;width:100%;}table,th,td{border:1px solid #ddd;}th,td{padding:8px;text-align:left;}code{background:#f5f5f5;padding:2px 4px;border-radius:4px;}</style>
+</head><body>
+<h1>Reporte de análisis — ecoli</h1>
+<h2>Distribución de clases</h2>
+<table><thead><tr><th>Clase</th><th>Conteo</th><th>Proporción (%)</th></tr></thead><tbody>
+<tr><td>cp</td><td>143</td><td>42.56</td></tr>
+<tr><td>im</td><td>77</td><td>22.92</td></tr>
+<tr><td>pp</td><td>52</td><td>15.48</td></tr>
+<tr><td>imU</td><td>35</td><td>10.42</td></tr>
+<tr><td>om</td><td>20</td><td>5.95</td></tr>
+<tr><td>omL</td><td>5</td><td>1.49</td></tr>
+<tr><td>imL</td><td>2</td><td>0.6</td></tr>
+<tr><td>imS</td><td>2</td><td>0.6</td></tr>
+</tbody></table>
+<h2>Métricas clave del dataset</h2>
+<table><tbody>
+<tr><th>cantidad_muestras</th><td>336</td></tr>
+<tr><th>cantidad_atributos</th><td>7</td></tr>
+<tr><th>cantidad_clases</th><td>8</td></tr>
+<tr><th>clase_minima_real</th><td>imL</td></tr>
+<tr><th>clase_mayoritaria_real</th><td>cp</td></tr>
+<tr><th>n_min</th><td>2</td></tr>
+<tr><th>n_max</th><td>143</td></tr>
+<tr><th>ratio_desequilibrio_max</th><td>71.5</td></tr>
+<tr><th>entropia_clases</th><td>1.517122829944031</td></tr>
+<tr><th>tamano_efectivo_clases</th><td>4.55908903227066</td></tr>
+<tr><th>porcentaje_faltantes</th><td>0.0</td></tr>
+<tr><th>porcentaje_duplicados</th><td>0.0</td></tr>
+<tr><th>asimetria_mediana</th><td>0.4123685669502634</td></tr>
+<tr><th>curtosis_mediana</th><td>0.23776664098540579</td></tr>
+<tr><th>porcentaje_variables_con_normalidad_no_rechazada</th><td>0.0</td></tr>
+<tr><th>correlacion_absoluta_maxima</th><td>0.8093236143460583</td></tr>
+<tr><th>porcentaje_pares_correlacion_mayor_0_9</th><td>0.0</td></tr>
+<tr><th>rango_mediano_variables</th><td>0.8799999952316284</td></tr>
+<tr><th>rango_maximo_variables</th><td>0.9900000095367432</td></tr>
+<tr><th>sugerencia_escalado</th><td>MinMaxScaler</td></tr>
+</tbody></table>
+<h2>PCA — Varianza explicada</h2>
+<p>PC1: <b>0.516</b> · PC1+PC2: <b>0.76</b> · PC1+PC2+PC3: <b>0.845</b></p>
+<table><thead><tr><th>Componente</th><th>Varianza explicada</th></tr></thead><tbody>
+<tr><td>PC1</td><td>0.516168</td></tr>
+<tr><td>PC2</td><td>0.244203</td></tr>
+<tr><td>PC3</td><td>0.084199</td></tr>
+<tr><td>PC4</td><td>0.074135</td></tr>
+<tr><td>PC5</td><td>0.049104</td></tr>
+</tbody></table>
+<h2>Figuras</h2>
+<h3>Distribución de clases</h3>
+<img src='figuras\ecoli\ecoli_clases.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: mcg</h3>
+<img src='figuras\ecoli\ecoli_hist_mcg.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: mcg</h3>
+<img src='figuras\ecoli\ecoli_box_mcg.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: gvh</h3>
+<img src='figuras\ecoli\ecoli_hist_gvh.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: gvh</h3>
+<img src='figuras\ecoli\ecoli_box_gvh.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: lip</h3>
+<img src='figuras\ecoli\ecoli_hist_lip.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: lip</h3>
+<img src='figuras\ecoli\ecoli_box_lip.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: chg</h3>
+<img src='figuras\ecoli\ecoli_hist_chg.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: chg</h3>
+<img src='figuras\ecoli\ecoli_box_chg.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: aac</h3>
+<img src='figuras\ecoli\ecoli_hist_aac.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: aac</h3>
+<img src='figuras\ecoli\ecoli_box_aac.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: alm1</h3>
+<img src='figuras\ecoli\ecoli_hist_alm1.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: alm1</h3>
+<img src='figuras\ecoli\ecoli_box_alm1.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Histograma: alm2</h3>
+<img src='figuras\ecoli\ecoli_hist_alm2.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Boxplot: alm2</h3>
+<img src='figuras\ecoli\ecoli_box_alm2.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+<h3>Matriz de correlaciones</h3>
+<img src='figuras\ecoli\ecoli_correlaciones.png' style='max-width:100%;height:auto;border:1px solid #ddd;padding:4px;' />
+</body></html>

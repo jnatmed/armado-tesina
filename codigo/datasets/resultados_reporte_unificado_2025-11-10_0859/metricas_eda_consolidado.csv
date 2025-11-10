@@ -1,0 +1,6 @@
+dataset,cantidad_muestras,cantidad_atributos,cantidad_clases,clase_minima_real,clase_mayoritaria_real,n_min,n_max,ratio_desequilibrio_max,entropia_clases,tamano_efectivo_clases,porcentaje_faltantes,porcentaje_duplicados,asimetria_mediana,curtosis_mediana,porcentaje_variables_con_normalidad_no_rechazada,correlacion_absoluta_maxima,porcentaje_pares_correlacion_mayor_0_9,rango_mediano_variables,rango_maximo_variables,sugerencia_escalado,pca_pc1,pca_pc1_pc2,pca_pc1_pc2_pc3
+wdbc,569,30,2,M,B,212,357,1.683962,0.660316,1.935405,0.0,0.0,1.413814,2.985568,0.0,0.997855,4.827586,0.46705,4068.800003,RobustScaler,0.982045,0.998221,0.999779
+glass,214,9,6,6,2,9,76,8.444444,1.508658,4.520662,0.0,0.46729,1.614011,2.953475,0.0,0.810403,0.0,4.49,10.760001,RobustScaler,0.476205,0.739398,0.847198
+heart,303,13,5,4,0,13,164,12.615385,1.27951,3.594876,0.0,0.0,0.505796,-0.413811,0.0,0.577537,0.0,3.0,438.0,MinMaxScaler,0.746501,0.896578,0.981691
+iris,150,4,3,Iris-setosa,Iris-setosa,50,50,1.0,1.098612,3.0,0.0,2.0,0.103905,-0.954407,25.0,0.962757,16.666667,3.0,5.9,MinMaxScaler,0.924616,0.977632,0.994817
+ecoli,336,7,8,imL,cp,2,143,71.5,1.517123,4.559089,0.0,0.0,0.412369,0.237767,0.0,0.809324,0.0,0.88,0.99,MinMaxScaler,0.516168,0.760371,0.84457
