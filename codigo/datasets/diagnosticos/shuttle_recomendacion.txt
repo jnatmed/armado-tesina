@@ -1,0 +1,4 @@
+Recomendación Shuttle:
+- No eliminar outliers: los extremos reflejan transiciones reales del sistema.
+- Si el modelo lo requiere, usar RobustScaler o winsorización leve (p0.1–p99.9) y validar.
+- Evitar IsolationForest global. Si se limpia, hacerlo solo en clase mayoritaria y evaluar impacto.

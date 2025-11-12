@@ -187,20 +187,22 @@ class PCSMOTE(Utils):
 
         return densidades
 
-    def calcular_entropia(self, vecinos_all_global, y):
-        """Entropía de clases en el vecindario (base 2)."""
-        entropias = []
+    def calcular_pureza(self, vecinos_all_global, y):
+        """Pureza de clases en el vecindario (1 - entropía base 2)."""
+        purezas = []
         for idxs in vecinos_all_global:
             clases, counts = np.unique(y[idxs], return_counts=True)
             p = counts / counts.sum()
-            entropias.append(float(entropy(p, base=2)))
-        return np.array(entropias, dtype=float)
+            H = float(entropy(p, base=2))
+            pureza = 1.0 - H  # ← invierte la entropía
+            purezas.append(pureza)
+        return np.array(purezas, dtype=float)
 
     """
     calcula el riesgo de cada vecino (proporcion de vecinos mayoritarios)
     para determinar aquellos que se encuentran en la frontera o no
     """
-    def calcular_riesgo(vecinos_all_global, y, K):
+    def calcular_riesgo(self, vecinos_all_global, y, K):
         riesgo = []
         for lista_vecinos in vecinos_all_global:   # vecinos_all_global es una lista con los índices de los K vecinos de cada muestra
             etiquetas_vecinos = y[lista_vecinos]   # obtenemos las etiquetas de esos K vecinos
@@ -286,11 +288,15 @@ class PCSMOTE(Utils):
         proporciones_minoritarios = np.zeros(n_muestras, dtype=float)
 
         for indice_muestra, vecinos_de_muestra in enumerate(matriz_vecinos_indices):
-            cantidad_minoritarios = 0
-            for indice_vecino in vecinos_de_muestra:
+            cantidad_minoritarios = 0 # contador de vecinos minoritarios
+            for indice_vecino in vecinos_de_muestra: # por cada vecino de la muestra
+                # Contar vecinos minoritarios
                 if int(y[indice_vecino]) == 1:
                     cantidad_minoritarios += 1
-
+            """
+            Calcula la proporción de vecinos minoritarios dividiendo 
+            la cantidad de vecinos minoritarios por la cantidad total de vecinos K.
+            """
             proporciones_minoritarios[indice_muestra] = cantidad_minoritarios / float(cantidad_vecinos_K)
 
         return proporciones_minoritarios
@@ -306,7 +312,9 @@ class PCSMOTE(Utils):
         mascara_pureza_proporcion = np.zeros(n_muestras, dtype=bool)
 
         epsilon = 1.0 / float(cantidad_vecinos_K)
+        # limite inferior
         limite_inferior = epsilon
+        # limite superior
         limite_superior = 1.0 - epsilon
 
         if hasattr(self, "_meta"):
@@ -315,6 +323,11 @@ class PCSMOTE(Utils):
             self._meta["pureza_limite_superior"] = limite_superior
 
         for indice, proporcion_actual in enumerate(proporciones_minoritarios):
+            """
+            solo marco como True aquellas muestras cuya proporción de vecinos minoritarios
+            esté entre el límite inferior y el límite superior, es decir, aquellas muestras
+            que tienen mezcla de clases en su vecindario
+            """
             mascara_pureza_proporcion[indice] = (
                 limite_inferior <= proporcion_actual <= limite_superior
             )
@@ -837,7 +850,7 @@ class PCSMOTE(Utils):
                 "k_pedidos": int(self.k),
                 "k_efectivo": int(k_eff),
                 "percentil_densidad": self.percentil_densidad,
-                "percentil_riesgo": self.percentil_dist,
+                "percentil_riesgo": self.percentil_riesgo,
                 "criterio_pureza": self.criterio_pureza,
                 "tecnica_sobremuestreo": "PCSMOTE",
                 "factor_equilibrio": self.factor_equilibrio,

@@ -2,53 +2,122 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import Counter
-from cargar_eurosat import cargar_dataset_eurosat  
 
+from cargar_eurosat import cargar_dataset_eurosat
 from esquemas_conocidos import ESQUEMAS_CONOCIDOS
+
 
 def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
                    sep=' ', header=None, binarizar=True, tipo='tabular',
                    impute='median', na_values=('?', 'NA', 'None'),
                    dataset_name=None, names=None):
     """
-    ... (docstring igual) ...
-    - dataset_name: clave para aplicar ESQUEMAS_CONOCIDOS si header=None.
-    - names: lista explícita de nombres para read_csv (override).
+    Carga un dataset tabular o de imágenes y devuelve (X, y, clases).
+
+    Parámetros clave:
+    - tipo: 'tabular' | 'imagen'
+    - header: None si el archivo NO tiene encabezado; 0 si la primera fila es encabezado.
+    - names: lista completa de nombres de columnas para read_csv cuando header=None.
+    - dataset_name: si header=None y names no fue provisto, se intentará usar ESQUEMAS_CONOCIDOS[dataset_name].
+    - col_features: lista con los nombres de columnas de features.
+    - col_target: nombre (str) o lista de nombres de la(s) columna(s) objetivo.
+    - impute: 'median' o 'drop'.
+    - binarizar: si True, y exige 'clase_minoria'.
+
+    Retorna:
+    - df_features (pd.DataFrame con float32, columnas = col_features)
+    - y (np.ndarray 1D)
+    - clases (np.ndarray con etiquetas únicas o [0,1] si binariza)
     """
+    # --- Imágenes ---
     if tipo == 'imagen':
         X, y, clases = cargar_dataset_eurosat(path)
         return X, y, clases
 
+    # --- Validaciones mínimas ---
     if col_target is None or col_features is None:
         raise ValueError("Debés especificar col_features y col_target.")
 
-    # ---- Selección de 'names' para read_csv ----
+    # --- Selección de esquema/nombres para read_csv ---
     usar_names = None
     if names is not None:
         usar_names = list(names)
-    elif header is None and dataset_name is not None:
-        if dataset_name in ESQUEMAS_CONOCIDOS:
-            usar_names = ESQUEMAS_CONOCIDOS[dataset_name]
+    elif header is None and dataset_name is not None and dataset_name in ESQUEMAS_CONOCIDOS:
+        usar_names = ESQUEMAS_CONOCIDOS[dataset_name]
 
-    # Si pasamos 'names', debe ser coherente con columnas del archivo
+    # --- Lectura robusta ---
     if usar_names is not None:
-        df = pd.read_csv(path, header=None, names=usar_names, sep=sep,
-                         na_values=list(na_values), engine='python')
+        df = pd.read_csv(
+            path,
+            header=None,
+            names=usar_names,
+            sep=sep,
+            na_values=list(na_values),
+            engine='python',
+            skipinitialspace=True
+        )
     else:
-        df = pd.read_csv(path, header=header, sep=sep,
-                         na_values=list(na_values), engine='python')
+        df = pd.read_csv(
+            path,
+            header=header,
+            sep=sep,
+            na_values=list(na_values),
+            engine='python',
+            skipinitialspace=True
+        )
 
-    # ---- (OPCIONAL) Autodetección si header=None y cantidad coincide ----
+    # --- Anti-encabezado duplicado (si se pasó names y header=None) ---
+    if usar_names is not None and header is None and len(df) > 0:
+        fila0 = df.iloc[0].astype(str).str.strip().tolist()
+        esquema = [str(c).strip() for c in usar_names]
+        coincidencias = 0
+        i = 0
+        limite = min(len(fila0), len(esquema))
+        while i < limite:
+            if fila0[i] == esquema[i]:
+                coincidencias += 1
+            i += 1
+        umbral = max(3, int(0.6 * limite))
+        if coincidencias >= umbral:
+            df = df.iloc[1:].reset_index(drop=True)
+
+    # --- Mapeo automático por dataset_name si no se usó names y coincide cantidad ---
     if header is None and usar_names is None and dataset_name in ESQUEMAS_CONOCIDOS:
         esquema = ESQUEMAS_CONOCIDOS[dataset_name]
         if len(esquema) == df.shape[1]:
-            df.columns = esquema  # mapeo automático
+            df.columns = esquema
 
-    # Selección features y target (por nombre o índice)
+    # --- Validación de columnas requeridas (evita KeyError crípticos) ---
+    columnas_requeridas = []
+    for c in col_features:
+        columnas_requeridas.append(c)
+    if isinstance(col_target, str):
+        columnas_requeridas.append(col_target)
+    else:
+        for c in col_target:
+            columnas_requeridas.append(c)
+
+    cols_faltantes = []
+    for c in columnas_requeridas:
+        if c not in df.columns:
+            cols_faltantes.append(c)
+
+    if len(cols_faltantes) > 0:
+        primeras = df.columns.tolist()
+        primeras = primeras[:min(20, len(primeras))]
+        raise KeyError(
+            f"Columnas ausentes: {cols_faltantes}. "
+            f"Leídas={len(df.columns)} → {primeras}..."
+        )
+
+    # --- Selección de features y target ---
     df_features = df[col_features].apply(pd.to_numeric, errors='coerce')
-    df_target = df[[col_target]] if isinstance(col_target, str) else df[col_target]
+    if isinstance(col_target, str):
+        df_target = df[[col_target]]
+    else:
+        df_target = df[col_target]
 
-    # Imputación / drop
+    # --- Imputación / limpieza ---
     if impute == 'drop':
         mask_valid = df_features.notna().all(axis=1) & df_target.notna().all(axis=1)
         df_features = df_features.loc[mask_valid]
@@ -61,12 +130,16 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
     else:
         raise ValueError("impute debe ser 'median' o 'drop'.")
 
+    # --- Tipos y chequeo de finitos ---
     df_features = df_features.astype('float32')
-    y = df_target.values.ravel()
-
-    if not np.isfinite(df_features.to_numpy()).all():
+    matriz = df_features.to_numpy()
+    if not np.isfinite(matriz).all():
         raise ValueError("❌ X contiene NaN o infinitos luego del preprocesamiento.")
 
+    # --- Vector objetivo ---
+    y = df_target.values.ravel()
+
+    # --- Binarización (si corresponde) ---
     if binarizar:
         if clase_minoria is None:
             raise ValueError("Debe indicarse clase_minoria si se va a binarizar.")
@@ -75,25 +148,35 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
     else:
         clases = pd.Series(y).unique()
 
+    # --- Etiquetas de columnas en X (por claridad) ---
     if isinstance(col_features[0], str):
         df_features.columns = col_features
 
-    # 👉 devolvemos DataFrame con NOMBRES reales
     return df_features, y, clases
 
 
-
-
 def graficar_distribucion_clases(y, nombre_dataset, clases_labels=None, guardar_en=None):
-    conteo = Counter(y)
-    clases = list(conteo.keys())
-    cantidades = list(conteo.values())
-    
+    conteo_dict = Counter(y)
+    clases = []
+    cantidades = []
+    for k, v in conteo_dict.items():
+        clases.append(k)
+        cantidades.append(v)
+
     if clases_labels:
-        clases = [clases_labels[c] if c in clases_labels else c for c in clases]
-    
+        clases_mapeadas = []
+        i = 0
+        while i < len(clases):
+            c = clases[i]
+            if c in clases_labels:
+                clases_mapeadas.append(clases_labels[c])
+            else:
+                clases_mapeadas.append(c)
+            i += 1
+        clases = clases_mapeadas
+
     plt.figure(figsize=(8, 5))
-    plt.bar(clases, cantidades, color='skyblue')
+    plt.bar(clases, cantidades)
     plt.xlabel("Clases")
     plt.ylabel("Cantidad de instancias")
     plt.title(f"Distribución de clases - {nombre_dataset}")

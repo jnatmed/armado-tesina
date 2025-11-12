@@ -1,92 +1,190 @@
+from esquemas_conocidos import ESQUEMAS_CONOCIDOS
+
+
 config_datasets = {
-    # SHUTTLE (CSV con header correcto)
+    # ───────────────────────────── SHUTTLE ─────────────────────────────
     "shuttle": {
         "path": "../datasets/statlog+shuttle/shuttle.csv",
         "dataset_name": "shuttle",
-        "clase_minoria": 6,                         
+        "clase_minoria": 6,
         "clases_minor": [2, 6, 7],
-        "col_features": [
-                "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"
-        ],
+        "col_features": ["time","A2","A3","A4","A5","A6","A7","A8","A9"],
         "col_target": "target",
         "sep": ",",
         "header": 0,
         "binarizar": False,
-        "tipo": "tabular"
+        "tipo": "tabular",
+        # Limpieza: NO eliminar. Dataset ultra desbalanceado; extremos suelen ser clases minoritarias.
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                # Nivel 1: solo rangos físicos triviales (>=0) para evitar errores de carga
+                "nivel_1": {
+                "tipo": "rango_fisico",
+                "criterios": {"time": {"min": 0}, "A2": {"min": 0}, "A3": {"min": 0}, "A4": {"min": 0},
+                                "A5": {"min": 0}, "A6": {"min": 0}, "A7": {"min": 0}, "A8": {"min": 0}, "A9": {"min": 0}},
+                "fail_safe_max_ratio_eliminados": 0.0  # Shuttle: prohibido borrar
+                },
+                # Nivel 2: IQR POR CLASE solo para marcar (no borrar)
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                # Nivel 3: desactivado (evita que IF/OCSVM saquen minorías reales)
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "No eliminar outliers: las colas corresponden a clases 2/6/7. Solo marcar outliers por clase para diagnóstico."
+        },
+        "transformacion": {
+            "escalado": {"tipo": "robust", "aplicar": True}
+        }        
     },
 
-    # WDBC (sin header en archivo original .data)
+    # ───────────────────────────── WDBC ─────────────────────────────
     "wdbc": {
         "path": "../datasets/breast+cancer+wisconsin+original/wdbc.data",
         "dataset_name": "wdbc",
         "clase_minoria": "M",
         "col_target": "diagnosis",
-        "col_features": [
-            "radius_mean","texture_mean","perimeter_mean","area_mean","smoothness_mean",
-            "compactness_mean","concavity_mean","concave_points_mean","symmetry_mean","fractal_dimension_mean",
-            "radius_se","texture_se","perimeter_se","area_se","smoothness_se",
-            "compactness_se","concavity_se","concave_points_se","symmetry_se","fractal_dimension_se",
-            "radius_worst","texture_worst","perimeter_worst","area_worst","smoothness_worst",
-            "compactness_worst","concavity_worst","concave_points_worst","symmetry_worst","fractal_dimension_worst"
-        ],
+        "col_features": ESQUEMAS_CONOCIDOS["wdbc"][2:],  # 30 features
         "sep": ",",
-        "header": None,          # ← el esquema pondrá los nombres
+        "header": None,
         "binarizar": False,
-        "tipo": "tabular"
+        "tipo": "tabular",
+        "esquema": ESQUEMAS_CONOCIDOS["wdbc"],
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                "nivel_1": {"tipo": "rango_fisico", "criterios": {}},   # sin cortes duros
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "Conservar extremos (malignos). Solo marcar por IQR si hace falta inspección."
+        },
+        "transformacion": { "escalado": {"tipo": "robust", "aplicar": True}
+    }
     },
 
-    # GLASS (sin header)
+    # ───────────────────────────── GLASS ─────────────────────────────
     "glass": {
         "path": "../datasets/glass+identification/glass.data",
         "dataset_name": "glass",
         "clase_minoria": 6,
         "col_target": "Type",
-        "col_features": ["RI","Na","Mg","Al","Si","K","Ca","Ba","Fe"],
+        "col_features": ESQUEMAS_CONOCIDOS["glass"][1:-1],
         "sep": ",",
         "header": None,
         "binarizar": False,
-        "tipo": "tabular"
+        "tipo": "tabular",
+        "esquema": ESQUEMAS_CONOCIDOS["glass"],
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                # Rango químico plausible (quirúrgico)
+                "nivel_1": {
+                "tipo": "rango_fisico",
+                "criterios": {"Si": {"min": 68, "max": 78}, "Ca": {"min": 4, "max": 15}, "K": {"max": 6}, "Fe": {"max": 1.0}},
+                "fail_safe_max_ratio_eliminados": 0.02  # 2% permite sacar esas 3 filas (~1.4%)
+                },
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "No tocar extremos de Ba/Mg/Al (discriminantes de headlamps/vajilla)."
+        },
+        "transformacion": {
+            "winsorizacion": {"aplicar": True, "p_inferior": 0.01, "p_superior": 0.99},
+            "escalado": {"tipo": "robust", "aplicar": True}
+        }        
     },
 
-    # HEART (Cleveland, sin header)
+    # ───────────────────────────── HEART ─────────────────────────────
     "heart": {
         "path": "../datasets/heart+disease/processed.cleveland.data",
         "dataset_name": "heart",
         "clase_minoria": 4,
         "col_target": "target",
-        "col_features": [
-            "age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang",
-            "oldpeak","slope","ca","thal"
-        ],
+        "col_features": ESQUEMAS_CONOCIDOS["heart"][:-1],
         "sep": ",",
         "header": None,
         "binarizar": False,
-        "tipo": "tabular"
+        "tipo": "tabular",
+        "esquema": ESQUEMAS_CONOCIDOS["heart"],
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                "nivel_1": {"tipo": "rango_fisico",
+                            "criterios": {"trestbps": {"min": 80, "max": 200},
+                                          "chol":     {"min": 100, "max": 400},
+                                          "thalach":  {"min": 60, "max": 210},
+                                          "oldpeak":  {"max": 5}}},
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "Eliminar solo valores fisiológicamente imposibles; el resto se marca."
+        }
     },
 
-    # IRIS (sin header). Dataset balanceado → no definas minoritaria para EDA
+    # ───────────────────────────── IRIS ─────────────────────────────
     "iris": {
         "path": "../datasets/iris/iris.data",
         "dataset_name": "iris",
-        "clase_minoria": None,   # ✅ quitar para evitar “posible error” artificial
+        "clase_minoria": None,
         "col_target": "class",
-        "col_features": ["sepal_length","sepal_width","petal_length","petal_width"],
+        "col_features": ESQUEMAS_CONOCIDOS["iris"][:-1],
         "sep": ",",
         "header": None,
         "binarizar": False,
-        "tipo": "tabular"
+        "tipo": "tabular",
+        "esquema": ESQUEMAS_CONOCIDOS["iris"],
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                # Iris está limpio; solo salvaguardas triviales
+                "nivel_1": {"tipo": "rango_fisico",
+                            "criterios": {"sepal_length": {"min": 0},
+                                          "sepal_width":  {"min": 0},
+                                          "petal_length": {"min": 0},
+                                          "petal_width":  {"min": 0}}},
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "No borrar nada salvo valores negativos/erróneos. IQR por clase solo para diagnóstico."
+        }
     },
 
-    # ECOLI (delimitado por espacios, sin header)
+    # ───────────────────────────── ECOLI ─────────────────────────────
     "ecoli": {
         "path": "../datasets/ecoli/ecoli.data",
         "dataset_name": "ecoli",
-        "clase_minoria": "imL",  # ✅ corregido (era "imS")
+        "clase_minoria": "imL",
         "col_target": "class",
-        "col_features": ["mcg","gvh","lip","chg","aac","alm1","alm2"],
+        "col_features": ESQUEMAS_CONOCIDOS["ecoli"][1:-1],
         "sep": r"\s+",
         "header": None,
         "binarizar": False,
-        "tipo": "tabular"
+        "tipo": "tabular",
+        "esquema": ESQUEMAS_CONOCIDOS["ecoli"],
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                "nivel_1": {"tipo": "rango_fisico",
+                            "criterios": {"mcg": {"min": 0, "max": 1},
+                                          "gvh": {"min": 0, "max": 1},
+                                          "lip": {"min": 0, "max": 1},
+                                          "chg": {"min": 0, "max": 1},
+                                          "aac": {"min": 0, "max": 1},
+                                          "alm1": {"min": 0, "max": 1},
+                                          "alm2": {"min": 0, "max": 1}}},
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                "nivel_3": {"tipo": "isolation_forest",
+                            "activar": True,
+                            "params": {"contamination": 0.03, "n_estimators": 150, "random_state": 42},
+                            "estrategia": "fit_por_clase"}
+            },
+            "comentario": "Valores normalizados [0,1]. Marcar por clase; IF leve solo para señal rara, no para borrar masivo."
+        }
     },
 }
