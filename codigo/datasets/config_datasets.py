@@ -2,6 +2,47 @@ from esquemas_conocidos import ESQUEMAS_CONOCIDOS
 
 
 config_datasets = {
+    # ───────────────────────────── US CRIME ─────────────────────────────
+    "us_crime": {
+        "path": "../datasets/US Crime/x10data.npz",
+        "dataset_name": "us_crime",
+
+        # Binario. Minoritaria identificada desde el benchmark imbalanced-learn (~12:1)
+        "clase_minoria": 1,
+
+        # El .npz trae X e y ya separados → el cargador detectará esto
+        # Pero igual mantenemos col_target y col_features por consistencia
+        "col_target": "target",
+        "col_features": None,          # se completan luego de cargar X.shape[1]
+
+        "sep": None,                   # no aplica (NPZ)
+        "header": None,
+        "binarizar": False,
+        "tipo": "tabular_npz",         # IMPORTANTE: para que cargar_dataset.py lo trate distinto
+
+        # US Crime no tiene outliers “físicos”; no inventes criterios
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                # Nivel 1: sin cortes (no hay rangos físicos reales)
+                "nivel_1": {
+                    "tipo": "rango_fisico",
+                    "criterios": {},
+                    "fail_safe_max_ratio_eliminados": 0.0
+                },
+                # Nivel 2: marcar IQR por clase para diagnóstico
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                # Nivel 3: Isolation Forest apagado (evita borrar patrones útiles)
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "No eliminar filas; marcar por IQR si hace falta inspección."
+        },
+
+        "transformacion": {
+            "escalado": {"tipo": "robust", "aplicar": True}
+        }
+    },
     # ───────────────────────────── SHUTTLE ─────────────────────────────
     "shuttle": {
         "path": "../datasets/statlog+shuttle/shuttle.csv",

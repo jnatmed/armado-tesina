@@ -187,7 +187,7 @@ class PCSMOTE(Utils):
 
         return densidades
 
-    def calcular_pureza(self, vecinos_all_global, y):
+    def calcular_entropia(self, vecinos_all_global, y):
         """Pureza de clases en el vecindario (1 - entropía base 2)."""
         purezas = []
         for idxs in vecinos_all_global:
@@ -333,7 +333,6 @@ class PCSMOTE(Utils):
             )
 
         return mascara_pureza_proporcion
-
 
     # -------------------------------------------- FIT / RESAMPLE (BINARIO) --------------------------------------------
 
