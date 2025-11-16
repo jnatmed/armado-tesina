@@ -132,9 +132,18 @@ class PCSMOTE(Utils):
 
     def calcular_densidad_interseccion(self, X_min, vecinos_local, dists_min_local):
         """
-        Densidad por intersección entre semillas MINORITARIAS:
-          - Para cada semilla i, u_i = percentil(self.percentil_dist) de distancias a k vecinos minoritarios.
-          - Cuenta fracción de vecinos a distancia <= u_i (con DistanceMetric seleccionado).
+        Densidad por intersección entre semillas MINORITARIAS (versión corregida):
+
+          - Primero se arma un vector global con TODAS las distancias entre semillas
+            minoritarias y sus vecinos minoritarios.
+          - Se define un ÚNICO umbral global u_global = percentil(self.percentil_dist)
+            de ese conjunto global de distancias.
+          - Para cada semilla i, la densidad es la fracción de sus vecinos minoritarios
+            cuya distancia a la semilla es <= u_global.
+
+        Esto evita que cada semilla tenga su propio percentil local (que colapsaba
+        las densidades alrededor de un valor fijo) y permite que la densidad
+        realmente discrimine semillas más “apretadas” de las más aisladas.
         """
         X_min = np.asarray(X_min)
         n_min = len(X_min)
@@ -144,59 +153,115 @@ class PCSMOTE(Utils):
         densidades = np.zeros(n_min, dtype=float)
         self._diag_densidad = {"semillas_con_hits": 0, "total_hits": 0}
 
-        # Para cada semilla
+        # 1) Construir vector global de distancias minoritarias
+        distancias_globales = []
         for i in range(n_min):
-            # Vecinos minoritarios
-            # Obtener índices de vecinos minoritarios locales
-            nbr_idx_local = vecinos_local[i]
-            # Si no hay vecinos, densidad 0
-            # Paso a la siguiente semilla minoritaria
-            if len(nbr_idx_local) == 0:
+            # dists_min_local[i] ya debería contener las distancias desde la semilla i
+            # a sus vecinos minoritarios (en el mismo orden que vecinos_local[i])
+            if i >= len(dists_min_local):
+                continue
+
+            d_i = dists_min_local[i]
+            if d_i is None:
+                continue
+
+            d_i = np.asarray(d_i, dtype=float)
+            if d_i.size == 0:
+                continue
+
+            # Ignoro ceros (la propia semilla) para no contaminar el percentil
+            for valor in d_i:
+                if valor > 0.0:
+                    distancias_globales.append(float(valor))
+
+        if len(distancias_globales) == 0:
+            # No hay distancias válidas -> densidades todas en 0
+            return densidades
+
+        distancias_globales = np.asarray(distancias_globales, dtype=float)
+
+        # 2) Umbral global según percentil_dist (o mediana si no se configuró)
+        if self.percentil_dist is not None:
+            umbral_global = float(np.percentile(distancias_globales, self.percentil_dist))
+        else:
+            umbral_global = float(np.percentile(distancias_globales, 50.0))
+
+        # Guardo el umbral global de densidad para diagnósticos
+        self._meta["umbral_densidad_global"] = umbral_global
+
+        # 3) Calcular densidad por semilla usando el umbral global
+        for i in range(n_min):
+            if i >= len(vecinos_local):
+                continue
+
+            indices_vecinos_locales = vecinos_local[i]
+            if len(indices_vecinos_locales) == 0:
                 densidades[i] = 0.0
                 continue
 
-            # Obtener distancias a vecinos minoritarios    
-            d_i = dists_min_local[i]  # (k,)
-            # Calcular umbral u_i    
-            u_i = float(np.percentile(d_i, self.percentil_dist))
+            if i >= len(dists_min_local):
+                densidades[i] = 0.0
+                continue
 
-            # reshape lo que hace es tomar la fila i y convertirla en una matriz 1xd
-            xi = X_min[i].reshape(1, -1)
-            # Obtengo los vecinos minoritarios de xi
-            # tomando nbr_idx_local como índices sobre X_min
-            xj = X_min[nbr_idx_local]  # (k, d)
+            d_i = np.asarray(dists_min_local[i], dtype=float)
+            if d_i.size == 0:
+                densidades[i] = 0.0
+                continue
 
-            # Aca uso DistanceMetric
-            # pairwise devuelve (1, k), que se refiere a las distancias de xi a cada xj
-            dij = self._dist_metric.pairwise(xi, xj).ravel()  # (k,)
+            # Vecinos que están a distancia menor o igual al umbral global
+            intersecciones = int(np.sum(d_i <= umbral_global))
 
-            # Si alguna de las distancias a cada vecino
-            # es menor o igual al umbral entonces lo cuento como
-            # interseccion
-            intersecciones = int(np.sum(dij <= u_i))
-
-            # Si hay intersecciones, actualizo diagnósticos
             if intersecciones > 0:
-                # semillas_con_hits: cuenta cuántas semillas tienen al menos un vecino dentro del umbral.
+                # semillas_con_hits: cuántas semillas tienen al menos un vecino “cercano”
                 self._diag_densidad["semillas_con_hits"] += 1
-                # total_hits: suma total de vecinos que están dentro del umbral para todas las semillas.
-                # Osea es mas una estadistica global de distancias por debajo del umbral
+                # total_hits: suma de todos los vecinos “cercanos” en el dataset
                 self._diag_densidad["total_hits"] += intersecciones
 
-            densidades[i] = intersecciones / max(1, len(nbr_idx_local))
+            # Densidad = fracción de vecinos locales que caen dentro del umbral global
+            densidades[i] = intersecciones / float(len(indices_vecinos_locales))
 
         return densidades
 
+
     def calcular_entropia(self, vecinos_all_global, y):
-        """Pureza de clases en el vecindario (1 - entropía base 2)."""
-        purezas = []
+        """
+        Entropía NORMALIZADA de clases en el vecindario (base 2).
+
+        - entropía_normalizada = 0.0  -> vecindario completamente puro (solo una clase)
+        - entropía_normalizada ≈ 1.0 -> vecindario fuertemente mezclado (frontera),
+                                        normalizada por el máximo teórico dado el nº de clases.
+
+        De esta forma:
+          * entropía = 0  => máxima "pureza".
+          * entropía = 1  => máxima mezcla posible según la cantidad de clases del problema.
+        """
+        entropias = []
+
+        y = np.asarray(y)
+        clases_globales = np.unique(y)
+        n_clases_globales = len(clases_globales)
+
+        if n_clases_globales > 1:
+            H_max = float(np.log2(n_clases_globales))
+        else:
+            # Caso degenerado: una sola clase en todo el dataset
+            H_max = 1.0
+
         for idxs in vecinos_all_global:
-            clases, counts = np.unique(y[idxs], return_counts=True)
+            etiquetas_vecindario = y[idxs]
+            clases, counts = np.unique(etiquetas_vecindario, return_counts=True)
             p = counts / counts.sum()
             H = float(entropy(p, base=2))
-            pureza = 1.0 - H  # ← invierte la entropía
-            purezas.append(pureza)
-        return np.array(purezas, dtype=float)
+
+            if H_max > 0.0:
+                H_normalizada = H / H_max
+            else:
+                H_normalizada = 0.0
+
+            entropias.append(H_normalizada)
+
+        return np.array(entropias, dtype=float)
+
 
     """
     calcula el riesgo de cada vecino (proporcion de vecinos mayoritarios)
@@ -452,19 +517,31 @@ class PCSMOTE(Utils):
 
             # Aplicación del Criterio de Pureza
             if self.criterio_pureza == 'entropia':
-                # Criterio: Se utiliza la entropía de la vecindad global para medir la "pureza".
+                # Entropía normalizada del vecindario:
+                #   0.0 => vecindario puro
+                #   1.0 => vecindario fuertemente mezclado (frontera)
                 entropias = self.calcular_entropia(vecinos_all_global, y)
-                # umb_ent: Umbral de entropía basado en el percentil configurado.
-                umb_ent = float(np.percentile(entropias, self.percentil_entropia)) if self.percentil_entropia else None
-                # pureza_mask: True para las muestras con entropía menor o igual al umbral (más puras o de frontera).
-                pureza_mask = entropias <= (umb_ent if umb_ent is not None else 1.0)
+
+                if self.percentil_entropia is not None:
+                    # umb_ent: umbral de entropía basado en el percentil configurado.
+                    umb_ent = float(np.percentile(entropias, self.percentil_entropia))
+                    # Para frontera me quedo con las muestras con entropía MAYOR o IGUAL al umbral.
+                    pureza_mask = entropias >= umb_ent
+                else:
+                    umb_ent = None
+                    # Si no se define percentil, considero como candidatas las muestras con algo de mezcla
+                    # (entropía > 0) y descarto las completamente puras.
+                    pureza_mask = entropias > 0.0
+
                 self._meta["umbral_entropia"] = umb_ent
-                
+
             elif self.criterio_pureza == 'proporcion':
-
-                proporciones_min = self.calcular_proporciones_minoritarios_en_vecindario(y, vecinos_all_global, K)
-
-                pureza_mask = self.construir_mascara_pureza_por_proporcion(proporciones_min, K)
+                proporciones_min = self.calcular_proporciones_minoritarios_en_vecindario(
+                    y, vecinos_all_global, K
+                )
+                pureza_mask = self.construir_mascara_pureza_por_proporcion(
+                    proporciones_min, K
+                )
 
             else:
                 # criterio desconocido -> no generamos sintéticas, devolvemos tal cual
