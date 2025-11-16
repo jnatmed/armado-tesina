@@ -55,7 +55,7 @@ class Utils:
 
     @staticmethod
     def tag_p(criterio: str) -> str:
-        return "entropia" if criterio == "entropia" else "Pproporcion"
+        return "P" + str(criterio).lower().strip()
 
     @staticmethod
     def safe_token(s: str) -> str:

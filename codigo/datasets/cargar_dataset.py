@@ -15,17 +15,17 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
     Carga un dataset tabular o de imágenes y devuelve (X, y, clases).
 
     Parámetros clave:
-    - tipo: 'tabular' | 'imagen'
+    - tipo: 'tabular' | 'imagen' | 'tabular_npz'
     - header: None si el archivo NO tiene encabezado; 0 si la primera fila es encabezado.
     - names: lista completa de nombres de columnas para read_csv cuando header=None.
     - dataset_name: si header=None y names no fue provisto, se intentará usar ESQUEMAS_CONOCIDOS[dataset_name].
-    - col_features: lista con los nombres de columnas de features.
-    - col_target: nombre (str) o lista de nombres de la(s) columna(s) objetivo.
-    - impute: 'median' o 'drop'.
+    - col_features: lista con los nombres de columnas de features (solo para 'tabular').
+    - col_target: nombre (str) o lista de nombres de la(s) columna(s) objetivo (solo para 'tabular').
+    - impute: 'median' o 'drop' (solo para 'tabular').
     - binarizar: si True, y exige 'clase_minoria'.
 
     Retorna:
-    - df_features (pd.DataFrame con float32, columnas = col_features)
+    - df_features (pd.DataFrame con float32)
     - y (np.ndarray 1D)
     - clases (np.ndarray con etiquetas únicas o [0,1] si binariza)
     """
@@ -34,9 +34,60 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
         X, y, clases = cargar_dataset_eurosat(path)
         return X, y, clases
 
-    # --- Validaciones mínimas ---
+    # --- TABULAR NPZ (US CRIME, etc.) ---
+    # --- TABULAR NPZ (US CRIME, etc.) ---
+    if tipo == 'tabular_npz':
+        data_npz = np.load(path)
+
+        # Soportar dos formatos típicos:
+        # 1) 'X' / 'y'
+        # 2) 'data' / 'label'  ← el tuyo (US Crime)
+        if 'X' in data_npz and 'y' in data_npz:
+            X = data_npz['X']
+            y = data_npz['y']
+        elif 'data' in data_npz and 'label' in data_npz:
+            X = data_npz['data']
+            y = data_npz['label']
+        else:
+            raise KeyError(
+                f"El archivo NPZ {path} debe contener ('X','y') o ('data','label'). "
+                f"Claves encontradas: {data_npz.files}"
+            )
+
+        # Asegurar vector 1D
+        y = np.asarray(y).ravel()
+        X = np.asarray(X)
+
+        # Definir nombres de columnas si no vienen dados
+        n_features = X.shape[1]
+        if col_features is None:
+            col_features = [f"feat_{i}" for i in range(n_features)]
+
+        # Construir DataFrame de features
+        df_features = pd.DataFrame(X, columns=col_features)
+        df_features = df_features.astype('float32')
+
+        # Chequeo de NaN/inf en X
+        matriz = df_features.to_numpy()
+        if not np.isfinite(matriz).all():
+            raise ValueError("❌ X (NPZ) contiene NaN o infinitos luego del preprocesamiento.")
+
+        # Binarización (si corresponde)
+        if binarizar:
+            if clase_minoria is None:
+                raise ValueError("Debe indicarse clase_minoria si se va a binarizar.")
+            y = np.where(y == clase_minoria, 1, 0).astype(int)
+            clases = np.array([0, 1])
+        else:
+            clases = np.unique(y)
+
+        return df_features, y, clases
+
+    # ───────────────────────── TABULAR (CSV/ESPACIOS) ─────────────────────────
+
+    # --- Validaciones mínimas para tabular clásico ---
     if col_target is None or col_features is None:
-        raise ValueError("Debés especificar col_features y col_target.")
+        raise ValueError("Debés especificar col_features y col_target para tipo='tabular'.")
 
     # --- Selección de esquema/nombres para read_csv ---
     usar_names = None
