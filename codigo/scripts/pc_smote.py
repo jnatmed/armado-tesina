@@ -223,44 +223,39 @@ class PCSMOTE(Utils):
         return densidades
 
 
-    def calcular_entropia(self, vecinos_all_global, y):
-        """
-        Entropía NORMALIZADA de clases en el vecindario (base 2).
+def calcular_entropia(self, vecinos_all_global, y):
+    """
+    Entropía NORMALIZADA para subproblemas OVA (One-vs-All), base 2.
 
-        - entropía_normalizada = 0.0  -> vecindario completamente puro (solo una clase)
-        - entropía_normalizada ≈ 1.0 -> vecindario fuertemente mezclado (frontera),
-                                        normalizada por el máximo teórico dado el nº de clases.
+    En OVA los vecindarios SIEMPRE son binarios (clase positiva vs. negativa).
+    Por lo tanto:
+       H_max = log2(2) = 1.0
 
-        De esta forma:
-          * entropía = 0  => máxima "pureza".
-          * entropía = 1  => máxima mezcla posible según la cantidad de clases del problema.
-        """
-        entropias = []
+    Interpretación:
+      - entropía = 0.0  -> vecindario completamente puro (solo una clase)
+      - entropía = 1.0  -> vecindario totalmente mezclado (50/50 entre 0 y 1)
+    """
 
-        y = np.asarray(y)
-        clases_globales = np.unique(y)
-        n_clases_globales = len(clases_globales)
+    entropias = []
 
-        if n_clases_globales > 1:
-            H_max = float(np.log2(n_clases_globales))
-        else:
-            # Caso degenerado: una sola clase en todo el dataset
-            H_max = 1.0
+    y = np.asarray(y)
+    H_max = 1.0   # porque OVA siempre es binario
 
-        for idxs in vecinos_all_global:
-            etiquetas_vecindario = y[idxs]
-            clases, counts = np.unique(etiquetas_vecindario, return_counts=True)
-            p = counts / counts.sum()
-            H = float(entropy(p, base=2))
+    for idxs in vecinos_all_global:
+        etiquetas_vecindario = y[idxs]
 
-            if H_max > 0.0:
-                H_normalizada = H / H_max
-            else:
-                H_normalizada = 0.0
+        clases, counts = np.unique(etiquetas_vecindario, return_counts=True)
+        p = counts / counts.sum()
 
-            entropias.append(H_normalizada)
+        H = float(entropy(p, base=2))   # entropía real binaria
 
-        return np.array(entropias, dtype=float)
+        # normalización trivial en OVA: dividir por 1.0
+        H_normalizada = H / H_max
+
+        entropias.append(H_normalizada)
+
+    return np.array(entropias, dtype=float)
+
 
 
     """
