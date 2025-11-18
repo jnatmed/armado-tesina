@@ -461,14 +461,14 @@ class Utils:
 
             "idx_global": seed_idx_global,
             "clase_objetivo": None,  # se pisa desde fit_resample_multiclass
-            "is_filtrada": bool(comb[i]),
+            "es_semilla_valida": bool(comb[i]),
             "k": int(getattr(self, "k", 0)),
 
             # percentiles usados (VALOR DE UMBRAL, no 25/50/75)
-            "percentil_dist": valor_percentil_dist,
-            "percentil_densidad": valor_percentil_densidad,
-            "percentil_entropia": valor_percentil_entropia,
-            "percentil_riesgo": valor_percentil_riesgo,
+            "valor_percentil_dist": valor_percentil_dist,
+            "valor_umbral_densidad": valor_percentil_densidad,
+            "valor_percentil_entropia": valor_percentil_entropia,
+            "valor_percentil_riesgo": valor_percentil_riesgo,
 
             # umbrales asociados (algunos redundan pero son más legibles)
             "umbral_densidad": None if umb_den is None else float(umb_den),
