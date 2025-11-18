@@ -39,6 +39,10 @@ class PCSMOTE(Utils):
     DELTA_RANGE_INTERMEDIO = (0.4, 0.6)
     X_syn, y_syn = None, None # X_syn, y_syn
 
+    # Acumulador GLOBAL de logs por muestra, agrupado por nombre de dataset.
+    # Clave: nombre_dataset  ->  Valor: DataFrame con todas las filas acumuladas
+    _acumulador_logs_por_muestra = {}
+
     # al pasar * como primer argumento, fuerzo a que todos los argumentos sean keywords
     # el constructor solo va a aceptar que pcsmote se instancie con keywords
     # ej: pcsmote = PCSMOTE(k_neighbors=5, random_state=42, percentil_dist=75, ...)
@@ -110,6 +114,58 @@ class PCSMOTE(Utils):
 
         # Diagnóstico opcional
         self._diag_densidad = None
+
+    def snapshot(self):
+        return {
+            "k": self.k,
+            "random_state": self._seed_init,
+            "percentil_dist": self.percentil_dist,
+            "percentil_densidad": self.percentil_densidad,
+            "percentil_entropia": self.percentil_entropia,
+            "percentil_riesgo": self.percentil_riesgo,
+            "criterio_pureza": self.criterio_pureza,
+            "factor_equilibrio": self.factor_equilibrio,
+            "metric": self.metric,
+            "guardar_distancias": self.guardar_distancias,
+            "max_total_multiplier": self.max_total_multiplier,
+            "max_sinteticas_por_clase": self.max_sinteticas_por_clase,
+            "nombre_dataset": self.nombre_dataset,
+            "nombre_configuracion": getattr(self, "nombre_configuracion", None)
+        }
+        
+
+    # ─────────────────── Acumulador de logs POR MUESTRA ───────────────────
+    # Clave: nombre_dataset → lista de DataFrames de logs (uno por configuración).
+    _acumulador_logs_por_muestra_por_dataset = {}
+
+    @classmethod
+    def acumular_logs_por_muestra_por_dataset(cls, nombre_dataset, df_logs):
+        """
+        Acumula los logs por muestra de una configuración en memoria,
+        agrupados por nombre de dataset.
+        """
+        if not nombre_dataset:
+            # Si no hay dataset definido, no acumulamos de forma especial.
+            return
+
+        if nombre_dataset not in cls._acumulador_logs_por_muestra_por_dataset:
+            cls._acumulador_logs_por_muestra_por_dataset[nombre_dataset] = []
+
+        cls._acumulador_logs_por_muestra_por_dataset[nombre_dataset].append(df_logs)
+
+    @classmethod
+    def obtener_logs_por_muestra_acumulados(cls, nombre_dataset):
+        """
+        Devuelve un DataFrame con todos los logs acumulados para un dataset.
+        Si no hay nada acumulado, devuelve el DataFrame vacío.
+        """
+        import pandas as pd  # import local para no romper dependencias
+
+        lista = cls._acumulador_logs_por_muestra_por_dataset.get(nombre_dataset, [])
+        if not lista:
+            return pd.DataFrame()
+
+        return pd.concat(lista, ignore_index=True)
 
     # ------------ setters y getters ------------- # 
 
@@ -223,38 +279,38 @@ class PCSMOTE(Utils):
         return densidades
 
 
-def calcular_entropia(self, vecinos_all_global, y):
-    """
-    Entropía NORMALIZADA para subproblemas OVA (One-vs-All), base 2.
+    def calcular_entropia(self, vecinos_all_global, y):
+        """
+        Entropía NORMALIZADA para subproblemas OVA (One-vs-All), base 2.
 
-    En OVA los vecindarios SIEMPRE son binarios (clase positiva vs. negativa).
-    Por lo tanto:
-       H_max = log2(2) = 1.0
+        En OVA los vecindarios SIEMPRE son binarios (clase positiva vs. negativa).
+        Por lo tanto:
+        H_max = log2(2) = 1.0
 
-    Interpretación:
-      - entropía = 0.0  -> vecindario completamente puro (solo una clase)
-      - entropía = 1.0  -> vecindario totalmente mezclado (50/50 entre 0 y 1)
-    """
+        Interpretación:
+        - entropía = 0.0  -> vecindario completamente puro (solo una clase)
+        - entropía = 1.0  -> vecindario totalmente mezclado (50/50 entre 0 y 1)
+        """
 
-    entropias = []
+        entropias = []
 
-    y = np.asarray(y)
-    H_max = 1.0   # porque OVA siempre es binario
+        y = np.asarray(y)
+        H_max = 1.0   # porque OVA siempre es binario
 
-    for idxs in vecinos_all_global:
-        etiquetas_vecindario = y[idxs]
+        for idxs in vecinos_all_global:
+            etiquetas_vecindario = y[idxs]
 
-        clases, counts = np.unique(etiquetas_vecindario, return_counts=True)
-        p = counts / counts.sum()
+            clases, counts = np.unique(etiquetas_vecindario, return_counts=True)
+            p = counts / counts.sum()
 
-        H = float(entropy(p, base=2))   # entropía real binaria
+            H = float(entropy(p, base=2))   # entropía real binaria
 
-        # normalización trivial en OVA: dividir por 1.0
-        H_normalizada = H / H_max
+            # normalización trivial en OVA: dividir por 1.0
+            H_normalizada = H / H_max
 
-        entropias.append(H_normalizada)
+            entropias.append(H_normalizada)
 
-    return np.array(entropias, dtype=float)
+        return np.array(entropias, dtype=float)
 
 
 
@@ -688,7 +744,7 @@ def calcular_entropia(self, vecinos_all_global, y):
                 self._log_muestra(
                     i, X, X_min, y, idxs_min_global,
                     comb, riesgo, densidades, entropias, proporciones_min,
-                    pureza_mask, densidad_mask,
+                    pureza_mask, densidad_mask, mask_riesgo,
                     umb_ent, umb_den,
                     vecinos_all_global, vecinos_min_global,
                     vecinos_validos_counts, dist_thr_por_muestra,

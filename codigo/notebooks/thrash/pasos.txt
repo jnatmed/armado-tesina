@@ -1,8 +1,5 @@
 CLASE PCSMOTE
 
-
-
-
 FUNCION caso base (generar_caso_base)
 1) cargo el dataset
 2) divido el dataset en entrenamiento y testeo
