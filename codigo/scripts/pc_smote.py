@@ -73,6 +73,8 @@ class PCSMOTE(Utils):
         # Percentil de riesgo 
         self.percentil_riesgo = None if percentil_riesgo is None else float(percentil_riesgo)
 
+        print('self.riesgo recibido en el construct: ', self.percentil_riesgo)
+
         self._X_syn = None
         self._y_syn = None
 
@@ -356,6 +358,7 @@ class PCSMOTE(Utils):
         # Caso: vector vacío
         if vector_riesgo.size == 0:
             self._meta["umbral_riesgo_min"] = None
+            print("⚠️ No hay muestras para configurar riesgo.")
             return np.zeros(0, dtype=bool)
 
         # Caso: sin percentil configurado -> aceptar todas las muestras
@@ -367,6 +370,7 @@ class PCSMOTE(Utils):
                 mascara_riesgo[indice] = True
                 indice += 1
             self._meta["umbral_riesgo_min"] = None
+            print("⚠️ No hay percentil riesgo configurado.")
             return mascara_riesgo
 
         # 1) Umbral por percentil (mantenemos np.percentile, como pediste)
@@ -377,6 +381,7 @@ class PCSMOTE(Utils):
             percentil_configurado = 100.0
 
         umbral_riesgo_minimo = float(np.percentile(vector_riesgo, percentil_configurado))
+        print("Umbral por percentil riesgo:", umbral_riesgo_minimo)
         self._meta["umbral_riesgo_min"] = umbral_riesgo_minimo
 
         # 2) Construcción explícita de la máscara
@@ -739,6 +744,8 @@ class PCSMOTE(Utils):
             X_resampled = np.vstack([X, X_sint])
             y_resampled = np.hstack([y, y_sint])
 
+            print("self_meta:", self._meta)
+
             # Log por muestra (opcional; si no usás, podés omitir)
             for i in range(len(X_min)):
                 self._log_muestra(
@@ -748,7 +755,7 @@ class PCSMOTE(Utils):
                     umb_ent, umb_den,
                     vecinos_all_global, vecinos_min_global,
                     vecinos_validos_counts, dist_thr_por_muestra,
-                    gen_from_counts, last_delta_by_seed, last_neighbor_by_seed
+                    gen_from_counts, last_delta_by_seed, last_neighbor_by_seed, self._meta
                 )
 
             # Finalización
@@ -873,6 +880,7 @@ class PCSMOTE(Utils):
                     percentil_dist=self.percentil_dist,
                     percentil_entropia=self.percentil_entropia,
                     percentil_densidad=self.percentil_densidad,
+                    percentil_riesgo=self.percentil_riesgo,  
 
                     criterio_pureza=self.criterio_pureza,
                     factor_equilibrio=self.factor_equilibrio,
