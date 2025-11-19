@@ -631,23 +631,32 @@ class PCSMOTE(Utils):
                 # Si no se define percentil, simplemente se filtran las muestras con densidad > 0.
                 densidad_mask = densidades > 0.0
 
-            # Combinación de filtros (Pureza Y Densidad)
-            # comb: Máscara final de las semillas minoritarias válidas para generar muestras sintéticas.
-
-            # comb = pureza_mask & densidad_mask & mask_riesgo
-            """
-            La estrategia aca es 
-            """
-            comb = mask_riesgo & (pureza_mask | densidad_mask)
+            # Combinación de filtros (pureza Y densidad Y riesgo)
+            # Estrategia: solo considero semillas que están
+            #   - en zona de frontera (pureza/frontera verdadera),
+            #   - en zona densa (densidad suficiente),
+            #   - y con riesgo alto (proporción de mayoritarios alta).
+            #
+            # Es decir, TODAS las condiciones deben cumplirse.
+            comb = pureza_mask & densidad_mask & mask_riesgo
 
             filtered_indices_local = np.where(comb)[0]  # Índices locales sobre X_min
             filtered_indices_global = idxs_min_global[filtered_indices_local]  # Índices globales sobre X
 
-            # Diagnóstico vecinos válidos (por percentil de distancias globales)
-            # Cálculo de una máscara de "vecinos válidos" basados en un percentil de distancia para cada semilla.
-            dist_thr_por_muestra = np.percentile(d_all, self.percentil_dist, axis=1).astype(float)
-            # Cuenta cuántos de los K vecinos están dentro de su umbral de distancia.
-            vecinos_validos_counts = np.sum(d_all <= dist_thr_por_muestra[:, None], axis=1).astype(int)
+            # ------------------- Diagnóstico de vecinos válidos (umbral coherente) -------------------
+            # Intento usar el mismo umbral_global que se usó en calcular_densidad_interseccion.
+            umbral_global = self._meta.get("umbral_densidad_global", None)
+
+            if umbral_global is not None:
+                # Caso ideal: uso un ÚNICO umbral global para todo el dataset.
+                dist_thr_por_muestra = np.full(d_all.shape[0], float(umbral_global), dtype=float)
+                vecinos_validos_counts = np.sum(d_all <= umbral_global, axis=1).astype(int)
+            else:
+                # Fallback: si por algún motivo no se configuró umbral_densidad_global,
+                # reproduzco el comportamiento anterior (percentil por muestra).
+                dist_thr_por_muestra = np.percentile(d_all, self.percentil_dist, axis=1).astype(float)
+                vecinos_validos_counts = np.sum(d_all <= dist_thr_por_muestra[:, None], axis=1).astype(int)
+
 
             # Meta agregada
             # Actualización de metadatos con resultados de filtrado.
@@ -709,7 +718,8 @@ class PCSMOTE(Utils):
                 thr = thr_filtradas[idx_loc]
 
                 # 2. Determinación de Vecinos Válidos
-                # Se selecciona un vecino 'z' solo si su distancia 'd' a la semilla 'xi' está por debajo del umbral 'thr'.
+                #    Se usa el mismo umbral (global o fallback) que se utilizó en el diagnóstico
+                #    de vecinos válidos y que es coherente con el cálculo de densidad.
                 vecinos_validos = idxs_vec_all[dists <= thr]
                 if len(vecinos_validos) == 0:
                     # Si no hay vecinos válidos (vecindario muy disperso), se salta la iteración.
