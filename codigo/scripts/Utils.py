@@ -387,7 +387,8 @@ class Utils:
         dist_thr_por_muestra,   # array thresholds por muestra
         gen_from_counts,        # dict: idx_global -> sintéticas desde esa semilla
         last_delta_by_seed,     # dict: idx_global -> último delta
-        last_neighbor_by_seed   # dict: idx_global -> último vecino z (idx global)
+        last_neighbor_by_seed,   # dict: idx_global -> último vecino z (idx global)
+        pcsmote_meta
     ):
         """
         Registro por muestra con esquema de columnas FIJO.
@@ -396,7 +397,7 @@ class Utils:
         - 'percentil_*' almacena el VALOR UMBRAL del percentil (no 25/50/75).
         - Agrega columna 'configuracion' proveniente de self.nombre_configuracion.
         """
-
+        
         # índice global de la semilla en X
         seed_idx_global = int(idxs_min_global[i])
 
@@ -444,7 +445,7 @@ class Utils:
             if "umbral_densidad_global" in self._meta:
                 valor_percentil_dist = self._meta["umbral_densidad_global"]
             if "umbral_riesgo_min" in self._meta:
-                valor_percentil_riesgo = self._meta["umbral_riesgo_min"]
+                valor_percentil_riesgo = pcsmote_meta["umbral_riesgo_min"]
 
         if umb_den is not None:
             valor_percentil_densidad = float(umb_den)
@@ -460,14 +461,14 @@ class Utils:
 
             "idx_global": seed_idx_global,
             "clase_objetivo": None,  # se pisa desde fit_resample_multiclass
-            "is_filtrada": bool(comb[i]),
+            "es_semilla_valida": bool(comb[i]),
             "k": int(getattr(self, "k", 0)),
 
             # percentiles usados (VALOR DE UMBRAL, no 25/50/75)
-            "percentil_dist": valor_percentil_dist,
-            "percentil_densidad": valor_percentil_densidad,
-            "percentil_entropia": valor_percentil_entropia,
-            "percentil_riesgo": valor_percentil_riesgo,
+            "valor_percentil_dist": valor_percentil_dist,
+            "valor_umbral_densidad": valor_percentil_densidad,
+            "valor_percentil_entropia": valor_percentil_entropia,
+            "valor_percentil_riesgo": valor_percentil_riesgo,
 
             # umbrales asociados (algunos redundan pero son más legibles)
             "umbral_densidad": None if umb_den is None else float(umb_den),

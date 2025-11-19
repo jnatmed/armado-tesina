@@ -54,7 +54,7 @@ class PCSMOTE(Utils):
                  percentil_dist=75,  #3 percentil de distancia para densidad y vecinos válidos
                  percentil_entropia=None, #4 percentil de entropía para filtro de pureza
                  percentil_densidad=None, #5 percentil de densidad para filtro
-                 percentil_riesgo=None,
+                 percentil_riesgo,
                  criterio_pureza='entropia',   # 'entropia' | 'proporcion' #6 criterio de pureza
                  factor_equilibrio=1, # 7 factor de equilibrio en multiclase
                  verbose=True, #8 modo verbose, si quiero que se vean los prints, utiles para el debug
@@ -71,7 +71,12 @@ class PCSMOTE(Utils):
         self.random_state = check_random_state(random_state)
 
         # Percentil de riesgo 
-        self.percentil_riesgo = None if percentil_riesgo is None else float(percentil_riesgo)
+        if percentil_riesgo is None:
+            raise ValueError("percentil_riesgo es obligatorio y no puede ser None.")
+
+        self.percentil_riesgo = float(percentil_riesgo)
+        print('self.riesgo recibido en el construct: ', self.percentil_riesgo)
+
 
         self._X_syn = None
         self._y_syn = None
@@ -312,8 +317,6 @@ class PCSMOTE(Utils):
 
         return np.array(entropias, dtype=float)
 
-
-
     """
     calcula el riesgo de cada vecino (proporcion de vecinos mayoritarios)
     para determinar aquellos que se encuentran en la frontera o no
@@ -356,6 +359,7 @@ class PCSMOTE(Utils):
         # Caso: vector vacío
         if vector_riesgo.size == 0:
             self._meta["umbral_riesgo_min"] = None
+            print("⚠️ No hay muestras para configurar riesgo.")
             return np.zeros(0, dtype=bool)
 
         # Caso: sin percentil configurado -> aceptar todas las muestras
@@ -367,6 +371,7 @@ class PCSMOTE(Utils):
                 mascara_riesgo[indice] = True
                 indice += 1
             self._meta["umbral_riesgo_min"] = None
+            print("⚠️ No hay percentil riesgo configurado.")
             return mascara_riesgo
 
         # 1) Umbral por percentil (mantenemos np.percentile, como pediste)
@@ -377,6 +382,7 @@ class PCSMOTE(Utils):
             percentil_configurado = 100.0
 
         umbral_riesgo_minimo = float(np.percentile(vector_riesgo, percentil_configurado))
+        print("Umbral por percentil riesgo:", umbral_riesgo_minimo)
         self._meta["umbral_riesgo_min"] = umbral_riesgo_minimo
 
         # 2) Construcción explícita de la máscara
@@ -627,7 +633,13 @@ class PCSMOTE(Utils):
 
             # Combinación de filtros (Pureza Y Densidad)
             # comb: Máscara final de las semillas minoritarias válidas para generar muestras sintéticas.
-            comb = pureza_mask & densidad_mask & mask_riesgo
+
+            # comb = pureza_mask & densidad_mask & mask_riesgo
+            """
+            La estrategia aca es 
+            """
+            comb = mask_riesgo & (pureza_mask | densidad_mask)
+
             filtered_indices_local = np.where(comb)[0]  # Índices locales sobre X_min
             filtered_indices_global = idxs_min_global[filtered_indices_local]  # Índices globales sobre X
 
@@ -739,6 +751,8 @@ class PCSMOTE(Utils):
             X_resampled = np.vstack([X, X_sint])
             y_resampled = np.hstack([y, y_sint])
 
+            print("self_meta:", self._meta)
+
             # Log por muestra (opcional; si no usás, podés omitir)
             for i in range(len(X_min)):
                 self._log_muestra(
@@ -748,7 +762,7 @@ class PCSMOTE(Utils):
                     umb_ent, umb_den,
                     vecinos_all_global, vecinos_min_global,
                     vecinos_validos_counts, dist_thr_por_muestra,
-                    gen_from_counts, last_delta_by_seed, last_neighbor_by_seed
+                    gen_from_counts, last_delta_by_seed, last_neighbor_by_seed, self._meta
                 )
 
             # Finalización
@@ -873,6 +887,7 @@ class PCSMOTE(Utils):
                     percentil_dist=self.percentil_dist,
                     percentil_entropia=self.percentil_entropia,
                     percentil_densidad=self.percentil_densidad,
+                    percentil_riesgo=self.percentil_riesgo,  
 
                     criterio_pureza=self.criterio_pureza,
                     factor_equilibrio=self.factor_equilibrio,
