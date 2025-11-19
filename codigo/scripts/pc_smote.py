@@ -54,7 +54,7 @@ class PCSMOTE(Utils):
                  percentil_dist=75,  #3 percentil de distancia para densidad y vecinos válidos
                  percentil_entropia=None, #4 percentil de entropía para filtro de pureza
                  percentil_densidad=None, #5 percentil de densidad para filtro
-                 percentil_riesgo=None,
+                 percentil_riesgo,
                  criterio_pureza='entropia',   # 'entropia' | 'proporcion' #6 criterio de pureza
                  factor_equilibrio=1, # 7 factor de equilibrio en multiclase
                  verbose=True, #8 modo verbose, si quiero que se vean los prints, utiles para el debug
@@ -71,9 +71,12 @@ class PCSMOTE(Utils):
         self.random_state = check_random_state(random_state)
 
         # Percentil de riesgo 
-        self.percentil_riesgo = None if percentil_riesgo is None else float(percentil_riesgo)
+        if percentil_riesgo is None:
+            raise ValueError("percentil_riesgo es obligatorio y no puede ser None.")
 
+        self.percentil_riesgo = float(percentil_riesgo)
         print('self.riesgo recibido en el construct: ', self.percentil_riesgo)
+
 
         self._X_syn = None
         self._y_syn = None
@@ -313,8 +316,6 @@ class PCSMOTE(Utils):
             entropias.append(H_normalizada)
 
         return np.array(entropias, dtype=float)
-
-
 
     """
     calcula el riesgo de cada vecino (proporcion de vecinos mayoritarios)
@@ -632,7 +633,13 @@ class PCSMOTE(Utils):
 
             # Combinación de filtros (Pureza Y Densidad)
             # comb: Máscara final de las semillas minoritarias válidas para generar muestras sintéticas.
-            comb = pureza_mask & densidad_mask & mask_riesgo
+
+            # comb = pureza_mask & densidad_mask & mask_riesgo
+            """
+            La estrategia aca es 
+            """
+            comb = mask_riesgo & (pureza_mask | densidad_mask)
+
             filtered_indices_local = np.where(comb)[0]  # Índices locales sobre X_min
             filtered_indices_global = idxs_min_global[filtered_indices_local]  # Índices globales sobre X
 
