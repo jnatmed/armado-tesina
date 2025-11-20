@@ -51,7 +51,7 @@ class PCSMOTE(Utils):
                  k_neighbors=7,  #1 
                  random_state=None, #2 random_state, osea semilla inicial
                  # -- Hiperparámetros de PC-SMOTE --
-                 percentil_dist=75,  #3 percentil de distancia para densidad y vecinos válidos
+                 percentil_dist=20,  #3 percentil de distancia para densidad y vecinos válidos
                  percentil_entropia=None, #4 percentil de entropía para filtro de pureza
                  percentil_densidad=None, #5 percentil de densidad para filtro
                  percentil_riesgo,
@@ -555,19 +555,87 @@ class PCSMOTE(Utils):
             # --- Filtro por RIESGO (por percentil) ---
             mask_riesgo = self.aplicar_filtro_por_riesgo(riesgo)
 
-            # 2. Cálculo de la Densidad
-            # Densidad: Mide qué tan "compacta" está la muestra minoritaria con respecto a sus vecinos minoritarios.
-            densidades = self.calcular_densidad_interseccion(
-                # Envio las semillas minoritarias
-                X_min=X_min,
-                # Envio las distancias a los vecinos minoritarios
-                vecinos_local=vecinos_min_local,
-                dists_min_local=d_min
-            )
+#-------------------- NUEVA IMPLEMENTACION DE DENSIDAD -----------------------------
+            # 2. Cálculo de la Densidad (nuevo criterio por percentil global de distancias KNN)
+            if self.percentil_dist is not None:
+                percentil_global_dist = float(self.percentil_dist)
+            else:
+                # Si no configuraste percentil_dist, por defecto uso p=20
+                percentil_global_dist = 20.0
+
+            # Construyo el vector global de distancias a los K vecinos
+            # (semillas minoritarias vs vecinos globales ya calculados en d_all)
+            if d_all.size > 0:
+                distancias_flat = d_all.reshape(-1)
+                # ACA CALCULO ESE P20 O P_ELEGIDO
+                umbral_global = float(np.percentile(distancias_flat, percentil_global_dist))
+            else:
+                umbral_global = 0.0
+
+            # Metadatos de diagnóstico
+            # p: percentil de distancias usado para el umbral global
+            self._meta["percentil_densidad_distancias_elegido"] = percentil_global_dist
+            self._meta["valor_percentil_global_elegido"] = umbral_global
+
+            # valor_percentil_global_elegido: umbral de distancia asociado a p
+            # self._meta["valor_percentil_global_elegido"] = umbral_global
+            self._meta["umbral_densidad_global"] = umbral_global
+            # k_global: cantidad de vecinos considerados en el KNN global
+            self._meta["k_global"] = int(K)
+
+            n_min = d_all.shape[0]
+            densidades = np.zeros(n_min, dtype=float)
+
+            total_vecinos_en_p = 0
+            total_min_en_p = 0
+
+            for idx_local in range(n_min):
+                distancias_i = d_all[idx_local]               # distancias de la semilla idx_local a sus K vecinos globales
+                vecinos_i = vecinos_all_global[idx_local]     # índices globales de esos vecinos
+
+                # cuantos vecinos estan dentro del umbral
+                mascara_cercanos = distancias_i <= umbral_global 
+                cant_vecinos_en_p = int(np.sum(mascara_cercanos))
+
+                # si no hay vecinos dentro del umbral 
+                # entonces densidades para ese idx == 0
+                if cant_vecinos_en_p == 0:
+                    densidades[idx_local] = 0.0
+                    continue # pasar al sigueinte vecino
+
+                # si hay vecinos dentro del umbral         
+                indices_vecinos_cercanos = vecinos_i[mascara_cercanos]
+                etiquetas_vecinos_cercanos = y[indices_vecinos_cercanos]
+                # contar cuantos de esos que entraron en el umbral
+                # son de la clase minoritaria
+                cant_min_en_p = int(np.sum(etiquetas_vecinos_cercanos == 1))
+
+                total_vecinos_en_p += cant_vecinos_en_p
+                total_min_en_p += cant_min_en_p
+
+                # Densidad definida como proporción de vecinos minoritarios dentro del umbral global
+                densidades[idx_local] = cant_min_en_p / float(cant_vecinos_en_p)
+
+            if n_min > 0:
+                promedio_vecinos_en_p = float(total_vecinos_en_p) / float(n_min)
+                promedio_min_en_p = float(total_min_en_p) / float(n_min)
+            else:
+                promedio_vecinos_en_p = 0.0
+                promedio_min_en_p = 0.0
+
+            # cant_vecinos_en_p_elegido y cant_min_en_p_elegido: promedios por semilla minoritaria
+            self._meta["cant_vecinos_en_p_elegido"] = promedio_vecinos_en_p
+            self._meta["cant_min_en_p_elegido"] = promedio_min_en_p
+            # Para compatibilidad hacia atrás con diagnósticos previos
+            self._meta["cant_vecinos_en_p_global_promedio"] = promedio_vecinos_en_p
+            self._meta["cant_min_en_p_global_promedio"] = promedio_min_en_p
+
         # k=7
         # 1/7
         # .25 
             pureza_mask = None
+
+
             umb_ent = None
             entropias = None
             proporciones_min = None
@@ -651,12 +719,6 @@ class PCSMOTE(Utils):
                 # Caso ideal: uso un ÚNICO umbral global para todo el dataset.
                 dist_thr_por_muestra = np.full(d_all.shape[0], float(umbral_global), dtype=float)
                 vecinos_validos_counts = np.sum(d_all <= umbral_global, axis=1).astype(int)
-            else:
-                # Fallback: si por algún motivo no se configuró umbral_densidad_global,
-                # reproduzco el comportamiento anterior (percentil por muestra).
-                dist_thr_por_muestra = np.percentile(d_all, self.percentil_dist, axis=1).astype(float)
-                vecinos_validos_counts = np.sum(d_all <= dist_thr_por_muestra[:, None], axis=1).astype(int)
-
 
             # Meta agregada
             # Actualización de metadatos con resultados de filtrado.
@@ -772,7 +834,7 @@ class PCSMOTE(Utils):
                     umb_ent, umb_den,
                     vecinos_all_global, vecinos_min_global,
                     vecinos_validos_counts, dist_thr_por_muestra,
-                    gen_from_counts, last_delta_by_seed, last_neighbor_by_seed, self._meta
+                    gen_from_counts, last_delta_by_seed, last_neighbor_by_seed, idx_local=i
                 )
 
             # Finalización

@@ -338,10 +338,17 @@ class Utils:
 
     # --------------------- Cálculos auxiliares ---------------------
     def _dist(self, A, b):
-        """Distancia euclídea (usa las primeras 3 dims si modo_espacial='3d')."""
-        if getattr(self, "modo_espacial", "2d") == '3d':
-            return np.linalg.norm(A[:, :3] - b[:3], axis=1)  # solo primeras 3 dimensiones
-        return np.linalg.norm(A - b, axis=1)  # todas las dimensiones
+        metric = getattr(self, "metric", "euclidean")
+        if metric == "euclidean":
+            if getattr(self, "modo_espacial", "2d") == '3d':
+                return np.linalg.norm(A[:, :3] - b[:3], axis=1)
+            return np.linalg.norm(A - b, axis=1)
+        else:
+            # usar el DistanceMetric que ya tenés en PCSMOTE
+            if hasattr(self, "_dist_metric"):
+                return self._dist_metric.pairwise(A, b.reshape(1, -1))[:, 0]
+            # fallback: euclídea
+            return np.linalg.norm(A - b, axis=1)
 
     # --------------------- Logger por muestra ---------------------
     @staticmethod
@@ -383,21 +390,20 @@ class Utils:
         umb_ent, umb_den,       # umbrales (float o None)
         vecinos_all_global,     # [n_min, k] índices globales en X
         vecinos_min_global,     # [n_min, k] índices globales minoritarios
-        vecinos_validos_counts, # array de conteos válidos por percentil_dist
+        vecinos_validos_counts, # array de conteos válidos por umbral de distancia
         dist_thr_por_muestra,   # array thresholds por muestra
         gen_from_counts,        # dict: idx_global -> sintéticas desde esa semilla
         last_delta_by_seed,     # dict: idx_global -> último delta
-        last_neighbor_by_seed,   # dict: idx_global -> último vecino z (idx global)
-        pcsmote_meta
+        last_neighbor_by_seed,  # dict: idx_global -> último vecino z (idx global)
+        idx_local               # índice local usado para densidades (normalmente == i)
     ):
         """
         Registro por muestra con esquema de columnas FIJO.
         - Sin timestamp.
-        - Sin columnas dinámicas percentil_xxx_NONE / _50 / _75.
         - 'percentil_*' almacena el VALOR UMBRAL del percentil (no 25/50/75).
-        - Agrega columna 'configuracion' proveniente de self.nombre_configuracion.
+        - Agrega columnas globales de densidad por percentil.
         """
-        
+
         # índice global de la semilla en X
         seed_idx_global = int(idxs_min_global[i])
 
@@ -415,7 +421,7 @@ class Utils:
         for idx_vecino in vecinos_all_lista:
             clases_vecinos_all.append(self._to_cls_scalar(y[idx_vecino]))
 
-        # Distancias (opcionales, euclídeas para depuración)
+        # Distancias (opcionales, euclídeas o métrica definida, para depuración)
         if getattr(self, "guardar_distancias", False):
             xi = X_min[i]
 
@@ -440,12 +446,15 @@ class Utils:
         valor_percentil_entropia = None
         valor_percentil_riesgo = None
 
-        # umbral global de distancias usado en calcular_densidad_interseccion
-        if hasattr(self, "_meta") and isinstance(self._meta, dict):
-            if "umbral_densidad_global" in self._meta:
-                valor_percentil_dist = self._meta["umbral_densidad_global"]
-            if "umbral_riesgo_min" in self._meta:
-                valor_percentil_riesgo = pcsmote_meta["umbral_riesgo_min"]
+        meta = getattr(self, "_meta", {}) if isinstance(getattr(self, "_meta", {}), dict) else {}
+
+        # umbral global de distancias usado en la nueva densidad
+        if "umbral_densidad_global" in meta:
+            valor_percentil_dist = meta["umbral_densidad_global"]
+        elif "valor_percentil_global_elegido" in meta:
+            valor_percentil_dist = meta["valor_percentil_global_elegido"]
+        elif "valor_percentil_dist" in meta:
+            valor_percentil_dist = meta["valor_percentil_dist"]
 
         if umb_den is not None:
             valor_percentil_densidad = float(umb_den)
@@ -453,14 +462,14 @@ class Utils:
         if umb_ent is not None:
             valor_percentil_entropia = float(umb_ent)
 
+        if "umbral_riesgo_min" in meta:
+            valor_percentil_riesgo = meta["umbral_riesgo_min"]
+
         # Construcción explícita del registro
         registro = {
-            # contexto
-            # "dataset": getattr(self, "nombre_dataset", "unknown"),
-            # "configuracion": getattr(self, "nombre_configuracion", None),
-
+            # contexto mínimo
             "idx_global": seed_idx_global,
-            "clase_objetivo": None,  # se pisa desde fit_resample_multiclass
+            "clase_objetivo": None,  # se pisa desde fit_resample_multiclass si corresponde
             "es_semilla_valida": bool(comb[i]),
             "k": int(getattr(self, "k", 0)),
 
@@ -470,26 +479,19 @@ class Utils:
             "valor_percentil_entropia": valor_percentil_entropia,
             "valor_percentil_riesgo": valor_percentil_riesgo,
 
-            # umbrales asociados (algunos redundan pero son más legibles)
+            # umbrales asociados (más legibles)
             "umbral_densidad": None if umb_den is None else float(umb_den),
             "umbral_entropia": None if umb_ent is None else float(umb_ent),
 
             # métricas locales
             "criterio_pureza": getattr(self, "criterio_pureza", None),
             "riesgo": float(riesgo[i]),
-            "densidad": float(densidades[i]),
+            "densidad": float(densidades[idx_local]),
             "entropia": None if entropias is None else float(entropias[i]),
             "proporcion_min": None if proporciones_min is None else float(proporciones_min[i]),
             "pasa_pureza": bool(pureza_mask[i]),
             "pasa_densidad": bool(densidad_mask[i]),
             "pasa_riesgo": bool(mask_riesgo[i]),
-            
-            # vecinos y distancias
-            # "vecinos_all": vecinos_all_lista,
-            # "clase_vecinos_all": clases_vecinos_all,
-            # "dist_all": d_all,
-            # "vecinos_min": vecinos_min_lista,
-            # "dist_vecinos_min": d_vecinos_min,
 
             # diagnóstico de threshold de distancia por muestra
             "vecinos_validos_por_percentil": int(vecinos_validos_counts[i]),
@@ -500,5 +502,12 @@ class Utils:
             "last_delta": last_delta_by_seed.get(seed_idx_global, None),
             "last_neighbor_z": last_neighbor_by_seed.get(seed_idx_global, None),
         }
+
+        # ---- NUEVAS CABECERAS DEL NUEVO SISTEMA DE DENSIDAD ----
+        registro["percentil_densidad_distancias_elegido"] = meta.get("percentil_densidad_distancias_elegido")
+        registro["valor_percentil_global_elegido"] = meta.get("umbral_densidad_global")
+        registro["k_global"] = meta.get("k_global")
+        registro["cant_vecinos_en_p_elegido"] = meta.get("cant_vecinos_en_p_elegido")
+        registro["cant_min_en_p_elegido"] = meta.get("cant_min_en_p_elegido")
 
         self.logs_por_muestra.append(registro)
