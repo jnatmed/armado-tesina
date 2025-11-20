@@ -201,19 +201,27 @@ class Utils:
             print("==== FIN DEBUG ====")
 
 
-    def exportar_log_muestras_excel(self, path_salida,
-                                    resaltar_no_filtradas: bool = True,
-                                    indices_resaltar=None):
+    def exportar_log_muestras_excel(
+        self, 
+        path_salida,
+        resaltar_no_filtradas: bool = True,
+        indices_resaltar=None,
+        append: bool = True
+    ):
         """
-        Exporta el log POR MUESTRA a un Excel y aplica formato condicional:
-        - Filas con is_filtrada == False → fondo rojo suave.
-        - Opcional: también resalta por lista de idx_global (indices_resaltar).
+        Exporta el log POR MUESTRA a un Excel.
 
-        Modificación:
-        - Agrega una columna 'configuracion' (si self.nombre_configuracion existe).
-        - Si la clase tiene acumulador por dataset (PCSMOTE), se acumulan
-          todas las configuraciones del mismo dataset y se exportan unificadas.
+        Parámetros:
+        -----------
+        append : bool (default=True)
+            True  → si el archivo ya existe, agrega filas nuevas.
+            False → ignora el archivo si existe y sobrescribe con los logs actuales.
+
+        NOTA:
+        - Se mantiene la lógica de acumulación por dataset del PCSMOTE.
+        - El flag "append" solo controla el archivo externo final.
         """
+
         if not getattr(self, "logs_por_muestra", None):
             print("⚠️ No hay log POR MUESTRA para exportar.")
             return
@@ -222,11 +230,9 @@ class Utils:
         df = pd.DataFrame(self.logs_por_muestra)
 
         # ───────────── Columna extra: 'configuracion' ─────────────
-        # Solo una columna nueva, usando self.nombre_configuracion si existe.
         nombre_configuracion = getattr(self, "nombre_configuracion", None)
         if nombre_configuracion is not None:
             if "configuracion" not in df.columns:
-                # Insertar después de 'dataset' si existe, si no al principio
                 if "dataset" in df.columns:
                     idx_dataset = list(df.columns).index("dataset")
                     pos_insert = idx_dataset + 1
@@ -236,7 +242,7 @@ class Utils:
 
         # Serializar listas/arrays a JSON para que Excel no falle
         cols_json = ("vecinos_all", "clase_vecinos_all", "dist_all",
-                     "vecinos_min", "dist_vecinos_min")
+                    "vecinos_min", "dist_vecinos_min")
         for col in cols_json:
             if col in df.columns:
                 df[col] = df[col].apply(
@@ -246,37 +252,39 @@ class Utils:
                 )
 
         # ───────────── Acumulación por dataset (solo para PCSMOTE) ─────────────
-        df_salida = df  # por defecto, sin acumulación
+        df_salida = df  # por defecto, sin acumulación interna
 
         nombre_dataset = getattr(self, "nombre_dataset", None)
         cls = type(self)
 
-        # Si la clase tiene métodos de acumulación, asumimos que es PCSMOTE
         if hasattr(cls, "acumular_logs_por_muestra_por_dataset") and \
-           hasattr(cls, "obtener_logs_por_muestra_acumulados") and \
-           nombre_dataset is not None:
+        hasattr(cls, "obtener_logs_por_muestra_acumulados") and \
+        nombre_dataset is not None:
 
-            # 1) acumular este bloque
+            # 1) acumular este bloque en memoria
             cls.acumular_logs_por_muestra_por_dataset(nombre_dataset, df)
 
-            # 2) recuperar todos los logs acumulados para este dataset
+            # 2) recuperar todos los logs acumulados del dataset (en memoria)
             df_salida = cls.obtener_logs_por_muestra_acumulados(nombre_dataset)
 
-        # Si el usuario pasó índices a resaltar, calculo máscara sobre df_salida
-        marcar_por_idx = None
-        if indices_resaltar is not None and "idx_global" in df_salida.columns:
-            s = set(indices_resaltar)
-            marcar_por_idx = df_salida["idx_global"].isin(s)
+        # ───────────── MODO APPEND SOBRE EL ARCHIVO EXTERNO ─────────────
+        salida_path = Path(path_salida)
+        salida_path.parent.mkdir(parents=True, exist_ok=True)
 
-        p = Path(path_salida)
-        p.parent.mkdir(parents=True, exist_ok=True)
+        if append and salida_path.exists():
+            # Leer archivo existente y concatenar
+            try:
+                df_existente = pd.read_excel(salida_path)
+                df_salida = pd.concat([df_existente, df_salida], ignore_index=True)
+            except Exception as e:
+                print(f"⚠️ No se pudo leer el archivo existente. Se sobrescribirá. Error: {e}")
 
-        with pd.ExcelWriter(str(p), engine="openpyxl") as writer:
+        # ───────────── EXPORTACIÓN CON FORMATO ─────────────
+        with pd.ExcelWriter(str(salida_path), engine="openpyxl") as writer:
             hoja = "Log_Muestras"
             df_salida.to_excel(writer, sheet_name=hoja, index=False)
             ws = writer.sheets[hoja]
 
-            # Rango de datos (sin encabezado)
             n_rows = len(df_salida)
             n_cols = len(df_salida.columns)
             if n_rows == 0 or n_cols == 0:
@@ -288,9 +296,11 @@ class Utils:
 
             # Regla 1: is_filtrada == False → rojo suave
             if resaltar_no_filtradas and "is_filtrada" in df_salida.columns:
-                col_idx = df_salida.columns.get_loc("is_filtrada") + 1  # 1-based
+                col_idx = df_salida.columns.get_loc("is_filtrada") + 1
                 col_letter = get_column_letter(col_idx)
-                red_fill = PatternFill(start_color="FFF2D7D9", end_color="FFF2D7D9", fill_type="solid")
+                red_fill = PatternFill(start_color="FFF2D7D9",
+                                    end_color="FFF2D7D9",
+                                    fill_type="solid")
                 formula = f"=${col_letter}{first_row}=FALSE"
                 ws.conditional_formatting.add(
                     f"A{first_row}:{last_col_letter}{last_row}",
@@ -298,19 +308,30 @@ class Utils:
                 )
 
             # Regla 2 (opcional): resaltar filas por idx_global
-            if marcar_por_idx is not None and marcar_por_idx.any():
-                aux_col_idx = n_cols + 1
-                aux_col_letter = get_column_letter(aux_col_idx)
-                ws.cell(row=1, column=aux_col_idx, value="__mark__")
-                for r, v in enumerate(marcar_por_idx.values, start=2):
-                    ws.cell(row=r, column=aux_col_idx, value=bool(v))
+            if indices_resaltar is not None and "idx_global" in df_salida.columns:
+                s = set(indices_resaltar)
+                marcar = df_salida["idx_global"].isin(s)
 
-                yellow_fill = PatternFill(start_color="FFFFFFCC", end_color="FFFFFFCC", fill_type="solid")
-                formula2 = f"=${aux_col_letter}{first_row}=TRUE"
-                ws.conditional_formatting.add(
-                    f"A{first_row}:{last_col_letter}{last_row}",
-                    FormulaRule(formula=[formula2], fill=yellow_fill)
-                )
+                if marcar.any():
+                    aux_col_idx = n_cols + 1
+                    aux_col_letter = get_column_letter(aux_col_idx)
+                    ws.cell(row=1, column=aux_col_idx, value="__mark__")
+
+                    for r, v in enumerate(marcar.values, start=2):
+                        ws.cell(row=r, column=aux_col_idx, value=bool(v))
+
+                    yellow_fill = PatternFill(start_color="FFFFFFCC",
+                                            end_color="FFFFFFCC",
+                                            fill_type="solid")
+                    formula2 = f"=${aux_col_letter}{first_row}=TRUE"
+                    ws.conditional_formatting.add(
+                        f"A{first_row}:{last_col_letter}{last_row}",
+                        FormulaRule(formula=[formula2], fill=yellow_fill)
+                    )
+
+        modo = "append" if append else "overwrite"
+        print(f"📄 Log POR MUESTRA guardado en modo {modo}: {salida_path}")
+
 
 
     def exportar_log_muestras_csv(self, path_salida):
@@ -399,15 +420,16 @@ class Utils:
     ):
         """
         Registro por muestra con esquema de columnas FIJO.
-        - Sin timestamp.
         - 'percentil_*' almacena el VALOR UMBRAL del percentil (no 25/50/75).
-        - Agrega columnas globales de densidad por percentil.
+        - Usa el umbral global de distancias para contar vecinos dentro del umbral.
         """
+
+        import numpy as np
 
         # índice global de la semilla en X
         seed_idx_global = int(idxs_min_global[i])
 
-        # Vecinos globales y minoritarios
+        # Vecinos globales y minoritarios (índices)
         vecinos_all_lista = []
         for idx in vecinos_all_global[i].tolist():
             vecinos_all_lista.append(int(idx))
@@ -421,26 +443,7 @@ class Utils:
         for idx_vecino in vecinos_all_lista:
             clases_vecinos_all.append(self._to_cls_scalar(y[idx_vecino]))
 
-        # Distancias (opcionales, euclídeas o métrica definida, para depuración)
-        if getattr(self, "guardar_distancias", False):
-            xi = X_min[i]
-
-            if len(vecinos_all_lista) > 0:
-                d_all = self._dist(X[vecinos_all_lista], xi).tolist()
-            else:
-                d_all = []
-
-            if len(vecinos_min_lista) > 0:
-                d_min = self._dist(X[vecinos_min_lista], xi).tolist()
-            else:
-                d_min = []
-
-            d_vecinos_min = d_min[:]  # alias explícito
-        else:
-            d_all = None
-            d_vecinos_min = None
-
-        # ───────── Umbrales asociados a los percentiles (valores numéricos) ─────────
+        # ───────── Meta y umbrales de percentil ─────────
         valor_percentil_dist = None
         valor_percentil_densidad = None
         valor_percentil_entropia = None
@@ -465,9 +468,42 @@ class Utils:
         if "umbral_riesgo_min" in meta:
             valor_percentil_riesgo = meta["umbral_riesgo_min"]
 
-        # Construcción explícita del registro
+        # ───────── Distancias a vecinos y conteo dentro del umbral global ─────────
+        xi = X_min[i]
+
+        if len(vecinos_all_lista) > 0:
+            # Distancias según la métrica definida en PCSMOTE
+            dist_array = self._dist(X[vecinos_all_lista], xi)
+        else:
+            dist_array = np.array([], dtype=float)
+
+        # Guardar distancias completas solo si se pidió
+        if getattr(self, "guardar_distancias", False):
+            d_all = dist_array.tolist()
+            if len(vecinos_min_lista) > 0:
+                d_min = self._dist(X[vecinos_min_lista], xi).tolist()
+            else:
+                d_min = []
+            d_vecinos_min = d_min[:]
+        else:
+            d_all = None
+            d_vecinos_min = None
+
+        # Conteo de vecinos dentro del umbral global de distancia
+        if dist_array.size > 0 and valor_percentil_dist is not None:
+            mascara_en_umbral = dist_array <= float(valor_percentil_dist)
+            cant_vecinos_en_p_i = int(np.sum(mascara_en_umbral))
+
+            cant_min_en_p_i = 0
+            for idx_vecino, en_umbral in zip(vecinos_all_lista, mascara_en_umbral):
+                if en_umbral and y[idx_vecino] == 1:
+                    cant_min_en_p_i += 1
+        else:
+            cant_vecinos_en_p_i = 0
+            cant_min_en_p_i = 0
+
+        # ───────── Construcción explícita del registro ─────────
         registro = {
-            # contexto mínimo
             "idx_global": seed_idx_global,
             "clase_objetivo": None,  # se pisa desde fit_resample_multiclass si corresponde
             "es_semilla_valida": bool(comb[i]),
@@ -479,7 +515,7 @@ class Utils:
             "valor_percentil_entropia": valor_percentil_entropia,
             "valor_percentil_riesgo": valor_percentil_riesgo,
 
-            # umbrales asociados (más legibles)
+            # umbrales asociados
             "umbral_densidad": None if umb_den is None else float(umb_den),
             "umbral_entropia": None if umb_ent is None else float(umb_ent),
 
@@ -493,7 +529,7 @@ class Utils:
             "pasa_densidad": bool(densidad_mask[i]),
             "pasa_riesgo": bool(mask_riesgo[i]),
 
-            # diagnóstico de threshold de distancia por muestra
+            # diagnóstico de threshold de distancia por muestra (sigue como antes)
             "vecinos_validos_por_percentil": int(vecinos_validos_counts[i]),
             "thr_dist_percentil": float(dist_thr_por_muestra[i]),
 
@@ -503,11 +539,11 @@ class Utils:
             "last_neighbor_z": last_neighbor_by_seed.get(seed_idx_global, None),
         }
 
-        # ---- NUEVAS CABECERAS DEL NUEVO SISTEMA DE DENSIDAD ----
+        # ---- NUEVAS CABECERAS DEL NUEVO SISTEMA DE DENSIDAD (por muestra, no promedio) ----
         registro["percentil_densidad_distancias_elegido"] = meta.get("percentil_densidad_distancias_elegido")
-        registro["valor_percentil_global_elegido"] = meta.get("umbral_densidad_global")
+        registro["valor_percentil_global_elegido"] = meta.get("valor_percentil_global_elegido")
         registro["k_global"] = meta.get("k_global")
-        registro["cant_vecinos_en_p_elegido"] = meta.get("cant_vecinos_en_p_elegido")
-        registro["cant_min_en_p_elegido"] = meta.get("cant_min_en_p_elegido")
+        registro["cant_vecinos_en_p_elegido"] = cant_vecinos_en_p_i
+        registro["cant_min_en_p_elegido"] = cant_min_en_p_i
 
         self.logs_por_muestra.append(registro)

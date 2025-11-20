@@ -39,10 +39,6 @@ class PCSMOTE(Utils):
     DELTA_RANGE_INTERMEDIO = (0.4, 0.6)
     X_syn, y_syn = None, None # X_syn, y_syn
 
-    # Acumulador GLOBAL de logs por muestra, agrupado por nombre de dataset.
-    # Clave: nombre_dataset  ->  Valor: DataFrame con todas las filas acumuladas
-    _acumulador_logs_por_muestra = {}
-
     # al pasar * como primer argumento, fuerzo a que todos los argumentos sean keywords
     # el constructor solo va a aceptar que pcsmote se instancie con keywords
     # ej: pcsmote = PCSMOTE(k_neighbors=5, random_state=42, percentil_dist=75, ...)
@@ -578,7 +574,7 @@ class PCSMOTE(Utils):
             self._meta["valor_percentil_global_elegido"] = umbral_global
 
             # valor_percentil_global_elegido: umbral de distancia asociado a p
-            # self._meta["valor_percentil_global_elegido"] = umbral_global
+            self._meta["valor_percentil_dist"] = umbral_global  
             self._meta["umbral_densidad_global"] = umbral_global
             # k_global: cantidad de vecinos considerados en el KNN global
             self._meta["k_global"] = int(K)
