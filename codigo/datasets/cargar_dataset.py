@@ -30,9 +30,9 @@ def cargar_dataset(path, clase_minoria=None, col_features=None, col_target=None,
     - clases (np.ndarray con etiquetas únicas o [0,1] si binariza)
     """
     # --- Imágenes ---
-    if tipo == 'imagen':
-        X, y, clases = cargar_dataset_eurosat(path)
-        return X, y, clases
+    # if tipo == 'imagen':
+    #     X, y, clases = cargar_dataset_eurosat(path)
+    #     return X, y, clases
 
     # --- TABULAR NPZ (US CRIME, etc.) ---
     # --- TABULAR NPZ (US CRIME, etc.) ---
@@ -236,3 +236,27 @@ def graficar_distribucion_clases(y, nombre_dataset, clases_labels=None, guardar_
     if guardar_en:
         plt.savefig(guardar_en, dpi=300)
     plt.close()
+
+
+def obtener_metadata_dataset(nombre_dataset, X_train, y_train, X_test=None, y_test=None):
+    clases, conteos = np.unique(y_train, return_counts=True)
+    idx_max = np.argmax(conteos)
+    
+    metadata = {
+        "dataset": nombre_dataset,
+        "cantidad_train": len(y_train),
+        "cantidad_test": len(y_test) if y_test is not None else None,
+        "clases": ", ".join(map(str, clases)),
+        "clase_mayoritaria": str(clases[idx_max]),
+    }
+
+    # Detalle por clase
+    for c, cnt in zip(clases, conteos):
+        metadata[f"clase_{c}"] = cnt
+
+    # Ejemplo de deficit de cada clase frente a la mayoritaria
+    max_cnt = conteos[idx_max]
+    for c, cnt in zip(clases, conteos):
+        metadata[f"deficit_clase_{c}"] = max_cnt - cnt
+
+    return metadata

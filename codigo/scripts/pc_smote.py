@@ -1,11 +1,11 @@
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import check_random_state
+from Utils import Utils
 
-
-class PCSMOTE:
+class PCSMOTE(Utils):
     """
-    PC-SMOTE (versión base, sin logs ni metadatos).
+    PC-SMOTE (versión base, ahora con logging por muestra vía Utils).
 
     Soporta:
     - Problemas binarios (0/1) mediante fit_resample_binario.
@@ -64,7 +64,7 @@ class PCSMOTE:
         percentil_dist_densidad=80.0,
         percentil_dist_riesgo=40.0,
         # umbrales en proporción de k (para el criterio de proporción)
-        umbral_pureza=0.60,
+        umbral_pureza=0.70,
         umbral_densidad=0.80,
         umbral_riesgo=0.20,
         # criterio de pureza: "proporcion" o "entropia"
@@ -72,6 +72,8 @@ class PCSMOTE:
         metric="euclidean",
         verbose=False,
     ):
+        super().__init__()
+
         self.k_vecinos = int(k_vecinos)
         self.random_state = check_random_state(random_state)
         self.metric = str(metric)
@@ -91,6 +93,13 @@ class PCSMOTE:
                 f"se recibió: {criterio_pureza}"
             )
         self.criterio_pureza = criterio_pureza
+
+        # nombre de configuración (para el log)
+        self.nombre_configuracion = (
+            f"D{int(self.percentil_dist_densidad)}_"
+            f"R{int(self.percentil_dist_riesgo)}_"
+            f"P{self.criterio_pureza}"
+        )
 
         self.X_sinteticas = None
         self.y_sinteticas = None
@@ -252,7 +261,7 @@ class PCSMOTE:
         return riesgos
 
     # ------------------------------------------------------------------
-    # Núcleo binario (OVA internamente)
+    # Núcleo binario (OVA internamente) + LOG
     # ------------------------------------------------------------------
 
     def _generar_sinteticas_binario(
@@ -260,9 +269,21 @@ class PCSMOTE:
         X,
         y_binaria,
         cantidad_sinteticas_objetivo,
+        y_original=None,
+        clase_objetivo=1,
     ):
+        """
+        Genera sintéticas para problema binario y, además, loguea por semilla.
+
+        - y_binaria ∈ {0,1}.
+        - y_original: etiquetas originales (multiclase). Si es None, usa y_binaria.
+        - clase_objetivo: etiqueta real usada en OVA (para el log).
+        """
         X = np.asarray(X, dtype=float)
         y_binaria = np.asarray(y_binaria)
+
+        if y_original is None:
+            y_original = y_binaria
 
         valores_unicos = np.unique(y_binaria)
         if not np.array_equal(np.sort(valores_unicos), np.array([0, 1])):
@@ -295,7 +316,7 @@ class PCSMOTE:
         )
 
         distancias_k = distancias_todas[:, 1:]        # (n_pos, k)
-        indices_vecinos_k = indices_vecinos_todos[:, 1:]
+        indices_vecinos_k = indices_vecinos_todos[:, 1:]  # (n_pos, k)
 
         # ----- radios globales -----
         umbral_densidad = self._calcular_umbral_global_desde_distancias(
@@ -306,9 +327,21 @@ class PCSMOTE:
         )
 
         # ----- métricas por semilla -----
+        # Para la lógica de selección, usamos _calcular_pureza_por_muestra
         valores_pureza = self._calcular_pureza_por_muestra(
             y_binaria, indices_vecinos_k
         )
+        # Para el log:
+        #   - si criterio_pureza = "proporcion" -> solo medimos proporciones
+        #   - si criterio_pureza = "entropia"   -> solo medimos entropía
+        proporciones_min = None
+        entropias = None
+
+        if self.criterio_pureza == "proporcion":
+            proporciones_min = valores_pureza          # ya es proporción en [0,1]
+        else:
+            entropias = valores_pureza  
+
         densidades = self._calcular_densidad_por_muestra(
             distancias_k, umbral_densidad
         )
@@ -318,13 +351,11 @@ class PCSMOTE:
 
         # ----- máscaras -----
         if self.criterio_pureza == "proporcion":
-            # valores_pureza = proporción de vecinos positivos
             mascara_pureza = valores_pureza >= self.umbral_pureza
+            umbral_entropia = None
         else:
-            # valores_pureza = H (entropía). Para umbral_pureza = 0.8,
-            # buscamos H <= 0.2
-            umbral_H = 1.0 - self.umbral_pureza
-            mascara_pureza = valores_pureza <= umbral_H
+            umbral_entropia = 1.0 - self.umbral_pureza
+            mascara_pureza = valores_pureza <= umbral_entropia
 
         mascara_densidad = densidades >= self.umbral_densidad
         mascara_riesgo = riesgos <= self.umbral_riesgo
@@ -334,15 +365,20 @@ class PCSMOTE:
         )
         indices_locales_candidatas = np.where(mascara_candidata)[0]
 
-        if len(indices_locales_candidatas) == 0:
-            return None
-
         # ----- generación de sintéticas -----
         muestras_sinteticas = []
         rng = self.random_state
         delta_min, delta_max = self.DELTA_RANGO_INTERMEDIO
 
+        cantidad_semillas_pos = len(indices_positivos)
+        conteo_sinteticas_por_semilla = np.zeros(
+            cantidad_semillas_pos, dtype=int
+        )
+
         for _ in range(cantidad_sinteticas_objetivo):
+            if len(indices_locales_candidatas) == 0:
+                break
+
             indice_local_semilla = int(
                 rng.choice(indices_locales_candidatas)
             )
@@ -386,11 +422,40 @@ class PCSMOTE:
             x_nueva = x_semilla + delta * (x_vecino - x_semilla)
 
             muestras_sinteticas.append(x_nueva)
+            conteo_sinteticas_por_semilla[indice_local_semilla] += 1
 
         if len(muestras_sinteticas) == 0:
-            return None
+            X_sint = None
+        else:
+            X_sint = np.asarray(muestras_sinteticas, dtype=float)
 
-        X_sint = np.asarray(muestras_sinteticas, dtype=float)
+        # ------------------------------------------------------------------
+        # LOG POR MUESTRA (migrado a Utils)
+        # ------------------------------------------------------------------
+        self.loguear_semillas_positivas(
+            nombre_configuracion=self.nombre_configuracion,
+            clase_objetivo=clase_objetivo,
+            y_original=y_original,
+            y_binaria=y_binaria,
+            k=self.k_vecinos,
+            indices_positivos=indices_positivos,
+            indices_vecinos_k=indices_vecinos_k,
+            distancias_k=distancias_k,
+            umbral_densidad=umbral_densidad,
+            umbral_riesgo=umbral_riesgo,
+            umbral_entropia=umbral_entropia,
+            criterio_pureza=self.criterio_pureza,
+            proporciones_min=proporciones_min,
+            densidades=densidades,
+            riesgos=riesgos,
+            entropias=entropias,
+            mascara_pureza=mascara_pureza,
+            mascara_densidad=mascara_densidad,
+            mascara_riesgo=mascara_riesgo,
+            mascara_candidata=mascara_candidata,
+            conteo_sinteticas_por_semilla=conteo_sinteticas_por_semilla,
+        )
+
         return X_sint
 
     # ------------------------------------------------------------------
@@ -400,6 +465,9 @@ class PCSMOTE:
     def fit_resample_binario(self, X, y_binaria, max_sinteticas=None):
         X = np.asarray(X, dtype=float)
         y_binaria = np.asarray(y_binaria)
+
+        # reset del log para esta llamada
+        self.logs_por_muestra = []
 
         valores_unicos = np.unique(y_binaria)
         if not np.array_equal(np.sort(valores_unicos), np.array([0, 1])):
@@ -432,7 +500,9 @@ class PCSMOTE:
             return X.copy(), y_binaria.copy()
 
         X_sint = self._generar_sinteticas_binario(
-            X, y_binaria, cantidad_sinteticas_objetivo
+            X, y_binaria, cantidad_sinteticas_objetivo,
+            y_original=y_binaria,
+            clase_objetivo=1,
         )
 
         if X_sint is None or len(X_sint) == 0:
@@ -463,6 +533,9 @@ class PCSMOTE:
     def fit_resample_multiclass(self, X, y):
         X = np.asarray(X, dtype=float)
         y = np.asarray(y)
+
+        # reset del log para esta llamada global (todas las clases)
+        self.logs_por_muestra = []
 
         clases_unicas, conteos = np.unique(y, return_counts=True)
         cantidad_clases = len(clases_unicas)
@@ -507,7 +580,9 @@ class PCSMOTE:
                 )
 
             X_sint = self._generar_sinteticas_binario(
-                X, y_binaria, deficit_clase
+                X, y_binaria, deficit_clase,
+                y_original=y,
+                clase_objetivo=etiqueta_clase,
             )
 
             if X_sint is None or len(X_sint) == 0:
