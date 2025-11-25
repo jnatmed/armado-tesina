@@ -63,8 +63,9 @@ class PCSMOTE(Utils):
         # percentiles (sobre distancias) para definir radios
         percentil_dist_densidad=80.0,
         percentil_dist_riesgo=40.0,
+        percentil_entropia=40.0,
         # umbrales en proporción de k (para el criterio de proporción)
-        umbral_pureza=0.70,
+        umbral_pureza=0.60,
         umbral_densidad=0.80,
         umbral_riesgo=0.20,
         # criterio de pureza: "proporcion" o "entropia"
@@ -81,10 +82,15 @@ class PCSMOTE(Utils):
 
         self.percentil_dist_densidad = float(percentil_dist_densidad)
         self.percentil_dist_riesgo = float(percentil_dist_riesgo)
+        self.percentil_entropia = float(percentil_entropia)
 
         self.umbral_pureza = float(umbral_pureza)
         self.umbral_densidad = float(umbral_densidad)
         self.umbral_riesgo = float(umbral_riesgo)
+
+        self.entropias = None
+        self.densidades = None
+        self.riesgos = None
 
         criterio_pureza = str(criterio_pureza).lower()
         if criterio_pureza not in ("proporcion", "entropia"):
@@ -318,6 +324,8 @@ class PCSMOTE(Utils):
         distancias_k = distancias_todas[:, 1:]        # (n_pos, k)
         indices_vecinos_k = indices_vecinos_todos[:, 1:]  # (n_pos, k)
 
+
+        
         # ----- radios globales -----
         umbral_densidad = self._calcular_umbral_global_desde_distancias(
             distancias_k, self.percentil_dist_densidad
@@ -327,35 +335,62 @@ class PCSMOTE(Utils):
         )
 
         # ----- métricas por semilla -----
-        # Para la lógica de selección, usamos _calcular_pureza_por_muestra
-        valores_pureza = self._calcular_pureza_por_muestra(
-            y_binaria, indices_vecinos_k
-        )
-        # Para el log:
-        #   - si criterio_pureza = "proporcion" -> solo medimos proporciones
-        #   - si criterio_pureza = "entropia"   -> solo medimos entropía
+        # Queremos tener SIEMPRE, al menos:
+        # - proporciones_min: proporción de vecinos minoritarios (p_misma)
+        # - entropias: H (solo si criterio_pureza = "entropia")
         proporciones_min = None
         entropias = None
 
         if self.criterio_pureza == "proporcion":
-            proporciones_min = valores_pureza          # ya es proporción en [0,1]
+            # En este caso, pureza = proporción de vecinos minoritarios
+            proporciones_min = self._calcular_pureza_por_proporcion(
+                y_binaria, indices_vecinos_k
+            )
+            self.proporciones_min = proporciones_min  # en [0,1]
         else:
-            entropias = valores_pureza  
+            # criterio_pureza == "entropia"
+            # 1) Entropía del vecindario (mezcla)
+            entropias = self._calcular_pureza_por_entropia(
+                y_binaria, matriz_indices_vecinos=indices_vecinos_k
+            )
+            self.entropias = entropias
+
+            # 2) Además calculamos proporción de vecinos minoritarios
+            #    para saber si hay al menos alguno (p_misma > 0).
+            proporciones_min = self._calcular_pureza_por_proporcion(
+                y_binaria, indices_vecinos_k
+            )
+
 
         densidades = self._calcular_densidad_por_muestra(
             distancias_k, umbral_densidad
         )
+        self.densidades = densidades
         riesgos = self._calcular_riesgo_por_muestra(
             y_binaria, indices_vecinos_k, distancias_k, umbral_riesgo
         )
-
+        self.riesgos = riesgos
         # ----- máscaras -----
         if self.criterio_pureza == "proporcion":
-            mascara_pureza = valores_pureza >= self.umbral_pureza
+            # Igual que antes: pureza = proporción de minoritarios >= umbral
+            mascara_pureza = proporciones_min >= self.umbral_pureza
             umbral_entropia = None
         else:
-            umbral_entropia = 1.0 - self.umbral_pureza
-            mascara_pureza = valores_pureza <= umbral_entropia
+            # criterio_pureza = "entropia"
+            umbral_entropia = float(
+                np.percentile(entropias, float(self.percentil_entropia))
+            )
+
+            # condición 1: baja mezcla (entropía baja)
+            mascara_entropia_baja = entropias <= umbral_entropia
+
+            # condición 2: al menos un vecino minoritario en el vecindario k
+            # (p_misma > 0). Si quisieras algo más estricto, podrías usar
+            # proporciones_min >= self.umbral_pureza.
+            mascara_vecino_minoritario = proporciones_min > 0.0
+
+            # pureza final: vecindario poco mezclado Y con presencia de minoritarios
+            mascara_pureza = mascara_entropia_baja & mascara_vecino_minoritario
 
         mascara_densidad = densidades >= self.umbral_densidad
         mascara_riesgo = riesgos <= self.umbral_riesgo
@@ -363,6 +398,7 @@ class PCSMOTE(Utils):
         mascara_candidata = (
             mascara_pureza & mascara_densidad & mascara_riesgo
         )
+
         indices_locales_candidatas = np.where(mascara_candidata)[0]
 
         # ----- generación de sintéticas -----
@@ -408,6 +444,7 @@ class PCSMOTE(Utils):
 
             # fallback: cualquier vecino positivo del vecindario k
             if len(vecinos_positivos_validos) == 0:
+                
                 for indice_vecino in indices_vecinos_actual:
                     if int(y_binaria[indice_vecino]) == 1:
                         vecinos_positivos_validos.append(int(indice_vecino))
