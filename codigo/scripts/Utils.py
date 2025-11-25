@@ -241,9 +241,10 @@ class Utils:
                     # "clase_real_muestra": y_original[indice_global_semilla],
                     "es_semilla_valida": es_semilla_valida,
                     "k": k,
-                    "umbral_densidad": umbral_densidad,
-                    "umbral_riesgo": umbral_riesgo,
+                    "radio_percentil_distancias": umbral_densidad,
+                    "radio_percentil_riesgos": umbral_riesgo,
                     "umbral_entropia": umbral_entropia,
+                    "entropia": valor_entropia,
                     "criterio_pureza": criterio_pureza,
                     # si se midió proporción, fracción y valor; si no, quedan None
                     "proporcion_min": fraccion_proporcion_min if proporciones_min is not None else None,
@@ -254,7 +255,6 @@ class Utils:
                     "riesgo": fraccion_riesgo,
                     "riesgo_valor": valor_riesgo,
                     # si se midió entropía, se loguea; si no, va None
-                    "entropia": valor_entropia,
                     "pasa_pureza": pasa_pureza,
                     "pasa_densidad": pasa_densidad,
                     "pasa_riesgo": pasa_riesgo,
