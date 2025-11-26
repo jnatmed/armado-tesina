@@ -18,10 +18,7 @@ class PCSMOTE(Utils):
 
     PUREZA:
     --------
-    Se controla con un único método:
-        _calcular_pureza_por_muestra(y_binaria, indices_vecinos)
-
-    que internamente aplica uno de dos criterios según self.criterio_pureza:
+    Se controla con 2 metodos 
 
         - "proporcion":
             pureza_i = (# vecinos con y==1) / k_vecinos
@@ -91,7 +88,10 @@ class PCSMOTE(Utils):
         self.entropias = None
         self.densidades = None
         self.riesgos = None
-
+        self.mascara_vecino_minoritario = None
+        self.mascara_entropia_baja = None
+        self.mascara_pureza = None  
+        
         criterio_pureza = str(criterio_pureza).lower()
         if criterio_pureza not in ("proporcion", "entropia"):
             raise ValueError(
@@ -182,29 +182,6 @@ class PCSMOTE(Utils):
             entropias[indice_muestra] = H
 
         return entropias
-
-    def _calcular_pureza_por_muestra(
-        self, y_binaria, matriz_indices_vecinos
-    ):
-        """
-        Punto único de entrada para calcular "pureza" según
-        el criterio configurado.
-
-        Si criterio_pureza == "proporcion":
-            devuelve proporciones en [0,1] (mayor = más puro).
-
-        Si criterio_pureza == "entropia":
-            devuelve H en [0,1] (mayor = más mezclado).
-            Luego la máscara de pureza se construye aparte.
-        """
-        if self.criterio_pureza == "proporcion":
-            return self._calcular_pureza_por_proporcion(
-                y_binaria, matriz_indices_vecinos
-            )
-        else:  # "entropia"
-            return self._calcular_pureza_por_entropia(
-                y_binaria, matriz_indices_vecinos
-            )
 
     # ------------------------------------------------------------------
     # DENSIDAD y RIESGO
@@ -301,7 +278,6 @@ class PCSMOTE(Utils):
             )
 
         indices_positivos = np.where(y_binaria == 1)[0]
-        indices_negativos = np.where(y_binaria == 0)[0]
 
         cantidad_positivos = int(len(indices_positivos))
 
@@ -356,7 +332,7 @@ class PCSMOTE(Utils):
             entropias = self._calcular_pureza_por_entropia(
                 y_binaria, matriz_indices_vecinos=indices_vecinos_k
             )
-            self.entropias = entropias
+            
 
         densidades = self._calcular_densidad_por_muestra(
             distancias_k, umbral_densidad
@@ -370,7 +346,7 @@ class PCSMOTE(Utils):
 
         self.riesgos = riesgos
 
-
+        UMBRAL_DOMINANCIA_MINORITARIA = 0.5
         # ----- máscaras -----
         if self.criterio_pureza == "proporcion":
             # Igual que antes: pureza = proporción de minoritarios >= umbral
@@ -384,17 +360,19 @@ class PCSMOTE(Utils):
 
             # condición 1: baja mezcla (entropía baja)
             mascara_entropia_baja = entropias <= umbral_entropia
-
-            # condición 2: al menos un vecino minoritario en el vecindario k
-            # (p_misma > 0). Si quisieras algo más estricto, podrías usar
-            # proporciones_min >= self.umbral_pureza.
-            mascara_vecino_minoritario = proporciones_min > 0.0
+            self.mascara_entropia_baja = mascara_entropia_baja
+            # condición 2: las minoritarias siempre le tienen que ganar a las mayoritarias
+            # asi me aseguro que cuando hago el AND con mascara_entropia_baja, me quedo con
+            # muestras de baja mezcla donde domina la minoritaria
+            mascara_vecino_minoritario = proporciones_min > UMBRAL_DOMINANCIA_MINORITARIA
+            self.mascara_vecino_minoritario = mascara_vecino_minoritario
 
             # pureza final: vecindario poco mezclado Y con presencia de minoritarios
             mascara_pureza = mascara_entropia_baja & mascara_vecino_minoritario
+            self.mascara_pureza = mascara_pureza
 
-        mascara_densidad = densidades >= self.umbral_densidad
-        mascara_riesgo = riesgos <= self.umbral_riesgo
+        mascara_densidad = densidades >= umbral_densidad
+        mascara_riesgo = riesgos <= umbral_riesgo
 
         mascara_candidata = (
             mascara_pureza & mascara_densidad & mascara_riesgo
