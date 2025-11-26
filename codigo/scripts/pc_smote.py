@@ -91,7 +91,15 @@ class PCSMOTE(Utils):
         self.mascara_vecino_minoritario = None
         self.mascara_entropia_baja = None
         self.mascara_pureza = None  
-        
+
+        # --- acumuladores globales (todas las clases OVA) ---
+        self.mascara_entropia_baja_global = None
+        self.mascara_vecino_minoritario_global = None
+        self.mascara_pureza_global = None
+        self.densidades_global = None
+        self.riesgos_global = None
+        self.metricas_por_clase = []
+
         criterio_pureza = str(criterio_pureza).lower()
         if criterio_pureza not in ("proporcion", "entropia"):
             raise ValueError(
@@ -109,6 +117,28 @@ class PCSMOTE(Utils):
 
         self.X_sinteticas = None
         self.y_sinteticas = None
+        
+    def _reiniciar_metricas_por_clase(self):
+        self.metricas_por_clase = []
+
+    def _acumular_metricas_por_clase(
+        self,
+        clase_objetivo,
+        mascara_entropia_baja,
+        mascara_vecino_minoritario,
+        mascara_pureza,
+        densidades,
+        riesgos,
+    ):
+        registro = {
+            "clase_objetivo": clase_objetivo,
+            "mascara_entropia_baja": None if mascara_entropia_baja is None else mascara_entropia_baja.astype(float),
+            "mascara_vecino_minoritario": None if mascara_vecino_minoritario is None else mascara_vecino_minoritario.astype(float),
+            "mascara_pureza": mascara_pureza.astype(float) if mascara_pureza is not None else None,
+            "densidades": densidades.astype(float),
+            "riesgos": riesgos.astype(float),
+        }
+        self.metricas_por_clase.append(registro)
 
     # ------------------------------------------------------------------
     # PUREZA
@@ -302,8 +332,6 @@ class PCSMOTE(Utils):
         distancias_k = distancias_todas[:, 1:]        # (n_pos, k)
         indices_vecinos_k = indices_vecinos_todos[:, 1:]  # (n_pos, k)
 
-
-        
         # ----- radios globales -----
         umbral_densidad = self._calcular_umbral_global_desde_distancias(
             distancias_k, self.percentil_dist_densidad
@@ -352,6 +380,8 @@ class PCSMOTE(Utils):
             # Igual que antes: pureza = proporción de minoritarios >= umbral
             mascara_pureza = proporciones_min >= self.umbral_pureza
             umbral_entropia = None
+            mascara_entropia_baja = None
+            mascara_vecino_minoritario = None
         else:
             # criterio_pureza = "entropia"
             umbral_entropia = float(
@@ -373,6 +403,27 @@ class PCSMOTE(Utils):
 
         mascara_densidad = densidades >= umbral_densidad
         mascara_riesgo = riesgos <= umbral_riesgo
+
+        # Al final de _generar_sinteticas_binario, justo antes del return X_sint
+
+        if not hasattr(self, "metricas_por_clase"):
+            self.metricas_por_clase = []
+
+        registro_clase = {
+            "clase": clase_objetivo,
+            "mascara_entropia_baja": self.mascara_entropia_baja.astype(float)
+                                    if self.mascara_entropia_baja is not None else None,
+            "mascara_vecino_minoritario": self.mascara_vecino_minoritario.astype(float)
+                                        if self.mascara_vecino_minoritario is not None else None,
+            "mascara_pureza": self.mascara_pureza.astype(float)
+                            if self.mascara_pureza is not None else None,
+            "densidades": densidades.astype(float),
+            "riesgos": riesgos.astype(float),
+            "entropias": entropias.astype(float) if entropias is not None else None,
+        }
+
+        self.metricas_por_clase.append(registro_clase)
+
 
         mascara_candidata = (
             mascara_pureza & mascara_densidad & mascara_riesgo
@@ -552,6 +603,8 @@ class PCSMOTE(Utils):
 
         # reset del log para esta llamada global (todas las clases)
         self.logs_por_muestra = []
+
+        self._reiniciar_metricas_por_clase()
 
         clases_unicas, conteos = np.unique(y, return_counts=True)
         cantidad_clases = len(clases_unicas)
