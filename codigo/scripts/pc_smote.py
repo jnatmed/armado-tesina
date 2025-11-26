@@ -66,8 +66,8 @@ class PCSMOTE(Utils):
         percentil_entropia=40.0,
         # umbrales en proporción de k (para el criterio de proporción)
         umbral_pureza=0.60,
-        umbral_densidad=0.80,
-        umbral_riesgo=0.20,
+        # umbral_densidad=0.80,
+        # umbral_riesgo=0.20,
         # criterio de pureza: "proporcion" o "entropia"
         criterio_pureza="proporcion",
         metric="euclidean",
@@ -85,8 +85,8 @@ class PCSMOTE(Utils):
         self.percentil_entropia = float(percentil_entropia)
 
         self.umbral_pureza = float(umbral_pureza)
-        self.umbral_densidad = float(umbral_densidad)
-        self.umbral_riesgo = float(umbral_riesgo)
+        self.umbral_densidad = None
+        self.umbral_riesgo = None
 
         self.entropias = None
         self.densidades = None
@@ -210,13 +210,15 @@ class PCSMOTE(Utils):
     # DENSIDAD y RIESGO
     # ------------------------------------------------------------------
 
-    def _calcular_umbral_global_desde_distancias(
-        self, matriz_distancias, percentil
-    ):
+    def _calcular_umbral_global_desde_distancias(self, matriz_distancias, percentil):
+
         if matriz_distancias.size == 0:
             return 0.0
+        
         distancias_vector = matriz_distancias.reshape(-1)
+
         umbral = float(np.percentile(distancias_vector, float(percentil)))
+
         return umbral
 
     def _calcular_densidad_por_muestra(
@@ -341,11 +343,12 @@ class PCSMOTE(Utils):
         proporciones_min = None
         entropias = None
 
+        proporciones_min = self._calcular_pureza_por_proporcion(
+            y_binaria, indices_vecinos_k
+        )
+
         if self.criterio_pureza == "proporcion":
             # En este caso, pureza = proporción de vecinos minoritarios
-            proporciones_min = self._calcular_pureza_por_proporcion(
-                y_binaria, indices_vecinos_k
-            )
             self.proporciones_min = proporciones_min  # en [0,1]
         else:
             # criterio_pureza == "entropia"
@@ -355,21 +358,19 @@ class PCSMOTE(Utils):
             )
             self.entropias = entropias
 
-            # 2) Además calculamos proporción de vecinos minoritarios
-            #    para saber si hay al menos alguno (p_misma > 0).
-            proporciones_min = self._calcular_pureza_por_proporcion(
-                y_binaria, indices_vecinos_k
-            )
-
-
         densidades = self._calcular_densidad_por_muestra(
             distancias_k, umbral_densidad
         )
+
         self.densidades = densidades
+
         riesgos = self._calcular_riesgo_por_muestra(
             y_binaria, indices_vecinos_k, distancias_k, umbral_riesgo
         )
+
         self.riesgos = riesgos
+
+
         # ----- máscaras -----
         if self.criterio_pureza == "proporcion":
             # Igual que antes: pureza = proporción de minoritarios >= umbral
