@@ -114,6 +114,10 @@ class PCSMOTE(Utils):
             f"P{self.criterio_pureza}"
         )
 
+        # contadores de semillas candidatas (global, todas las clases)
+        self.cantidad_semillas_candidatas = 0
+        self.detalle_semillas_candidatas_por_clase = []        
+
         self.X_sinteticas = None
         self.y_sinteticas = None
         
@@ -138,6 +142,15 @@ class PCSMOTE(Utils):
             "riesgos": riesgos.astype(float),
         }
         self.metricas_por_clase.append(registro)
+
+    def _reiniciar_contadores_semillas_candidatas(self):
+        """
+        Reinicia los contadores globales de semillas candidatas.
+        Se llama al comienzo de cada fit_resample (binario o multiclase).
+        """
+        self.cantidad_semillas_candidatas = 0
+        self.detalle_semillas_candidatas_por_clase = []
+
 
     # ------------------------------------------------------------------
     # PUREZA
@@ -521,6 +534,24 @@ class PCSMOTE(Utils):
             conteo_sinteticas_por_semilla=conteo_sinteticas_por_semilla,
         )
 
+        # ------------------------------------------------------------------
+        # 🔹 Acumular semillas candidatas (por clase y global)
+        # ------------------------------------------------------------------
+        cantidad_candidatas_actual = int(mascara_candidata.sum())
+
+        # por si se llama sin reiniciar (defensivo)
+        if not hasattr(self, "cantidad_semillas_candidatas"):
+            self.cantidad_semillas_candidatas = 0
+        if not hasattr(self, "detalle_semillas_candidatas_por_clase"):
+            self.detalle_semillas_candidatas_por_clase = []
+
+        self.cantidad_semillas_candidatas += cantidad_candidatas_actual
+        self.detalle_semillas_candidatas_por_clase.append({
+            "clase_objetivo": clase_objetivo,
+            "cantidad_semillas_positivas": int(len(indices_positivos)),
+            "cantidad_semillas_candidatas": cantidad_candidatas_actual,
+        })
+
         return X_sint
 
     # ------------------------------------------------------------------
@@ -533,6 +564,9 @@ class PCSMOTE(Utils):
 
         # reset del log para esta llamada
         self.logs_por_muestra = []
+
+        # 🔹 reset contadores de semillas candidatas
+        self._reiniciar_contadores_semillas_candidatas()
 
         valores_unicos = np.unique(y_binaria)
         if not np.array_equal(np.sort(valores_unicos), np.array([0, 1])):
@@ -589,6 +623,8 @@ class PCSMOTE(Utils):
                 f"nuevo_tamaño={len(y_resampleado)}"
             )
 
+
+
         return X_resampleado, y_resampleado
 
     # ------------------------------------------------------------------
@@ -603,6 +639,8 @@ class PCSMOTE(Utils):
         self.logs_por_muestra = []
 
         self._reiniciar_metricas_por_clase()
+        # 🔹 reset contadores de semillas candidatas (globales)
+        self._reiniciar_contadores_semillas_candidatas()
 
         clases_unicas, conteos = np.unique(y, return_counts=True)
         cantidad_clases = len(clases_unicas)
