@@ -63,8 +63,7 @@ class PCSMOTE(Utils):
         percentil_entropia=40.0,
         # umbrales en proporción de k (para el criterio de proporción)
         umbral_pureza=0.60,
-        # umbral_densidad=0.80,
-        # umbral_riesgo=0.20,
+        umbral_densidad = 0.5,
         # criterio de pureza: "proporcion" o "entropia"
         criterio_pureza="proporcion",
         metric="euclidean",
@@ -82,7 +81,6 @@ class PCSMOTE(Utils):
         self.percentil_entropia = float(percentil_entropia)
 
         self.umbral_pureza = float(umbral_pureza)
-        self.umbral_densidad = None
         self.umbral_riesgo = None
 
         self.entropias = None
@@ -91,6 +89,7 @@ class PCSMOTE(Utils):
         self.mascara_vecino_minoritario = None
         self.mascara_entropia_baja = None
         self.mascara_pureza = None  
+        self.umbral_densidad = umbral_densidad
 
         # --- acumuladores globales (todas las clases OVA) ---
         self.mascara_entropia_baja_global = None
@@ -229,7 +228,7 @@ class PCSMOTE(Utils):
         return umbral
 
     def _calcular_densidad_por_muestra(
-        self, matriz_distancias, umbral_densidad
+        self, matriz_distancias, radio_densidad
     ):
         cantidad_muestras = matriz_distancias.shape[0]
         densidades = np.zeros(cantidad_muestras, dtype=float)
@@ -239,7 +238,7 @@ class PCSMOTE(Utils):
 
             cantidad_vecinos_cercanos = 0
             for distancia_vecino in distancias_actual:
-                if float(distancia_vecino) <= float(umbral_densidad):
+                if float(distancia_vecino) <= float(radio_densidad):
                     cantidad_vecinos_cercanos += 1
 
             densidades[indice_muestra] = (
@@ -333,7 +332,7 @@ class PCSMOTE(Utils):
         indices_vecinos_k = indices_vecinos_todos[:, 1:]  # (n_pos, k)
 
         # ----- radios globales -----
-        umbral_densidad = self._calcular_umbral_global_desde_distancias(
+        radio_densidad = self._calcular_umbral_global_desde_distancias(
             distancias_k, self.percentil_dist_densidad
         )
         umbral_riesgo = self._calcular_umbral_global_desde_distancias(
@@ -363,7 +362,7 @@ class PCSMOTE(Utils):
             
 
         densidades = self._calcular_densidad_por_muestra(
-            distancias_k, umbral_densidad
+            distancias_k, radio_densidad
         )
 
         self.densidades = densidades
@@ -401,7 +400,7 @@ class PCSMOTE(Utils):
             mascara_pureza = mascara_entropia_baja & mascara_vecino_minoritario
             self.mascara_pureza = mascara_pureza
 
-        mascara_densidad = densidades >= umbral_densidad
+        mascara_densidad = densidades >= self.umbral_densidad
         mascara_riesgo = riesgos <= umbral_riesgo
 
         # Al final de _generar_sinteticas_binario, justo antes del return X_sint
@@ -459,14 +458,12 @@ class PCSMOTE(Utils):
             # vecinos dentro de u_densidad
             vecinos_dentro_densidad = []
             for posicion_vecino in range(len(indices_vecinos_actual)):
-                if float(distancias_actual[posicion_vecino]) <= float(
-                    umbral_densidad
-                ):
+                if float(distancias_actual[posicion_vecino]) <= float(radio_densidad):
                     vecinos_dentro_densidad.append(
                         int(indices_vecinos_actual[posicion_vecino])
                     )
 
-            # vecinos positivos dentro de ese radio
+            # vecinos positivos dentro de ese radio_densidad
             vecinos_positivos_validos = []
             for indice_vecino in vecinos_dentro_densidad:
                 if int(y_binaria[indice_vecino]) == 1:
@@ -508,7 +505,8 @@ class PCSMOTE(Utils):
             indices_positivos=indices_positivos,
             indices_vecinos_k=indices_vecinos_k,
             distancias_k=distancias_k,
-            umbral_densidad=umbral_densidad,
+            radio_densidad=radio_densidad,
+            umbral_densidad=self.umbral_densidad,
             umbral_riesgo=umbral_riesgo,
             umbral_entropia=umbral_entropia,
             criterio_pureza=self.criterio_pureza,

@@ -83,7 +83,7 @@ class Utils:
         clase_real,
         es_semilla_valida,
         k,
-        umbral_densidad,
+        radio_densidad,
         umbral_riesgo,
         umbral_entropia,
         criterio_pureza,
@@ -119,7 +119,7 @@ class Utils:
             "es_semilla_valida": bool(es_semilla_valida),
             "k": int(k),
 
-            "umbral_densidad": float(umbral_densidad),
+            "radio_densidad": float(radio_densidad),
             "umbral_riesgo": float(umbral_riesgo),
             "umbral_entropia": (
                 float(umbral_entropia) if umbral_entropia is not None else None
@@ -163,6 +163,7 @@ class Utils:
         indices_positivos,
         indices_vecinos_k,
         distancias_k,
+        radio_densidad,
         umbral_densidad,
         umbral_riesgo,
         umbral_entropia,
@@ -202,7 +203,7 @@ class Utils:
 
                 if es_misma:
                     cant_misma += 1
-                if dist_v <= float(umbral_densidad):
+                if dist_v <= float(radio_densidad):
                     cant_dentro_densidad += 1
                     if es_misma:
                         cant_min_dentro_densidad += 1
@@ -241,7 +242,8 @@ class Utils:
                     # "clase_real_muestra": y_original[indice_global_semilla],
                     "es_semilla_valida": es_semilla_valida,
                     "k": k,
-                    "radio_percentil_distancias": umbral_densidad,
+                    "radio_percentil_distancias": radio_densidad,
+                    "umbral_densidad": umbral_densidad,
                     "radio_percentil_riesgos": umbral_riesgo,
                     "umbral_entropia": umbral_entropia,
                     "entropia": valor_entropia,
@@ -259,7 +261,6 @@ class Utils:
                     "pasa_densidad": pasa_densidad,
                     "pasa_riesgo": pasa_riesgo,
                     "vecinos_validos_por_percentil": cant_dentro_densidad,
-                    # "thr_dist_percentil": umbral_densidad,
                     "synthetics_from_this_seed": int(
                         conteo_sinteticas_por_semilla[indice_local_semilla]
                     ),
