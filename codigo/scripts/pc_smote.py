@@ -107,12 +107,40 @@ class PCSMOTE(Utils):
             )
         self.criterio_pureza = criterio_pureza
 
-        # nombre de configuración (para el log)
+        # =====================================================
+        # Nombre de configuración (para logs internos PCSMOTE)
+        # Formato:
+        #   PRDxx_PRyy_CPent_UDxxx_PEzz
+        #   PRDxx_PRyy_CPprop_UDxxx_Pppzzz
+        # =====================================================
+        tag_prd = f"PRD{int(self.percentil_dist_densidad)}"
+        tag_pr = f"PR{int(self.percentil_dist_riesgo)}"
+
+        if self.criterio_pureza == "entropia":
+            tag_cp = "CPent"
+        else:
+            tag_cp = "CPprop"
+
+        valor_ud = int(round(self.umbral_densidad * 100))
+        tag_ud = f"UD{valor_ud:03d}"
+
+        # tipo_pureza:
+        # - entropía: PE{percentil_entropia} → PE45
+        # - proporción: Ppp{umbral_pureza*100 en 3 dígitos} → Ppp060
+        if self.criterio_pureza == "entropia":
+            tag_tipo_pureza = f"PE{int(self.percentil_entropia)}"
+        else:
+            valor_upp = int(round(self.umbral_pureza * 100))
+            tag_tipo_pureza = f"Ppp{valor_upp:03d}"
+
         self.nombre_configuracion = (
-            f"D{int(self.percentil_dist_densidad)}_"
-            f"R{int(self.percentil_dist_riesgo)}_"
-            f"P{self.criterio_pureza}"
+            f"{tag_prd}_"
+            f"{tag_pr}_"
+            f"{tag_cp}_"
+            f"{tag_ud}_"
+            f"{tag_tipo_pureza}"
         )
+
 
         # contadores de semillas candidatas (global, todas las clases)
         self.cantidad_semillas_candidatas = 0
@@ -715,6 +743,7 @@ class PCSMOTE(Utils):
         if self.verbose:
             print(
                 f"[PCSMOTE-multiclase] sintéticas_totales={len(X_sint_global)}, "
+                f"Sinteticas totales Validas={self.cantidad_semillas_candidatas}"
                 f"nuevo_tamaño={len(y_resampleado)}"
             )
 
