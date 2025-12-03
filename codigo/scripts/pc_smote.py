@@ -60,9 +60,9 @@ class PCSMOTE(Utils):
         # percentiles (sobre distancias) para definir radios
         percentil_dist_densidad=80.0,
         percentil_dist_riesgo=40.0,
-        percentil_entropia=40.0,
+        percentil_entropia=None,
         # umbrales en proporción de k (para el criterio de proporción)
-        umbral_pureza=0.60,
+        umbral_pureza=None,
         umbral_densidad = 0.5,
         # criterio de pureza: "proporcion" o "entropia"
         criterio_pureza="proporcion",
@@ -105,8 +105,24 @@ class PCSMOTE(Utils):
                 f"criterio_pureza debe ser 'proporcion' o 'entropia', "
                 f"se recibió: {criterio_pureza}"
             )
+        
         self.criterio_pureza = criterio_pureza
-
+        # --- validaciones de coherencia con el criterio ---
+        if self.criterio_pureza == "entropia":
+            if self.percentil_entropia is None:
+                raise ValueError(
+                    "Cuando criterio_pureza = 'entropia', "
+                    "percentil_entropia no puede ser None."
+                )
+            # En este modo, umbral_pureza puede ser None sin problema
+        elif self.criterio_pureza == "proporcion":
+            if self.umbral_pureza is None:
+                raise ValueError(
+                    "Cuando criterio_pureza = 'proporcion', "
+                    "umbral_pureza no puede ser None."
+                )
+            # En este modo, percentil_entropia puede ser None sin problema
+            
         # =====================================================
         # Nombre de configuración (para logs internos PCSMOTE)
         # Formato:
