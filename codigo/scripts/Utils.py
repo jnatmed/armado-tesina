@@ -165,8 +165,9 @@ class Utils:
         distancias_k,
         radio_densidad,
         umbral_densidad,
-        umbral_riesgo,
+        radio_riesgo,
         umbral_entropia,
+        umbral_riesgo,
         criterio_pureza,
         proporciones_min,
         densidades,
@@ -207,7 +208,7 @@ class Utils:
                     cant_dentro_densidad += 1
                     if es_misma:
                         cant_min_dentro_densidad += 1
-                if dist_v <= float(umbral_riesgo) and es_contraria:
+                if dist_v <= float(radio_riesgo) and es_contraria:
                     cant_contrarios_riesgo += 1
 
             # Valores numéricos de pureza (según criterio)
@@ -244,8 +245,9 @@ class Utils:
                     "k": k,
                     "radio_percentil_distancias": radio_densidad,
                     "umbral_densidad": umbral_densidad,
-                    "radio_percentil_riesgos": umbral_riesgo,
+                    "radio_percentil_riesgos": radio_riesgo,
                     "umbral_entropia": umbral_entropia,
+                    "umbral_riesgo": umbral_riesgo,
                     "entropia": valor_entropia,
                     "criterio_pureza": criterio_pureza,
                     # si se midió proporción, fracción y valor; si no, quedan None

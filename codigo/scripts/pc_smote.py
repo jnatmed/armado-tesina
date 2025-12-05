@@ -60,10 +60,11 @@ class PCSMOTE(Utils):
         # percentiles (sobre distancias) para definir radios
         percentil_dist_densidad=80.0,
         percentil_dist_riesgo=40.0,
-        percentil_entropia=None,
+        percentil_entropia=40.0,
         # umbrales en proporción de k (para el criterio de proporción)
-        umbral_pureza=None,
+        umbral_pureza=80.0,
         umbral_densidad = 0.5,
+        umbral_riesgo = 0.45,
         # criterio de pureza: "proporcion" o "entropia"
         criterio_pureza="proporcion",
         metric="euclidean",
@@ -81,7 +82,7 @@ class PCSMOTE(Utils):
         self.percentil_entropia = float(percentil_entropia)
 
         self.umbral_pureza = float(umbral_pureza)
-        self.umbral_riesgo = None
+        self.umbral_riesgo = float(umbral_riesgo) 
 
         self.entropias = None
         self.densidades = None
@@ -305,7 +306,7 @@ class PCSMOTE(Utils):
         return densidades
 
     def _calcular_riesgo_por_muestra(
-        self, y_binaria, matriz_indices_vecinos, matriz_distancias, umbral_riesgo
+        self, y_binaria, matriz_indices_vecinos, matriz_distancias, radio_riesgo
     ):
         y_binaria = np.asarray(y_binaria)
         cantidad_muestras = matriz_indices_vecinos.shape[0]
@@ -321,7 +322,7 @@ class PCSMOTE(Utils):
                 indice_vecino = indices_vecinos_actual[posicion_vecino]
                 distancia_vecino = distancias_actual[posicion_vecino]
 
-                if float(distancia_vecino) <= float(umbral_riesgo):
+                if float(distancia_vecino) <= float(radio_riesgo):
                     if int(y_binaria[indice_vecino]) == 0:
                         cantidad_vecinos_contrarios_cercanos += 1
 
@@ -392,7 +393,7 @@ class PCSMOTE(Utils):
         radio_densidad = self._calcular_umbral_global_desde_distancias(
             distancias_k, self.percentil_dist_densidad
         )
-        umbral_riesgo = self._calcular_umbral_global_desde_distancias(
+        radio_riesgo = self._calcular_umbral_global_desde_distancias(
             distancias_k, self.percentil_dist_riesgo
         )
 
@@ -425,7 +426,7 @@ class PCSMOTE(Utils):
         self.densidades = densidades
 
         riesgos = self._calcular_riesgo_por_muestra(
-            y_binaria, indices_vecinos_k, distancias_k, umbral_riesgo
+            y_binaria, indices_vecinos_k, distancias_k, radio_riesgo
         )
 
         self.riesgos = riesgos
@@ -458,7 +459,7 @@ class PCSMOTE(Utils):
             self.mascara_pureza = mascara_pureza
 
         mascara_densidad = densidades >= self.umbral_densidad
-        mascara_riesgo = riesgos <= umbral_riesgo
+        mascara_riesgo = riesgos <= self.umbral_riesgo
 
         # Al final de _generar_sinteticas_binario, justo antes del return X_sint
 
@@ -564,8 +565,9 @@ class PCSMOTE(Utils):
             distancias_k=distancias_k,
             radio_densidad=radio_densidad,
             umbral_densidad=self.umbral_densidad,
-            umbral_riesgo=umbral_riesgo,
+            radio_riesgo=radio_riesgo,
             umbral_entropia=umbral_entropia,
+            umbral_riesgo=self.umbral_riesgo,
             criterio_pureza=self.criterio_pureza,
             proporciones_min=proporciones_min,
             densidades=densidades,
