@@ -65,6 +65,8 @@ class PCSMOTE(Utils):
         umbral_pureza=80.0,
         umbral_densidad = 0.5,
         umbral_riesgo = 0.45,
+
+        grado_iso=None,
         # criterio de pureza: "proporcion" o "entropia"
         criterio_pureza="proporcion",
         metric="euclidean",
@@ -141,6 +143,8 @@ class PCSMOTE(Utils):
         valor_ud = int(round(self.umbral_densidad * 100))
         tag_ud = f"UD{valor_ud:03d}"
 
+        tag_ur = f"UR{int(round(self.umbral_riesgo*100)):03d}"
+
         # tipo_pureza:
         # - entropía: PE{percentil_entropia} → PE45
         # - proporción: Ppp{umbral_pureza*100 en 3 dígitos} → Ppp060
@@ -148,7 +152,10 @@ class PCSMOTE(Utils):
             tag_tipo_pureza = f"PE{int(self.percentil_entropia)}"
         else:
             valor_upp = int(round(self.umbral_pureza * 100))
-            tag_tipo_pureza = f"Ppp{valor_upp:03d}"
+            tag_tipo_pureza = f"Upp{valor_upp:03d}"
+
+        if grado_iso is not None:
+            tag_iso = f"I{int(grado_iso)}"
 
         self.nombre_configuracion = (
             f"{tag_prd}_"
@@ -156,6 +163,8 @@ class PCSMOTE(Utils):
             f"{tag_cp}_"
             f"{tag_ud}_"
             f"{tag_tipo_pureza}"
+            f"{tag_ur}_"
+            f"{tag_iso}"
         )
 
 
