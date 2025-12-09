@@ -162,8 +162,8 @@ class PCSMOTE(Utils):
             f"{tag_pr}_"
             f"{tag_cp}_"
             f"{tag_ud}_"
-            f"{tag_tipo_pureza}"
             f"{tag_ur}_"
+            f"{tag_tipo_pureza}_"
             f"{tag_iso}"
         )
 
