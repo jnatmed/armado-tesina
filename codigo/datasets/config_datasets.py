@@ -56,6 +56,7 @@ config_datasets = {
         "sep": "\s+",
         "header": None
     },
+<<<<<<< Updated upstream
     # "eurosat": {
     #     "path": "../datasets/EuroSAT",
     #     "clase_minoria": 5,  # clase minoritaria real
@@ -63,4 +64,84 @@ config_datasets = {
     #     "size": (64, 64)
     # }
     
+=======
+
+    # ───────────────────────────── PREDICT_FAULTS ─────────────────────────────
+    "predict_faults": {
+        "path": "../datasets/predict_faults/predictive_maintenance.csv",
+        "dataset_name": "predict_faults",
+
+        "clase_minoria": "Random Failures",              # multiclase real
+        "col_target": "Failure Type",
+
+        # SOLO columnas numéricas útiles para el modelo
+        "col_features": [
+            "Air temperature [K]",
+            "Process temperature [K]",
+            "Rotational speed [rpm]",
+            "Torque [Nm]",
+            "Tool wear [min]"
+        ],
+
+        "sep": ",",
+        "header": 0,
+        "binarizar": False,
+        "tipo": "tabular",
+
+        "limpieza_outliers": {
+            "activar": True,
+            "estrategia": "progresiva",
+            "niveles": {
+                "nivel_1": {
+                    "tipo": "rango_fisico",
+                    "criterios": {},
+                    "fail_safe_max_ratio_eliminados": 0.0
+                },
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": True, "solo_marcar": True},
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "No eliminar outliers: las colas representan fallas reales."
+        },
+
+        "transformacion": {
+            "escalado": {"tipo": "robust", "aplicar": True}
+        }
+    },
+
+    # ───────────────────────────── GEAR VIBRATION ─────────────────────────────
+    "gear_vibration": {
+        "path": "../datasets/gear_vibration/gear_vibration_operativo.csv",
+        "dataset_name": "gear_vibration",
+
+        "clase_minoria": None,
+        "col_target": "label",
+
+        "col_features": ["s1_media", "s1_std", "s1_rms", "s2_media", "s2_std", "s2_rms","s1_s2_corr", "speedSet", "load_value"],
+
+        "sep": ",",
+        "header": 0,
+        "binarizar": False,
+        "tipo": "tabular",
+
+        "limpieza_outliers": {
+            "activar": False,   # baseline primero
+            "estrategia": "progresiva",
+            "niveles": {
+                "nivel_1": {"tipo": "rango_fisico", "criterios": {}, "fail_safe_max_ratio_eliminados": 0.0},
+                "nivel_2": {"tipo": "iqr_por_clase", "activar": False, "solo_marcar": True},
+                "nivel_3": {"tipo": "isolation_forest", "activar": False}
+            },
+            "comentario": "Primero baseline sin limpieza; luego ablation."
+        },
+
+        "transformacion": {
+            "escalado": {"tipo": "standard", "aplicar": True}
+        }
+    },
+
+
+
+
+
+>>>>>>> Stashed changes
 }

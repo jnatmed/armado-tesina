@@ -599,6 +599,7 @@ class PCSMOTE(Utils):
             X_resampled = np.vstack([X, X_sint])
             y_resampled = np.hstack([y, y_sint])
 
+<<<<<<< Updated upstream
             # Log por muestra (opcional; si no usás, podés omitir)
             for i in range(len(X_min)):
                 self._log_muestra(
@@ -609,6 +610,83 @@ class PCSMOTE(Utils):
                     vecinos_all_global, vecinos_min_global,
                     vecinos_validos_counts, dist_thr_por_muestra,
                     gen_from_counts, last_delta_by_seed, last_neighbor_by_seed
+=======
+        # por si se llama sin reiniciar (defensivo)
+        if not hasattr(self, "cantidad_semillas_candidatas"):
+            self.cantidad_semillas_candidatas = 0
+        if not hasattr(self, "detalle_semillas_candidatas_por_clase"):
+            self.detalle_semillas_candidatas_por_clase = []
+
+        self.cantidad_semillas_candidatas += cantidad_candidatas_actual
+        self.detalle_semillas_candidatas_por_clase.append({
+            "clase_objetivo": clase_objetivo,
+            "cantidad_semillas_positivas": int(len(indices_positivos)),
+            "cantidad_semillas_candidatas": cantidad_candidatas_actual,
+        })
+
+        return X_sint
+
+    # ------------------------------------------------------------------
+    # Público multiclase OVA
+    # ------------------------------------------------------------------
+
+    def fit_resample_multiclass(self, X, y):
+        X = np.asarray(X, dtype=float)
+        y = np.asarray(y)
+
+        # reset del log para esta llamada global (todas las clases)
+        self.logs_por_muestra = []
+
+        self._reiniciar_metricas_por_clase()
+        # 🔹 reset contadores de semillas candidatas (globales)
+        self._reiniciar_contadores_semillas_candidatas()
+
+        clases_unicas, conteos = np.unique(y, return_counts=True)
+        cantidad_clases = len(clases_unicas)
+
+        if cantidad_clases < 2:
+            raise ValueError(
+                "fit_resample_multiclass requiere al menos 2 clases diferentes."
+            )
+
+        cantidad_maxima = int(np.max(conteos))
+
+        if self.verbose:
+            print(
+                f"[PCSMOTE-multiclase] clases={clases_unicas}, "
+                f"conteos={conteos}, max={cantidad_maxima}"
+            )
+
+        lista_X_sint = []
+        lista_y_sint = []
+
+        for indice_clase in range(cantidad_clases):
+            etiqueta_clase = clases_unicas[indice_clase] # nombre de la clase real
+            conteo_clase = int(conteos[indice_clase]) # cantidad de muestras 
+
+            # si supera o iguala a la clase mayoritaria, paso a la siguiente clase
+            if conteo_clase >= cantidad_maxima:
+                continue
+
+            # lleno de ceros o inicializo el vector binario
+            y_binaria = np.zeros_like(y, dtype=int)
+
+            for indice_muestra in range(len(y)):
+                # por cada muestra si es la clase actual le asigno 1
+                # la asumo minoritaria
+                if y[indice_muestra] == etiqueta_clase:
+                    y_binaria[indice_muestra] = 1
+                else:
+                    # todas las demas clases van a 0
+                    y_binaria[indice_muestra] = 0
+            
+            deficit_clase = cantidad_maxima - conteo_clase
+
+            if self.verbose:
+                print(
+                    f"[PCSMOTE-multiclase] clase={etiqueta_clase}, "
+                    f"conteo={conteo_clase}, deficit={deficit_clase}"
+>>>>>>> Stashed changes
                 )
 
             # Finalización
